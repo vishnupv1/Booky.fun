@@ -1,0 +1,81 @@
+<%- include('../admin/adminHeader')%>
+
+    <!DOCTYPE html>
+    <html>
+
+    <head>
+        <title>Adminpage</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <style>
+            .dash {
+
+                color: rgb(0, 255, 110) !important;
+            }
+
+            @media (max-width: 576px) {
+
+                .navbar-toggler {
+                    order: 1;
+                    margin-left: auto;
+                }
+            }
+
+            @media (max-width: 1024px) {
+                .navbar-toggler {
+                    order: 1;
+                    margin-left: auto;
+                }
+            }
+        </style>
+    </head>
+
+    <body style="background-color: rgb(73, 155, 255);">
+
+        <div class="mt-5">
+            <div class="d-flex" style="width:50%; margin-left: 17rem ; margin-top: 10rem;">
+                <div class="card border-dark mb-3 mt-5 ml-5" style="max-width: 18rem;">
+                
+                        <div class="card-header">Total Registered Users : <%= user.length %>
+                </div>
+                <div class="card-body text-dark">
+                    <h5 class="card-title"></h5>
+                    <img src="/public/images/man (2).png" alt="" style="width :7rem;height: 7rem;">
+                    <p class="card-text"></p>
+                </div>
+                
+
+            </div>
+            <div class="card border-dark mb-3 mt-5 ml-5" style="max-width: 18rem;">
+                <div class="card-header">Total stock</div>
+                <div class="card-body text-dark">
+                    <h5 class="card-title"></h5>
+                    <p class="card-text"></p>
+                </div>
+            </div>
+            <div class="card border-dark mb-3 mt-5 ml-5" style="max-width: 18rem;">
+                <div class="card-header">Today sales</div>
+                <div class="card-body text-dark">
+                    <h5 class="card-title"></h5>
+                    <p class="card-text"></p>
+                </div>
+            </div>
+            <div class="card border-dark mb-3 mt-5 ml-5" style="max-width: 18rem;">
+                <div class="card-header">Sales statistics</div>
+                <div class="card-body text-dark">
+                    <h5 class="card-title"></h5>
+                    <p class="card-text"></p>
+                </div>
+            </div>
+        </div>
+        </div>
+    </body>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

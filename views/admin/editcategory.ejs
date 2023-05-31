@@ -1,0 +1,176 @@
+<%- include('../admin/adminHeader')%>
+
+	<!DOCTYPE html>
+	<html>
+
+	<head>
+		<title>Edit</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+		<style>
+			body {
+				background-color: #0080ff;
+			}
+
+			.category {
+
+				color: rgb(0, 255, 110) !important;
+			}
+
+			.signup-form {
+				background-color: #fff;
+				border-radius: 10px;
+				padding: 20px;
+				margin-top: 50px;
+				margin-bottom: 50px;
+			}
+
+			.signup-form h2 {
+				color: #333;
+				margin-bottom: 30px;
+				text-align: center;
+			}
+
+			.form-group {
+				margin-bottom: 10px;
+			}
+
+			.form-group label {
+				font-weight: 600;
+				margin-bottom: 10px;
+				display: block;
+			}
+
+			.form-control {
+				border-radius: 4px;
+				padding: 6px;
+				border: 1px solid #ccc;
+			}
+
+			.btn {
+				border-radius: 4px;
+				padding: 10px 20px;
+				background-color: #333;
+				color: #fff;
+				border: none;
+				font-weight: 600;
+				margin-top: 20px;
+				cursor: pointer;
+			}
+
+			.btn:hover {
+				background-color: #555;
+			}
+
+			/* @media (max-width: 768px) {
+			.signup-form {
+				margin-top: 20px;
+				padding: 20px;
+			}
+		} */
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="m-5">
+				<div class="row">
+					<a href="/admin/category" style="color: white ; margin-top: 1rem;">Back</a>
+					<div class="col-md-6 offset-md-3">
+						<form class="signup-form" action="/admin/updatecategory" method="post">
+							<h2>Edit Category</h2>
+							<p>make changes inside the field and update it</p>
+
+							<div class="form-group">
+								<label for="firstname">Name of Category</label>
+								<input type="text" class="form-control" id="name" name="name"
+									value="<%= category.name %>">
+								<a id="name-error" style="color: red; font-size: small;"></a>
+
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control" id="bname" name="id" hidden
+									value="<%= category._id %>">
+							</div>
+							<button type="submit" class="btn btn-block" id="edit">Update</button>
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+	</body>
+
+	<script>
+		function editimageView(event) {
+			const preview = document.getElementsByClassName('imagepreview')
+			for (let i = 0; i < event.target.files.length; i++) {
+				const file = event.target.files[i]
+				const reader = new FileReader()
+
+				reader.onload = function (e) {
+					preview[i].src = e.target.result
+
+				}
+				reader.readAsDataURL(file)
+			}
+
+		}
+
+	</script>
+
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script>
+		const name = document.getElementById('name')
+		const nameerror = document.getElementById('name-error')
+		function validateName() {
+			let name_message = []
+			let namev = name.value
+			if (namev === '' || namev === null || namev.length < 3) {
+				name_message.push('Minimum three letters required!')
+			} else if (!/^[a-zA-Z]+$/.test(namev)) {
+				name_message.push('Only alphabets allowed!')
+
+			}
+			if (name_message.length > 0) {
+				nameerror.innerText = name_message.join(',')
+			} else {
+				nameerror.innerText = ''
+			}
+		}
+		name.addEventListener('keyup', validateName);
+		function handleSubmit(event) {
+			validateName();
+			if (nameerror.innerText === '') {
+				event.target.submit();
+				function3()
+			} else {
+				event.preventDefault();
+			}
+		}
+		const form = document.querySelector('form');
+		form.addEventListener('submit', handleSubmit);
+	</script>
+
+	<script language="JavaScript">
+		function function3() {
+			Swal.fire({
+				title: 'Success!',
+				text: 'Category updated successfully!',
+				icon: 'success',
+				showConfirmButton: false, // Hide the "OK" button
+			});
+		}
+	</script>
+
+
+	</html>

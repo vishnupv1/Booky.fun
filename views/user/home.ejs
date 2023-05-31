@@ -1,0 +1,339 @@
+<!-- <%- include('../user/loader')%>
+	<%- include('../user/userHeader')%>
+		<style>
+			.container-fluid {
+				margin-top: 7rem;
+			}
+
+			.search-container {
+				display: flex;
+				justify-content: flex-end;
+				align-items: center;
+				margin-bottom: 1rem;
+			}
+
+			#search-input {
+				border: 2px solid green;
+				border-radius: 5px;
+				padding: 5px;
+				margin-right: 10px;
+			}
+
+			#search-btn {
+				background-color: blue;
+				color: white;
+				border: none;
+				border-radius: 5px;
+				padding: 5px 10px;
+				cursor: pointer;
+			}
+
+			#product-container {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+			}
+		</style>
+
+		<body>
+			<div class="container-fluid">
+				<div class="row justify-content-end">
+					<div class="search-container">
+						<input type="text" id="search-input" placeholder="Search...">
+						<button id="search-btn">Search</button>
+					</div>
+				</div>
+
+				<div id="product-container" class="row justify-content-center">
+					<% if (products.length> 0) {
+						for (let i = 0; i < products.length; i++) { %>
+							<div class="col-lg-3 col-md-4 col-sm-6">
+								<div class="card m-3">
+									<a href="/viewproduct?id=<%= products[i]._id %>">
+										<img class="card-img-top" src="/productImages/<%= products[i].image[0] %>"
+											alt="Card image cap"
+											style="width: 100px; height: 150px; margin-left: 6rem; margin-top: 2rem;">
+									</a>
+									<div class="card-body">
+										<h5 class="card-title">
+											<%= products[i].name %>
+												<p>Price: ₹ <%= products[i].price %>
+												</p>
+										</h5>
+										<p class="card-text">
+											<%= products[i].description %>
+										</p>
+										<p class="card-text">
+											Pages: <%= products[i].pages %>
+										</p>
+										<p class="card-text">
+											Author: <%= products[i].author %>
+										</p>
+									</div>
+								</div>
+							</div>
+							<% } } else { %>
+								<p>No results found.</p>
+								<% } %>
+				</div>
+			</div>
+
+			<script>
+				// Get references to the search elements
+				const searchInput = document.getElementById('search-input');
+				const searchBtn = document.getElementById('search-btn');
+				const productContainer = document.getElementById('product-container');
+
+				// Add event listener to the search button
+				searchBtn.addEventListener('click', () => {
+					const searchQuery = searchInput.value.trim();
+
+					// Send an AJAX request to the server with the search query
+					const xhr = new XMLHttpRequest();
+					xhr.open('GET', `/search?query=${searchQuery}`);
+					xhr.onreadystatechange = () => {
+						if (xhr.readyState === 4 && xhr.status === 200) {
+							const products = JSON.parse(xhr.responseText);
+
+							// Update the UI with the search results
+							productContainer.innerHTML = '';
+
+							if (products.length > 0) {
+								for (let i = 0; i < products.length; i++) {
+									// Generate the HTML for each product card and append it to the container
+									const productCard = `
+									<div class="card m-5" style="width: 18rem;">
+										<a href="/viewproduct?id=${products[i]._id}">
+											<img class="card-img-top" src="/productImages/${products[i].image[0]}" alt="Card image cap" style="width: 100px; height: 150px; margin-left: 6rem; margin-top: 2rem;">
+										</a>
+										<div class="card-body">
+											<h5 class="card-title">
+												${products[i].name}
+												<p>Price: ₹ ${products[i].price}</p>
+											</h5>
+											<p class="card-text">
+												${products[i].description}
+											</p>
+											<p class="card-text">
+												Pages: ${products[i].pages}
+											</p>
+											<p class="card-text">
+												Author: ${products[i].author}
+											</p>
+										</div>
+									</div>
+								`;
+									productContainer.innerHTML += productCard;
+								}
+							} else {
+								// Display a message when no search results are found
+								productContainer.innerHTML = '<p>No results found.</p>';
+							}
+						}
+					};
+					xhr.send();
+				});
+			</script>
+		</body>
+
+	 -->
+
+<%- include('../user/loader')%>
+	<%- include('../user/userHeader')%>
+		<style>
+			.container-fluid {
+				margin-top: 7rem;
+			}
+
+			.search-container {
+				display: flex;
+				justify-content: flex-end;
+				align-items: center;
+				margin-bottom: 1rem;
+			}
+
+			#search-input {
+				border: 2px solid green;
+				border-radius: 5px;
+				padding: 5px;
+				margin-right: 10px;
+			}
+
+			#search-btn {
+				background-color: blue;
+				color: white;
+				border: none;
+				border-radius: 5px;
+				padding: 5px 10px;
+				cursor: pointer;
+			}
+
+			#product-container {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+			}
+
+			.filter-container {
+				display: flex;
+				justify-content: flex-end;
+				align-items: center;
+				margin-bottom: 1rem;
+			}
+
+			.filter-select {
+				margin-right: 10px;
+			}
+		</style>
+
+		<body>
+			<div class="container-fluid">
+				<div class="row justify-content-end">
+					<div class="search-container">
+						<input type="text" id="search-input" placeholder="Search...">
+						<button id="search-btn">Search</button>
+					</div>
+				</div>
+
+				<div class="row justify-content-end">
+					<div class="filter-container">
+						<label for="category-filter" class="filter-label">Category:</label>
+						<select id="category-filter" class="filter-select">
+							<option value="">
+								select category
+							</option>
+							<% if (products.length> 0) {
+								for (let i = 0; i < category.length; i++) { %>
+									<option value="<%= category[i].name %>">
+										<%= category[i].name %>
+									</option>
+									<% } }%>
+
+						</select>
+						<label for="price-filter" class="filter-label">Price:</label>
+						<select id="price-filter" class="filter-select">
+							<option value="">All</option>
+							<option value="100">Upto 100</option>
+							<option value="300">Upto 300</option>
+							<option value="500">Utpo 500</option>
+							<option value="10000">Upto 1000 and above</option>
+						</select>
+					</div>
+				</div>
+
+				<div id="product-container" class="row justify-content-center">
+					<% if (products.length> 0) {
+						for (let i = 0; i < products.length; i++) { %>
+							<div class="col-lg-3 col-md-4 col-sm-6">
+								<div class="card m-3">
+									<a href="/viewproduct?id=<%= products[i]._id %>">
+										<img class="card-img-top" src="/productImages/<%= products[i].image[0] %>"
+											alt="Card image cap"
+											style="width: 100px; height: 150px; margin-left: 6rem; margin-top: 2rem;">
+									</a>
+									<div class="card-body">
+										<h5 class="card-title">
+											<%= products[i].name %>
+												<p>Price: ₹ <%= products[i].price %>
+												</p>
+										</h5>
+										<p class="card-text">
+											<%= products[i].category %>
+										</p>
+										<p class="card-text">
+											<%= products[i].description %>
+										</p>
+										<p class="card-text">
+											Pages: <%= products[i].pages %>
+										</p>
+										<p class="card-text">
+											Author: <%= products[i].author %>
+										</p>
+									</div>
+								</div>
+							</div>
+							<% } } else { %>
+								<p>No results found.</p>
+								<% } %>
+				</div>
+			</div>
+
+			<script>
+				// Get references to the search and filter elements
+				const searchInput = document.getElementById('search-input');
+				const searchBtn = document.getElementById('search-btn');
+				const categoryFilter = document.getElementById('category-filter');
+				const priceFilter = document.getElementById('price-filter');
+				const productContainer = document.getElementById('product-container');
+
+				// Add event listeners to the search and filter elements
+				searchBtn.addEventListener('click', searchProducts);
+				categoryFilter.addEventListener('change', filterProducts);
+				priceFilter.addEventListener('change', filterPrice);
+
+				function searchProducts() {
+					const searchQuery = searchInput.value.trim();
+					sendRequest(`/search?query=${searchQuery}`);
+				}
+
+				function filterProducts() {
+					const category = categoryFilter.value
+					sendRequest(`/filter?category=${category}`);
+				}
+				function filterPrice() {
+					const price = priceFilter.value;
+					sendRequest(`/pricefilter?price=${price}`);
+				}
+				function sendRequest(url) {
+					const xhr = new XMLHttpRequest();
+					xhr.open('GET', url);
+					xhr.onreadystatechange = () => {
+						if (xhr.readyState === 4 && xhr.status === 200) {
+							const products = JSON.parse(xhr.responseText);
+
+							// Update the UI with the search/filter results
+							updateUI(products);
+						}
+					};
+					xhr.send();
+				}
+
+				function updateUI(products) {
+					productContainer.innerHTML = '';
+
+					if (products.length > 0) {
+						for (let i = 0; i < products.length; i++) {
+							// Generate the HTML for each product card and append it to the container
+							const productCard = `
+            <div class="card m-5" style="width: 18rem;">
+              <a href="/viewproduct?id=${products[i]._id}">
+                <img class="card-img-top" src="/productImages/${products[i].image[0]}" alt="Card image cap" style="width: 100px; height: 150px; margin-left: 6rem; margin-top: 2rem;">
+              </a>
+              <div class="card-body">
+                <h5 class="card-title">
+                  ${products[i].name}
+                  <p>Price: ₹ ${products[i].price}</p>
+                </h5>
+                <p class="card-text">
+                  ${products[i].description}
+                </p>
+				<p class="card-text">
+                  ${products[i].category}
+                </p>
+                <p class="card-text">
+                  Pages: ${products[i].pages}
+                </p>
+                <p class="card-text">
+                  Author: ${products[i].author}
+                </p>
+              </div>
+            </div>
+          `;
+							productContainer.innerHTML += productCard;
+						}
+					} else {
+						productContainer.innerHTML = '<p>No results found.</p>';
+					}
+				}
+			</script>
+		</body>

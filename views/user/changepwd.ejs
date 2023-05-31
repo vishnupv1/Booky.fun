@@ -1,0 +1,79 @@
+<%- include('../user/userHeader')%>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Change Password</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    
+    .container {
+      width: 300px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    
+    .form-group {
+      margin-bottom: 10px;
+    }
+    
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    
+    .form-group input[type="password"] {
+      width: 100%;
+      padding: 5px;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+    }
+    
+    .form-group .error {
+      color: red;
+      font-size: 12px;
+    }
+    
+    .form-group .success {
+      color: green;
+      font-size: 12px;
+    }
+    
+    .form-group .btn {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container justify-content-center" style="margin-top: 7rem;">
+    <h2 style="color: green;">Change Password</h2>
+    <form id="changePasswordForm" action="/changepwd" method="post">
+      <div class="form-group">
+        <label for="currentPassword">Current Password:</label>
+        <input type="password" id="currentPassword" name="current" required>
+      </div>
+      <div class="form-group">
+        <label for="newPassword">New Password:</label>
+        <input type="password" id="newPassword" name="password" required>
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" id="confirmPassword" required>
+        <div id="passwordError" class="error"></div>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn">Change Password</button>
+      </div>
+    </form>
+    <% if(typeof message !=='undefined' ) {%>
+      <p style="color: rgb(255, 0, 0);">
+        <%=message%>
+      </p>
+      <%} %>
+  </div>
+</body>
+</html>

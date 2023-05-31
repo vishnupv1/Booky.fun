@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password</title>
+    <style>
+        body {
+            background-color: #319c27;
+        }
+
+        .form-gap {
+            padding-top: 70px;
+        }
+
+        img {
+            width: 25px;
+            height: 25px;
+        }
+    </style>
+</head>
+
+<body style="background-color: #499a41">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <div class="form-gap"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="text-center">
+                            <h3 class="login-text"><i><img src="/public/images/leaf_1.png" alt=""></i>Booky.com</h3>
+
+                            <p>You can reset your password here.</p>
+                            <div class="panel-body">
+
+                                <form id="register-form" role="form" autocomplete="off" class="form" method="post"
+                                    action="/forgot">
+
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i
+                                                    class="glyphicon glyphicon-envelope color-blue"></i></span>
+                                            <input id="email" name="email" placeholder="email address"
+                                                class="form-control" type="email">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input name="recover-submit" class="btn btn-lg btn-success btn-block"
+                                            value="Reset Password" type="submit">
+                                    </div>
+
+                                    <input type="hidden" class="hide" name="token" id="token" value="">
+                                </form>
+                                <% if(typeof message !=='undefined' ) {%>
+                                    <p style="color: rgb(255, 0, 0);">
+                                        <%=message%>
+                                    </p>
+                                    <%} %>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

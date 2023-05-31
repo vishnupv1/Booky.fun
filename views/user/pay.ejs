@@ -1,0 +1,28 @@
+<script src="https://www.paypal.com/sdk/js?client-id=AaBSCUUyoreVyv6jskd8wT3QPCvYWWOXrXiXAu8gTUMSnswH6yGSOAx6Uag7J9JjKTJe4h2LfbFt04rW"></script>
+<section class="order_details section_gap">
+    <div class="container"></div>
+
+    <button id="paypal-button">Pay with PayPal</button>
+
+
+</section>
+<script>
+    paypal.Buttons({
+        createOrder: function (data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: '10.00' // Replace with the actual amount for your product or service
+                    }
+                }]
+            });
+        },
+        onApprove: function (data, actions) {
+            return actions.order.capture().then(function (details) {
+                // Show a success message or redirect to a success page
+                console.log('Transaction completed by ' + details.payer.name.given_name);
+            });
+        }
+    }).render('#paypal-button');
+
+</script>

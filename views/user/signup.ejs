@@ -1,0 +1,346 @@
+<%- include('../user/newhead')%>
+
+	<!-- Start Banner Area -->
+	<style>
+		.pagesb {
+			color: rgb(255, 185, 55) !important;
+		}
+	</style>
+	<section class="banner-area organic-breadcrumb">
+		<div class="container">
+			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+				<div class="col-first">
+					<h1>Login/Register</h1>
+					<nav class="d-flex align-items-center">
+						<a href="/start">Home<span class="fa fa-arrow-right"></span></a>
+						<a href="/signup">Register</a>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Banner Area -->
+
+	<!--================Login Box Area =================-->
+	<section class="login_box_area section_gap">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="login_box_img">
+						<img class="img-fluid" src="/public/images/register.jpg" alt="">
+						<div class="hover">
+							<h4>New to Booky.com?</h4>
+							<p>Discover captivating stories, unleash your imagination, and embark on extraordinary
+								adventures. Find your next favorite book at our online store and let the magic of
+								reading transport you to new worlds</p>
+							<a class="primary-btn" href="/login">Login and Buy</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="login_form_inner">
+						<h3>Create an account</h3>
+						<form class="row login_form" action="/signup" method="post" enctype="multipart/form-data"
+							id="form">
+							<!-- <div class="form-group">
+								<div class=" custom-file">
+									<label for="cover" class="custom-file-label label">Choose Profile photo<a
+											style="color: red;">*</a></label>
+									<input type="file" class="form-control-file custom-file-input" id="cover"
+										name="image" onchange="previewImage(event)">
+									<a id="cover-error" style="color: red; font-size: small;"></a>
+									<div>
+										<img id="image-preview" class="image-preview"
+											style="width:75px;height:75px ;border:none; ">
+									</div>
+									<div class="d-flex justify-content-center">
+										<button type="submit" id="submit" class="btn btn-block"><i
+												class="fas fa-user-plus"></i>
+											Signup</button>
+									</div>
+									<br>
+									<p class="label">If you already have an account <a href="/">click here</a> to
+										login
+									</p>
+								</div>
+							</div> -->
+
+
+							<div class="col-md-12 form-group">
+								<input type="text" class="form-control" id="fname" name="firstname"
+									placeholder="Firstname" onfocus="this.placeholder = ''"
+									onblur="this.placeholder = 'Firstname'">
+								<a id="fname-error" style="color: red; font-size: small;"></a>
+							</div>
+
+							<div class="col-md-12 form-group">
+								<input type="text" class="form-control" id="lname" name="lastname"
+									placeholder="Lastname" onfocus="this.placeholder = ''"
+									onblur="this.placeholder = 'Lastname'">
+							</div>
+
+
+							<div class="col-md-12 form-group">
+								<input type="text" class="form-control" id="username" name="username"
+									placeholder="Username" onfocus="this.placeholder = ''"
+									onblur="this.placeholder = 'Username'">
+								<a id="username-error" style="color: red; font-size: small;"></a>
+							</div>
+
+							<div class="col-md-12 form-group">
+								<input type="text" class="form-control" id="email" name="email" placeholder="Email"
+									onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'">
+								<a id="email-error" style="color: red; font-size: small;"></a>
+							</div>
+
+							<div class="col-md-12 form-group">
+								<input type="password" class="form-control" id="password" name="password"
+									placeholder="Password" onfocus="this.placeholder = ''"
+									onblur="this.placeholder = 'Password'">
+								<a id="password-error" style="color: red; font-size: small;"></a>
+							</div>
+							<div class="col-md-12 form-group">
+								<input type="password" class="form-control" id="confirm-password"
+									name="confirm-password" placeholder="Confirm Password"
+									onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirm Password'">
+								<a id="cpassword-error" style="color: red; font-size: small;"></a>
+							</div>
+
+							<div class="col-md-12 form-group">
+								<input type="file" class="form-control-file " id="cover" name="image"
+									onchange="previewImage(event)">
+								<a id="cover-error" style="color: red; font-size: small;"></a>
+								<div>
+									<img id="image-preview" class="image-preview"
+										style="width:75px;height:75px ;border:none; ">
+								</div>
+
+							</div>
+
+
+
+							<!-- <div class="col-md-12 form-group">
+								<div class="creat_account">
+									<input type="checkbox" id="f-option2" name="selector">
+									<label for="f-option2">Keep me logged in</label>
+								</div>
+							</div> -->
+							<div class="col-md-12 form-group">
+								<button type="submit" value="submit" id="submit" class="primary-btn">CREATE
+									ACCOUNT</button>
+								<a href="/login">
+									<p>Already have an account? please login</p>
+								</a>
+							</div>
+
+							<% if(typeof message !=='undefined' ) {%>
+								<p style="color: rgb(255, 0, 0);">
+									<%=message%>
+								</p>
+								<%} %>
+
+									<% if(typeof verification !=='undefined' ) {%>
+										<p style="color: rgb(0, 158, 0);">
+											<%=verification%>
+										</p>
+										<%} %>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--================End Login Box Area =================-->
+
+	<!-- start footer Area -->
+	<%- include('../user/footer')%>
+		<!-- End footer Area -->
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+		<script src="/public/js/vendor/jquery-2.2.4.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+			integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+			crossorigin="anonymous"></script>
+		<script src="/public/js/vendor/bootstrap.min.js"></script>
+		<script src="/public/js/jquery.ajaxchimp.min.js"></script>
+		<script src="/public/js/jquery.nice-select.min.js"></script>
+		<script src="/public/js/jquery.sticky.js"></script>
+		<script src="/public/js/nouislider.min.js"></script>
+		<script src="/public/js/jquery.magnific-popup.min.js"></script>
+		<script src="/public/js/owl.carousel.min.js"></script>
+		<script src="/public/js/main.js"></script>
+		<script src="/public/js/validationsignup.js"></script>
+
+
+
+
+		<!--gmaps Js-->
+
+		<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
+		<script src="/public/js/gmaps.min.js"></script> -->
+
+
+		<script>
+			function previewImage(event) {
+				var reader = new FileReader();
+				reader.onload = function () {
+					var imagePreview = document.getElementById('image-preview');
+					imagePreview.src = reader.result;
+				}
+				reader.readAsDataURL(event.target.files[0]);
+			}
+		</script>
+		<script>
+
+			const fname = document.getElementById('fname')
+			const email = document.getElementById('email')
+			const username = document.getElementById('username')
+			const password = document.getElementById('password')
+			const cpassword = document.getElementById('confirm-password')
+			const cover = document.getElementById('cover')
+			const fnameerror = document.getElementById('fname-error')
+			const emailerror = document.getElementById('email-error')
+			const usernameerror = document.getElementById('username-error')
+			const passworderror = document.getElementById('password-error')
+			const cpassworderror = document.getElementById('cpassword-error')
+			const covererror = document.getElementById('cover-error')
+
+			// Function to validate first name
+			function validateFirstName() {
+				let fname_message = []
+
+				if (fname.value === '' || fname.value === null || fname.value.length < 3) {
+					fname_message.push('Minimum length of firstname required is 3')
+				}
+				if (fname_message.length > 0) {
+					fnameerror.innerText = fname_message.join(',')
+				} else {
+					fnameerror.innerText = ''
+				}
+			}
+
+			// Function to validate username
+			function validateUsername() {
+				let uname_message = []
+				if (username.value === '' || username.value === null || username.value.length < 5) {
+					uname_message.push('Minimum length of username required is 5')
+				}
+				if (uname_message.length > 0) {
+					usernameerror.innerText = uname_message.join(',')
+				} else {
+					usernameerror.innerText = ''
+				}
+			}
+
+			// Function to validate password
+			function validatePassword() {
+				let password_message = []
+				if (password.value === '' || password.value === null || password.value.length < 8) {
+					password_message.push('Minimum length of password required is 8')
+				} else if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password.value)) {
+					password_message.push('Password must contain at least one letter and one number');
+				}
+				if (password_message.length > 0) {
+					passworderror.innerText = password_message.join(',')
+				} else {
+					passworderror.innerText = ''
+				}
+			}
+
+			// Function to validate confirm password
+			function validateConfirmPassword() {
+				let cpassword_message = []
+				if (cpassword.value !== password.value || cpassword.value === '') {
+					cpassword_message.push('Password Mismatch')
+				}
+				if (cpassword_message.length > 0) {
+					cpassworderror.innerText = cpassword_message.join(',')
+				} else {
+					cpassworderror.innerText = ''
+				}
+			}
+
+			// Function to validate email
+			function validateEmail() {
+				let email_message = []
+				if (email.value === '' || email.value === null) {
+					email_message.push('Email is required');
+				} else if (!/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email.value)) {
+					email_message.push('Invalid email address');
+				}
+				if (email_message.length > 0) {
+					emailerror.innerText = email_message.join(',')
+				} else {
+					emailerror.innerText = ''
+				}
+			}
+
+			// Function to validate cover image
+			function validateCover() {
+				const allowedExtensions = ['jpg', 'jpeg', 'png'];
+				const file_message = [];
+
+				if (cover.value === '' || cover.value === null) {
+					file_message.push('Image is required');
+				} else {
+					const fileName = cover.value;
+					const fileExtension = fileName.split('.').pop().toLowerCase();
+
+					if (!allowedExtensions.includes(fileExtension)) {
+						file_message.push('Invalid file type. Only JPG and JPEG and PNG files are allowed');
+					}
+				}
+
+				if (file_message.length > 0) {
+					covererror.innerText = file_message.join(', ');
+				} else {
+					covererror.innerText = '';
+				}
+			}
+
+			// Add keyup event listeners to the form fields
+			fname.addEventListener('keyup', validateFirstName);
+			username.addEventListener('keyup', validateUsername);
+			password.addEventListener('keyup', validatePassword);
+			cpassword.addEventListener('keyup', validateConfirmPassword);
+			email.addEventListener('keyup', validateEmail);
+			cover.addEventListener('keyup', validateCover);
+
+			function handleSubmit(event) {
+				console.log('Tried to submit form')
+				event.preventDefault();
+				// Prevent the form from submitting
+
+				// Call the validation functions
+				validateFirstName();
+				validateUsername();
+				validatePassword();
+				validateConfirmPassword();
+				validateEmail();
+				validateCover();
+
+				// Check if any errors exist
+				if (
+					fnameerror.innerText === '' &&
+					usernameerror.innerText === '' &&
+					passworderror.innerText === '' &&
+					cpassworderror.innerText === '' &&
+					emailerror.innerText === '' &&
+					covererror.innerText === ''
+				) {
+					// All validations passed, allow form submission
+					event.target.submit();
+				}
+				else {
+					event.preventDefault();
+				}
+			}
+
+			// Add submit event listener to the form
+			const form = document.querySelector('form');
+			form.addEventListener('submit', handleSubmit);
+		</script>
+		</body>
+
+		</html>

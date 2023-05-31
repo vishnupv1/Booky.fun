@@ -1,0 +1,26 @@
+<%- include('../user/loader')%>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>OTP Login</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="mt-5">
+  <div class="container">
+    <h1>OTP Login</h1>
+    <form method="post" action="/otpsend">
+      <div class="form-group">
+        <label for="mail">Email ID</label>
+        <input type="text" class="form-control" style="width:50%" id="mail" name="email" placeholder="Enter mail id">
+      </div>
+      <button type="submit" class="btn btn-primary">Send OTP</button>
+    </form>
+    <% if(typeof message !=='undefined' ) {%>
+      <p style="color: rgb(255, 0, 0);">
+        <%=message%>
+      </p>
+      <%} %>
+  </div>
+</body>
+</html>

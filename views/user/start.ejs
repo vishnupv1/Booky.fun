@@ -1,0 +1,236 @@
+<style>
+    .homeb {
+        color: rgb(255, 185, 55) !important;
+    }
+</style>
+<%- include('../user/newhead')%>
+    <section class="banner-area organic-breadcrumb">
+        <div class="container">
+            <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+                <div class="col-first">
+                    <h1>Home</h1>
+                    <nav class="d-flex align-items-center">
+                        <a href="/profile">Profile<span class="fa fa-arrow-right"></span></a>
+                        <a href="/home">Home</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Start category Area -->
+    <!-- Start category Area -->
+    <div class="d-flex ml-2 mt-2">
+        <label for="category-filter" class="filter-label"></label>
+        <select id="category-filter" class="filter-select" class=" ml-2" onchange="filterByCategory()">
+            <option value="">select category</option>
+            <% if (products.length> 0) {
+                for (let i = 0; i < category.length; i++) { %>
+                    <option value="<%= category[i].name %>">
+                        <%= category[i].name %>
+                    </option>
+                    <% } }%>
+        </select>
+        <label for="price-filter" class="filter-label"></label>
+        <select id="price-filter" class="filter-select" class=" ml-2" onchange="filterByPrice()">
+            <option value="0">Select price range</option>
+            <option value="100">Upto 100</option>
+            <option value="300">Upto 300</option>
+            <option value="500">Utpo 500</option>
+            <option value="10000">Upto 1000 and above</option>
+        </select>
+    </div>
+    <!-- End category Area -->
+
+    <section class="category-area" style="margin-top: 2rem;">
+        <div class="container product-container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-md-12">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8">
+                            <div class="single-deal">
+                                <div class="overlay"></div>
+                                <img class="img-fluid w-100" src="/public/images/novels.jpg" alt="">
+                                <a href="" class="img-pop-up" target="_blank">
+                                    <div class="deal-details">
+                                        <h6 class="deal-title">Malayalam novels</h6>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <div class="single-deal">
+                                <div class="overlay"></div>
+                                <img class="img-fluid w-100" src="/public/images/basheer.jpg" alt="">
+                                <a href="" class="img-pop-up" target="_blank">
+                                    <div class="deal-details">
+                                        <h6 class="deal-title">Romantic</h6>
+                                    </div>
+                                </a>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <div class="single-product-slider">
+        <div class="container product-container">
+            <div class="row">
+                <% if (products.length> 0) {
+                    for (let i = 0; i < products.length; i++) { %>
+                        <div class="col-lg-3 col-md-6 single-product">
+                            <a href="/viewproduct?id=<%= products[i]._id %>">
+                                <img class="img-fluid" src="/productImages/<%= products[i].image[0] %>"
+                                    alt="Card image cap">
+                                <div class="product-details">
+                                    <h6>
+                                        <%= products[i].name %>
+                                    </h6>
+                                    <div class="price">
+                                        <h6>
+                                            <%= products[i].price %>
+                                        </h6>
+                                    </div>
+                                    <div class="category">
+                                        <h6>
+                                            <%= products[i].category %>
+                                        </h6>
+                                    </div>
+
+                                    <div class="prd-bottom">
+                                        <!-- Add necessary buttons and links here -->
+                                    </div>
+                                </div>
+                                <div class="price" style="display: none;">
+                                    <%= products[i].price %>
+                                </div>
+                            </a>
+                        </div>
+                        <% } } else { %>
+                            <p>No results found.</p>
+                            <% } %>
+
+            </div>
+        </div>
+    </div>
+    </section>
+    <section class="features-area section_gap">
+        <div class="container">
+            <div class="row features-inner">
+                <!-- single features -->
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="single-features">
+                        <div class="f-icon">
+                            <img src="img/features/f-icon1.png" alt="">
+                        </div>
+                        <h6>Free Delivery</h6>
+                        <p>Free Shipping on all order</p>
+                    </div>
+                </div>
+                <!-- single features -->
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="single-features">
+                        <div class="f-icon">
+                            <img src="img/features/f-icon2.png" alt="">
+                        </div>
+                        <h6>Return Policy</h6>
+                        <p>Free Shipping on all order</p>
+                    </div>
+                </div>
+                <!-- single features -->
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="single-features">
+                        <div class="f-icon">
+                            <img src="img/features/f-icon3.png" alt="">
+                        </div>
+                        <h6>24/7 Support</h6>
+                        <p>Free Shipping on all order</p>
+                    </div>
+                </div>
+                <!-- single features -->
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="single-features">
+                        <div class="f-icon">
+                            <img src="img/features/f-icon4.png" alt="">
+                        </div>
+                        <h6>Secure Payment</h6>
+                        <p>Free Shipping on all order</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end features Area -->
+    <%- include('../user/footer')%>
+
+
+        <script src="js/vendor/jquery-2.2.4.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+            integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+            crossorigin="anonymous"></script>
+        <script src="js/vendor/bootstrap.min.js"></script>
+        <script src="js/jquery.ajaxchimp.min.js"></script>
+        <script src="js/jquery.nice-select.min.js"></script>
+        <script src="js/jquery.sticky.js"></script>
+        <script src="js/nouislider.min.js"></script>
+        <script src="js/countdown.js"></script>
+        <script src="js/jquery.magnific-popup.min.js"></script>
+        <script src="/public/js/owl.carousel.min.js"></script>
+        <!--gmaps Js-->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
+        <script src="js/gmaps.min.js"></script>
+        <script src="js/main.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.3/dist/sweetalert2.all.min.js"></script>
+
+        <script language="JavaScript">
+            function function3() {
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Item added to cart successfully!',
+                    icon: 'success',
+                    showConfirmButton: false, // Hide the "OK" button
+                });
+            }
+        </script>
+        <script>
+            // Function to handle category filter
+            function filterByCategory() {
+                const categoryFilter = document.getElementById("category-filter");
+                const products = document.querySelectorAll(".single-product");
+
+                const selectedCategory = categoryFilter.value.toLowerCase();
+
+                for (let i = 0; i < products.length; i++) {
+                    const productCategory = products[i].querySelector(".category").innerText.toLowerCase();
+                    if (selectedCategory === "" || productCategory.trim() === selectedCategory.trim()) {
+                        products[i].style.display = "block";
+                    } else {
+                        products[i].style.display = "none";
+                    }
+                }
+
+            }
+            function filterByPrice() {
+                var price = parseInt(document.getElementById('price-filter').value);
+                const products = document.querySelectorAll(".single-product");
+                for (var i = 0; i < products.length; i++) {
+                    var product = products[i];
+                    var priceElement = parseInt(product.getElementsByClassName('price'))
+                    var productPrice = parseInt(products[i].querySelector(".price").innerText);
+                    if (price === 0 || productPrice <= price) {
+                        product.style.display = 'block';  // Show the product
+                    } else {
+                        product.style.display = 'none';   // Hide the product
+                    }
+                }
+            }
+        </script>
+
+        </body>
+
+        </html>

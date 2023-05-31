@@ -1,0 +1,119 @@
+.fixed-top{
+    z-index: 1;
+}
+.signup-form{
+    z-index: -1 !important;
+}
+.btn-block {
+    width: 12rem !important;
+}
+
+body {
+    background-color: #ffffff;
+}
+
+form {
+    border-radius: 2px !important;
+    color: #000000;
+    background-color: #ffffff !important;
+}
+
+/* .form-control-file{
+				
+			} */
+
+.signup-form {
+    /* width: 100%; */
+    max-width: 465px;
+    background: #fff;
+    padding: 25px 50px;
+    margin: 0px auto 0px auto;
+    -webkit-box-shadow: 0 0 8px 3px #DBDBDB;
+    box-shadow: 0 0 8px 3px #DBDBDB;
+    margin-top: 7rem;
+    margin-bottom: 50px;
+}
+
+.signup-form h2 {
+    color: #333;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form-group label {
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.form-control {
+    border-radius: 4px;
+    padding: 6px;
+    border: 1px solid #ccc;
+}
+
+.btn {
+    border-radius: 4px;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #555;
+}
+
+.image-preview {
+    width: 100%;
+    height: auto;
+    margin-top: 10px;
+}
+
+.label {
+    color: rgb(92, 92, 92);
+    font-weight: lighter !important;
+}
+.custom-file-input {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: calc(2.25rem + 2px);
+    margin: 0;
+    opacity: 100 !important;
+}
+.dropdown {
+    position: relative;
+    display: inline-block;
+    /* opacity: 100 !important; */
+
+}
+
+.dropdown-content {
+    display: none;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    padding: 10px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-option {
+    padding: 5px;
+    cursor: pointer;
+}
+
+.dropdown-option:hover {
+    background-color: #e2e2e2;
+}

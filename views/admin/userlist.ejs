@@ -1,0 +1,168 @@
+<%- include('../admin/adminHeader')%>
+
+    <!DOCTYPE html>
+    <html>
+
+    <head>
+        <title>Users</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <script type="text/javascript" charset="utf8"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/dataTables.bootstrap4.min.css">
+        <style>
+            .user {
+
+                color: rgb(0, 255, 110) !important;
+            }
+            div.dataTables_wrapper div.dataTables_filter input {
+                padding: 10px !important;
+                border: 1px solid #ccc !important;
+                border-radius: 5px !important;
+                font-size: 16px !important;
+                box-shadow: 0 2px 5px rgba(1, 0, 0, 0.1) !important;
+                width: 200px !important;
+            }
+            .dataTables_paginate {
+                display: flex;
+                justify-content: center;
+                margin-top: 20px;
+            }
+
+            .paginate_button {
+                display: inline-block;
+                margin: 0 5px;
+                padding: 8px 12px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                background-color: #f5f5f5;
+                color: #333;
+                font-size: 14px;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            .paginate_button:hover {
+                background-color: #e0e0e0;
+            }
+
+            .paginate_button.active {
+                background-color: #333;
+                color: #fff;
+            }
+
+            .paginate_button.disabled {
+                cursor: not-allowed;
+                opacity: 0.5;
+
+            }
+
+            @media (max-width: 576px) {
+                .navbar-toggler {
+                    order: 1;
+                    margin-left: auto;
+                }
+            }
+
+            @media (max-width: 1024px) {
+                .navbar-toggler {
+                    order: 1;
+                    margin-left: auto;
+                }
+            }
+        </style>
+        <script type="text/javascript" charset="utf8"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/dataTables.bootstrap4.min.css">
+    </head>
+
+    <body>
+        <div style="margin-top: 75px;">
+            <div class="form-inline my-2 my-lg-0 d-flex justify-content-end container-fluid">
+            </div>
+            <div class="container-fluid">
+                <table class="table table-hover" id="productsTable">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Verified?</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Modify User</th>
+                        </tr>
+                    <tbody>
+                        <% if (users.length> 0) {
+                            for(let i=0; i<users.length; i++) { %>
+                                <tr>
+                                    <th scope="row">
+                                        <%= i+1 %>
+                                    </th>
+                                    <td>
+                                        <%= users[i].username %>
+                                    </td>
+                                    <td>
+                                        <%= users[i].mail %>
+                                    </td>
+                                    <td>
+
+                                        <% if(users[i].is_verified==0) { %>
+                                            <p>No</p>
+                                            <% }else { %>
+                                                <p>Yes</p>
+                                                <% } %>
+                                    </td>
+                                    <td><img src="/userImages/<%= users[i].image %>" width="100px" height="100px"
+                                            alt="<%= users[i].image %>"></td>
+
+                                    <% if(users[i].is_blocked==0) { %>
+                                        <td><a href="/admin/blockuser?id=<%= users[i]._id %>"><button
+                                                    class="btn btn-danger block">Block</button></a></td>
+                                        <% }else { %>
+                                            <td><a href="/admin/unblockuser?id=<%= users[i]._id %>"><button
+                                                        class="btn btn-success ublock">Unblock</button></a></td>
+                                            <% } %>
+
+
+
+
+
+
+
+
+                                </tr>
+                                <% } } else { %>
+                                    <tr>
+                                        <td colspan="5">Users Not Found</td>
+                                    </tr>
+                                    <% } %>
+                    </tbody>
+                    </thead>
+                </table>
+
+                <p>
+                </p>
+
+            </div>
+        </div>
+    </body>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
+
+    <script>
+
+        $(function () {
+            $('#productsTable').DataTable();
+        });
+    </script>

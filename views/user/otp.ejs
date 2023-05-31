@@ -1,0 +1,28 @@
+<%- include('../user/loader')%>
+  <!DOCTYPE html>
+  <html>
+
+  <head>
+    <title>OTP Verification</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  </head>
+
+  <body class="mt-5">
+    <div class="container">
+      <h1>OTP Verification</h1>
+      <form method="post" action="/verifyotp">
+        <div class="form-group">
+          <label for="otp">Enter OTP:</label>
+          <input type="text" class="form-control" style="width:50%" id="otpl" name="otp" placeholder="Enter OTP">
+        </div>
+        <button type="submit" class="btn btn-primary">Verify</button>
+      </form>
+      <% if(typeof message !=='undefined' ) {%>
+        <p style="color: rgb(255, 0, 0);">
+          <%=message%>
+        </p>
+        <%} %>
+    </div>
+  </body>
+
+  </html>

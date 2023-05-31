@@ -1,0 +1,106 @@
+<%- include('../user/newhead')%>
+
+    <head>
+        <title>My Orders</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        <style>
+            .pagesb {
+                color: orange;
+            }
+        </style>
+    </head>
+    <section class="banner-area organic-breadcrumb">
+        <div class="container">
+            <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+                <div class="col-first">
+                    <h1>My orders</h1>
+                    <nav class="d-flex align-items-center">
+                        <a href="/home">Home<span class="fa fa-arrow-right"></span></a>
+                        <a href="/cart">Cart</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <body>
+        <section>
+            <div class="container">
+                <div class="row d-flex justify-content-center align-items-center">
+                    <div class="col-10">
+                        <div class="d-flex ml-2">
+                            <p style="margin-right: 4rem;"><b>Order Number</b></p>
+                            <p style="margin-right: 4rem;"><b>Order Id</b></p>
+                            <p style="margin-right: 4rem;"><b>Order Total</b></p>
+                            <p style="margin-right: 4rem;"><b>Total Amount</b></p>
+                        </div>
+
+                        <% if (orders.length> 0) {
+                            for (let i = 0; i < orders.length; i++) { %>
+                                <div class="card rounded-3 mb-4 d-flex">
+                                    <div class="card-body ">
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-md-2 ">
+                                                <p>
+                                                    <%=i+1%>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <p># <%= orders[i].id %>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <p class="lead fw-normal mb-2">
+                                                    <%= orders[i].products.length %>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-2 ">
+                                                <p class="lead fw-normal mb-2">
+                                                    <%= orders[i].total %>
+                                                </p>
+                                            </div>
+
+                                            <div class="col-md-2 col-lg-3 col-xl-3">
+                                                <a href="/myOrders?id=<%= orders[i].id %>"><img
+                                                        src="/public/productImages/<%= orders[i].products[0].image %>"
+                                                        alt="" style="height: 10rem;width : 8rem"></a>
+                                            </div>
+                                            <div class="col-md-4 ">
+                                                <p class="lead fw-normal mb-2" style="color:chocolate">
+                                                    Status : <%= orders[i].status %>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } } else { %>
+                                    <div class="card rounded-3 mb-4">
+                                        <div class="card-body p-4">
+                                            <p>No orders found.</p>
+                                        </div>
+                                    </div>
+                                    <% } %>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </body>
+    </script>
+    <script src="/public/js/vendor/jquery-2.2.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+    <script src="/public/js/vendor/bootstrap.min.js"></script>
+    <script src="/public/js/jquery.ajaxchimp.min.js"></script>
+    <script src="/public/js/jquery.nice-select.min.js"></script>
+    <script src="/public/js/jquery.sticky.js"></script>
+    <script src="/public/js/nouislider.min.js"></script>
+    <script src="/public/js/jquery.magnific-popup.min.js"></script>
+    <script src="/public/js/owl.carousel.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
+    <script src="/public/js/gmaps.min.js"></script>
+    <script src="/public/js/main.js"></script>
+    <script src="/public/js/passwordhide.js"></script>
+    <%- include('../user/footer')%>
+
+        </html>

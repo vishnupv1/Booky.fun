@@ -1,0 +1,100 @@
+<%- include('../admin/adminHeader')%>
+    <!DOCTYPE html>
+    <html>
+
+    <head>
+        <title>Products</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <script type="text/javascript" charset="utf8"
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" href="/public/css/orders.css">
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="" style="margin-top: 7rem;">
+            </div>
+            <table class="table table-hover" id="productsTable">
+                <thead>
+                    <tr>
+                        <th scope="col" style="width: 30px;">#</th>
+                        <th scope="col" style="width: 100px;">Name of user</th>
+                        <th scope="col" style="width: 100px;">Amount</th>
+                        <th scope="col" style="width: 100px;">Payment Method</th>
+                        <th scope="col" style="width: 100px;">status</th>
+                        <th scope="col" style="width: 100px;">View</th>
+
+                <tbody>
+                    <% if (order.length> 0) {
+                        for(let i=0; i<order.length; i++) { %>
+
+                            <tr>
+                                <th scope="row">
+                                    <%= i+1 %>
+                                </th>
+                                <td>
+                                    <%= order[i].name %>
+                                </td>
+                                <td>
+                                    <%= order[i].total %>
+                                </td>
+                                <td>
+                                    <%= order[i].payment_method %>
+                                </td>
+                                <td>
+                                    <%= order[i].status %>
+                                </td>
+                                <td><a href="/admin/viewOrder?id=<%= order[i]._id %>&status=<%= order[i].status%>"><button
+                                            class="btn btn-info block">View</button></a></td>
+
+                            </tr>
+                            <% } } else { %>
+                                <div>
+                                    <h3 style="color: red;">No Orders Found</h3>
+                                </div>
+                                <% } %>
+
+                </tbody>
+            </table>
+
+        </div>
+        </div>
+    </body>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(function () {
+            $('#productsTable').DataTable();
+        });
+        function deleteBook(bookId) {
+            Swal.fire({
+                title: 'Are you sure to delete this book?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Deleted!',
+                        'Book has been deleted.',
+                        'success'
+                    ).then(() => {
+                        window.location.href = '/admin/deletebook?id=' + bookId;
+                    });
+                }
+            });
+        }
+    </script>
