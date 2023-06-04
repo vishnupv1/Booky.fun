@@ -30,33 +30,33 @@
 
                 <tbody>
                     <% if (order.length> 0) {
-                        for(let i=0; i<order.length; i++) { %>
+                        let k=1
+                        for (let i = order.length - 1; i >= 0; i--) { %>
+                        <tr>
+                            <th scope="row">
+                                <%= k %>
+                            </th>
+                            <td>
+                                <%= order[i].name %>
+                            </td>
+                            <td>
+                                <%= order[i].total %>
+                            </td>
+                            <td>
+                                <%= order[i].payment_method %>
+                            </td>
+                            <td>
+                                <%= order[i].status %>
+                            </td>
+                            <td><a href="/admin/viewOrder?id=<%= order[i]._id %>&status=<%= order[i].status%>"><button
+                                        class="btn btn-info block">View</button></a></td>
 
-                            <tr>
-                                <th scope="row">
-                                    <%= i+1 %>
-                                </th>
-                                <td>
-                                    <%= order[i].name %>
-                                </td>
-                                <td>
-                                    <%= order[i].total %>
-                                </td>
-                                <td>
-                                    <%= order[i].payment_method %>
-                                </td>
-                                <td>
-                                    <%= order[i].status %>
-                                </td>
-                                <td><a href="/admin/viewOrder?id=<%= order[i]._id %>&status=<%= order[i].status%>"><button
-                                            class="btn btn-info block">View</button></a></td>
-
-                            </tr>
-                            <% } } else { %>
-                                <div>
-                                    <h3 style="color: red;">No Orders Found</h3>
-                                </div>
-                                <% } %>
+                        </tr>
+                        <%k++ } } else { %>
+                            <div>
+                                <h3 style="color: red;">No Orders Found</h3>
+                            </div>
+                            <% } %>
 
                 </tbody>
             </table>

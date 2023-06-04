@@ -28,8 +28,7 @@ const orderSchema = new mongoose.Schema({
         }
     ],
     total: {
-        type: String,
-        required: true
+        type: Number,
     },
     status: {
         type: String,
@@ -42,9 +41,6 @@ const orderSchema = new mongoose.Schema({
         type: Number,
     },
     state: {
-        type: String,
-    },
-    district: {
         type: String,
     },
     street: {
@@ -64,7 +60,10 @@ const orderSchema = new mongoose.Schema({
     },
     payment_method: {
         type: String,
-        required: true
+    },
+    date: {
+        type: Date,
+        default: Date.now
     }
 });
 

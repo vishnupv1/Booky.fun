@@ -35,41 +35,43 @@
     <body style="background-color: rgb(73, 155, 255);">
 
         <div class="mt-5">
-            <div class="d-flex" style="width:50%; margin-left: 17rem ; margin-top: 10rem;">
-                <div class="card border-dark mb-3 mt-5 ml-5" style="max-width: 18rem;">
-                
-                        <div class="card-header">Total Registered Users : <%= user.length %>
+            <div class="d-flex" style="width:100%;; margin-top: 10rem;">
+
+                <div class="card border-dark bg-light  mb-3 mt-5 ml-5" style="max-width: 18rem;">
+                    <div class="card-header">Total Registered Users : <%= user.length %>
+                            <img src="/public/images/man (2).png" alt="" style="width :7rem;height: 7rem;">
+                    </div>
+                    <div class="card-body text-dark">
+                        <h5 class="card-title"></h5>
+                        <p class="card-text"></p>
+                    </div>
                 </div>
-                <div class="card-body text-dark">
-                    <h5 class="card-title"></h5>
-                    <img src="/public/images/man (2).png" alt="" style="width :7rem;height: 7rem;">
-                    <p class="card-text"></p>
+                <div class="card border-dark  bg-light mb-3 mt-5 ml-5" style="max-width: 18rem;">
+                    <div class="card-header">Total stock : <%= stock %>
+                            <img class="mr-5" src="/public/images/in-stock.png" alt=""
+                                style="width :7rem;height: 7rem;">
+                    </div>
+                    <div class="card-body text-dark">
+                        <h5 class="card-title"></h5>
+                        <p class="card-text"></p>
+                    </div>
                 </div>
-                
+                <input type="text" name="" id="pendValue" hidden value="<%=orderStatusCounts.Pending%>">
+                <input type="text" name="" id="procValue" hidden value="<%=orderStatusCounts.Processing%>">
+                <input type="text" name="" id="shipValue" hidden value="<%=orderStatusCounts.Shipped%>">
+                <input type="text" name="" id="delValue" hidden value="<%=orderStatusCounts.delivered%>">
+                <input type="text" name="" id="canValue" hidden value="<%=orderStatusCounts.Cancelled%>">
+
+                <div class="card border-dark bg-light mb-3 mt-5 ml-5" style="max-width: 18rem;">
+
+                    <div class="card-body text-dark">
+                        <h5 class="card-title"></h5>
+                        <p class="card-text"></p>
+                        <canvas id="orderStatusChart"></canvas>
+                    </div>
+                </div>
 
             </div>
-            <div class="card border-dark mb-3 mt-5 ml-5" style="max-width: 18rem;">
-                <div class="card-header">Total stock</div>
-                <div class="card-body text-dark">
-                    <h5 class="card-title"></h5>
-                    <p class="card-text"></p>
-                </div>
-            </div>
-            <div class="card border-dark mb-3 mt-5 ml-5" style="max-width: 18rem;">
-                <div class="card-header">Today sales</div>
-                <div class="card-body text-dark">
-                    <h5 class="card-title"></h5>
-                    <p class="card-text"></p>
-                </div>
-            </div>
-            <div class="card border-dark mb-3 mt-5 ml-5" style="max-width: 18rem;">
-                <div class="card-header">Sales statistics</div>
-                <div class="card-body text-dark">
-                    <h5 class="card-title"></h5>
-                    <p class="card-text"></p>
-                </div>
-            </div>
-        </div>
         </div>
     </body>
 
@@ -79,3 +81,41 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var Pe = parseInt(document.getElementById("pendValue").value)
+            var Pr = parseInt(document.getElementById("procValue").value)
+            var Sh = parseInt(document.getElementById("shipValue").value)
+            var De = parseInt(document.getElementById("delValue").value)
+            var Ca = parseInt(document.getElementById("canValue").value)
+
+            console.log(Pe);
+            var ctx = document.getElementById("orderStatusChart").getContext("2d");
+            var chart = new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"],
+                    datasets: [
+                        {
+                            label: "Order Status",
+                            data: [Pe, Pr, Sh, De, Ca], // Replace with actual data for order statuses
+                            backgroundColor: ["orange","blue","grey","green","red"],
+                            borderColor: ["orange","blue","grey","green","red"],
+                            borderWidth: 0
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>

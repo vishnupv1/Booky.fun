@@ -1,6 +1,6 @@
 <style>
     .homeb {
-        color: rgb(255, 185, 55) !important;
+        color: rgb(28, 188, 0) !important;
     }
 </style>
 <%- include('../user/newhead')%>
@@ -19,9 +19,9 @@
     </section>
     <!-- Start category Area -->
     <!-- Start category Area -->
-    <div class="d-flex ml-2 mt-2">
+    <div class="d-flex ml-2 mt-5">
         <label for="category-filter" class="filter-label"></label>
-        <select id="category-filter" class="filter-select" class=" ml-2" onchange="filterByCategory()">
+        <select id="category-filter" class="filter-select" onchange="filterByCategory()">
             <option value="">select category</option>
             <% if (products.length> 0) {
                 for (let i = 0; i < category.length; i++) { %>
@@ -31,13 +31,18 @@
                     <% } }%>
         </select>
         <label for="price-filter" class="filter-label"></label>
-        <select id="price-filter" class="filter-select" class=" ml-2" onchange="filterByPrice()">
+        <select id="price-filter" class="filter-select ml-2" onchange="filterByPrice()">
             <option value="0">Select price range</option>
             <option value="100">Upto 100</option>
             <option value="300">Upto 300</option>
             <option value="500">Utpo 500</option>
             <option value="10000">Upto 1000 and above</option>
         </select>
+        <!-- start.ejs -->
+
+        <!-- Category filter -->
+
+        <!-- Price filter -->
     </div>
     <!-- End category Area -->
 
@@ -103,7 +108,23 @@
                                     </div>
 
                                     <div class="prd-bottom">
-                                        <!-- Add necessary buttons and links here -->
+                                        <a href="/addtocart?id=<%= products[i]._id %>" class="social-info">
+                                            <span class="fa fa-shopping-cart"></span>
+                                            <p class="hover-text">add to bag</p>
+                                        </a>
+                                        <a href="" class="social-info">
+                                            <span class="fa fa-heart"></span>
+                                            <p class="hover-text">Wishlist</p>
+                                        </a>
+                                        <a href="" class="social-info">
+                                            <span class="fa fa-diamond"></span>
+                                            <p class="hover-text">compare</p>
+                                        </a>
+                                        <a href="/viewproduct?id=<%= products[i]._id %>" class="social-info">
+                                            <span class="fa fa-eye"></span>
+                                            <p class="hover-text">view more</p>
+                                        </a>
+
                                     </div>
                                 </div>
                                 <div class="price" style="display: none;">
@@ -116,6 +137,21 @@
                             <% } %>
 
             </div>
+        </div>
+        <div class="pagination justify-content-center">
+            <% if (currentPage> 1) { %>
+                <a href="/home?page=<%= currentPage - 1 %>">Prev.</a>
+                <% } %>
+
+                    <% for (let i=1; i <=totalPages; i++) { %>
+                        <a href="/home?page=<%= i %>" class="<%= currentPage === i ? 'active' : '' %>">
+                            <%= i %>
+                        </a>
+                        <% } %>
+
+                            <% if (currentPage < totalPages) { %>
+                                <a href="/home?page=<%= parseInt(currentPage) + 1 %>">Next</a>
+                                <% } %>
         </div>
     </div>
     </section>
@@ -166,25 +202,26 @@
         </div>
     </section>
     <!-- end features Area -->
+    <!-- Add the following code where you want to display the pagination links -->
     <%- include('../user/footer')%>
 
 
-        <script src="js/vendor/jquery-2.2.4.min.js"></script>
+        <script src="/public/js/vendor/jquery-2.2.4.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
             integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
             crossorigin="anonymous"></script>
-        <script src="js/vendor/bootstrap.min.js"></script>
-        <script src="js/jquery.ajaxchimp.min.js"></script>
-        <script src="js/jquery.nice-select.min.js"></script>
-        <script src="js/jquery.sticky.js"></script>
-        <script src="js/nouislider.min.js"></script>
-        <script src="js/countdown.js"></script>
-        <script src="js/jquery.magnific-popup.min.js"></script>
+        <!-- <script src="/public/js/vendor/bootstrap.min.js"></script> -->
+        <script src="/public/js/jquery.ajaxchimp.min.js"></script>
+        <script src="/public/js/jquery.nice-select.min.js"></script>
+        <script src="/public/js/jquery.sticky.js"></script>
+        <script src="/public/js/nouislider.min.js"></script>
+        <!-- <script src="/public/js/countdown.js"></script> -->
+        <script src="/public/js/jquery.magnific-popup.min.js"></script>
         <script src="/public/js/owl.carousel.min.js"></script>
         <!--gmaps Js-->
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
-        <script src="js/gmaps.min.js"></script>
-        <script src="js/main.js"></script>
+        <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script> -->
+        <!-- <script src="/public/js/gmaps.min.js"></script> -->
+        <script src="/public/js/main.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.3/dist/sweetalert2.all.min.js"></script>
 
         <script language="JavaScript">
@@ -198,38 +235,57 @@
             }
         </script>
         <script>
-            // Function to handle category filter
             function filterByCategory() {
                 const categoryFilter = document.getElementById("category-filter");
-                const products = document.querySelectorAll(".single-product");
-
                 const selectedCategory = categoryFilter.value.toLowerCase();
+
+                const products = document.querySelectorAll(".single-product");
+                const currentPage = parseInt(new URLSearchParams(window.location.search).get("page")) || 1;
+                const perPage = 10; // Number of products per page
+
+                let startIndex = (currentPage - 1) * perPage;
+                let endIndex = startIndex + perPage;
 
                 for (let i = 0; i < products.length; i++) {
                     const productCategory = products[i].querySelector(".category").innerText.toLowerCase();
                     if (selectedCategory === "" || productCategory.trim() === selectedCategory.trim()) {
-                        products[i].style.display = "block";
+                        if (i >= startIndex && i < endIndex) {
+                            products[i].style.display = "block";
+                        } else {
+                            products[i].style.display = "none";
+                        }
                     } else {
                         products[i].style.display = "none";
                     }
                 }
-
             }
+
             function filterByPrice() {
                 var price = parseInt(document.getElementById('price-filter').value);
                 const products = document.querySelectorAll(".single-product");
+                const currentPage = parseInt(new URLSearchParams(window.location.search).get("page")) || 1;
+                const perPage = 10; // Number of products per page
+
+                let startIndex = (currentPage - 1) * perPage;
+                let endIndex = startIndex + perPage;
+
                 for (var i = 0; i < products.length; i++) {
                     var product = products[i];
-                    var priceElement = parseInt(product.getElementsByClassName('price'))
                     var productPrice = parseInt(products[i].querySelector(".price").innerText);
                     if (price === 0 || productPrice <= price) {
-                        product.style.display = 'block';  // Show the product
+                        if (i >= startIndex && i < endIndex) {
+                            product.style.display = 'block';  // Show the product
+                        } else {
+                            product.style.display = 'none';   // Hide the product
+                        }
                     } else {
-                        product.style.display = 'none';   // Hide the product
+                        product.style.display = 'none';  // Hide the product
                     }
                 }
             }
+
         </script>
+
 
         </body>
 

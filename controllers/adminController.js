@@ -1,10 +1,8 @@
+const express = require('express')
 const Admin = require('../models/adminModel')
 const User = require('../models/userModel')
 const Product = require('../models/productModel')
-const Category = require('../models/categoryModel')
 const Order = require('../models/orderModel')
-const express = require('express')
-const admin_router = require('../routes/adminRoute')
 const bcrypt = require('bcrypt')
 const randomstring = require('randomstring')
 const config = require('../config/config')
@@ -49,17 +47,45 @@ const verifyLogin = async (req, res) => {
 }
 const loadHome = async (req, res) => {
     try {
-        const admin = await Admin.findById({ _id: req.session.admin_id })
-        const users = await User.find({})
-        const orders = await Order.find({})
-        const books = await Product.find({})
-        
-        res.render('adminhome',{user:users,order:orders,book:books})
-    }
-    catch (error) {
+        const admin = await Admin.findById({ _id: req.session.admin_id });
+        const users = await User.find({});
+        const orders = await Order.find({});
+        const orderStatusCounts = await Order.aggregate([
+            {
+                $group: {
+                    _id: "$status",
+                    count: { $sum: 1 }
+                }
+            }
+        ]);
+
+        const books = await Product.find({});
+
+        const stockSumResult = await Product.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    totalStock: { $sum: "$stock" }
+                }
+            }
+        ]);
+
+        const orderStatusCountsObj = {};
+        orderStatusCounts.forEach((statusCount) => {
+            orderStatusCountsObj[statusCount._id] = statusCount.count;
+        });
+
+        res.render('adminhome', {
+            user: users,
+            order: orders,
+            book: books,
+            stock: stockSumResult[0].totalStock,
+            orderStatusCounts: orderStatusCountsObj
+        });
+    } catch (error) {
         console.log(error.message);
     }
-}
+};
 const loadForgot = async (req, res) => {
     try {
         res.render('adminforgot')
@@ -153,15 +179,6 @@ const loadLogout = async (req, res) => {
         console.log(error.message);
     }
 }
-const listUser = async (req, res) => {
-    try {
-        const userData = await User.find({ is_admin: 0 })
-        res.render('userlist', { users: userData })
-    }
-    catch (error) {
-        console.log(error.message);
-    }
-}
 const dashBoard = async (req, res) => {
     try {
         res.redirect('/admin/adminhome')
@@ -170,302 +187,7 @@ const dashBoard = async (req, res) => {
         console.log(error.message);
     }
 }
-const blockUser = async (req, res) => {
-    try {
-        const user_id = req.query.id
-        const userData = await User.updateOne({ _id: user_id }, { $set: { is_blocked: 1 } })
-        res.redirect('/admin/userlist')
-    }
-    catch (error) {
-        console.log(error.message);
-    }
-}
-const unblockUser = async (req, res) => {
-    try {
-        const user_id = req.query.id
-        const userData = await User.updateOne({ _id: user_id }, { $set: { is_blocked: 0 } })
-        res.redirect('/admin/userlist')
-    }
-    catch (error) {
-        console.log(error.message);
-    }
-}
-const listProdcut = async (req, res) => {
-    try {
-        const productData = await Product.find({ listable: 1 })
-        res.render('productlist', { products: productData })
-    }
-    catch (error) {
-        console.log(error.message);
-    }
-}
-const loadaddBook = async (req, res) => {
-    try {
-        const category = await Category.find({}).lean().exec()
-        res.render('addbook', { category: category })
-    }
-    catch (error) {
-        console.log(error.message);
-    }
-}
-const addBook = async (req, res) => {
-    try {
-        const exist = await Product.findOne({ name: req.body.name })
-        if (exist) {
-            res.render('addbook', { message: 'Book exists please use edit option' })
-        } else {
-            var arrayimage = []
-            for (let i = 0; i < req.files.length; i++) {
-                arrayimage[i] = req.files[i].filename
-            }
-            const prodcut = new Product({
-                name: req.body.name,
-                author: req.body.author,
-                pages: req.body.pages,
-                category: req.body.category,
-                language: req.body.language,
-                description: req.body.description,
-                price: req.body.price,
-                stock: req.body.stock,
-                image: arrayimage,
-            })
-            await prodcut.save()
 
-            setTimeout(() => {
-                res.redirect('/admin/productlist');
-            }, 3000)
-        }
-    }
-    catch (error) {
-        console.log(error.message);
-    }
-}
-const loaddeleteBook = async (req, res) => {
-    try {
-        res.render('addbook')
-    }
-    catch (error) {
-        console.log(error.message);
-    }
-}
-const loadeditBook = async (req, res) => {
-    try {
-        const category = await Category.find({}).lean().exec()
-        const productData = await Product.findOne({ _id: req.query.id })
-        res.render('editbook', { products: productData, category })
-    }
-    catch (error) {
-        console.log(error.message);
-    }
-}
-const updateBook = async (req, res) => {
-    try {
-        var arrayimage = []
-        for (let i = 0; i < req.files.length; i++) {
-            arrayimage[i] = req.files[i].filename
-        }
-        const productData = await Product.findOne({ _id: req.body.id })
-        const img = productData.image
-        if (req.files.length > 0) {
-
-            await Product.findByIdAndUpdate({ _id: req.body.id }, {
-                $set: {
-                    name: req.body.name,
-                    author: req.body.author,
-                    pages: req.body.pages,
-                    category: req.body.category,
-                    language: req.body.language,
-                    description: req.body.description,
-                    price: req.body.price,
-                    stock: req.body.stock,
-                    image: arrayimage,
-                }
-            })
-        } else {
-            await Product.findByIdAndUpdate({ _id: req.body.id }, {
-                $set: {
-                    name: req.body.name,
-                    author: req.body.author,
-                    pages: req.body.pages,
-                    category: req.body.category,
-                    language: req.body.language,
-                    description: req.body.description,
-                    price: req.body.price,
-                    stock: req.body.stock,
-                    image: img
-                }
-            })
-        }
-        setTimeout(() => {
-            res.redirect('/admin/productlist');
-        }, 1000)
-    }
-
-    catch (error) {
-        console.log(error.message);
-    }
-}
-const deletebook = async (req, res) => {
-    try {
-        const productData = await Product.findOne({ _id: req.query.id })
-        console.log(productData);
-        if (productData) {
-            await Product.deleteOne({ _id: req.query.id })
-        }
-        res.redirect('/admin/productlist')
-    }
-    catch (error) {
-        console.log(error.message);
-    }
-}
-const loadcategory = async (req, res) => {
-    try {
-        const category = await Category.find({})
-        res.render('category', { category: category })
-    }
-    catch (error) {
-        console.log(error.message);
-    }
-}
-const loadaddcategory = async (req, res) => {
-    try {
-        res.render('addcategory')
-    }
-    catch (error) {
-        console.log(error.message);
-    }
-}
-const addcategory = async (req, res) => {
-    try {
-        let cname = req.body.name
-        const catData = await Category.findOne({ name: cname })
-        if (catData) {
-            res.render('addcategory', { message: 'Category duplication found' })
-        } else {
-            Category.insertMany({ name: req.body.name })
-            setTimeout(() => {
-                res.redirect('/admin/category')
-            }, 2000)
-
-        }
-    }
-    catch (error) {
-        console.log(error.message);
-    }
-}
-const deletecategory = async (req, res) => {
-    try {
-        const categoryData = await Category.findOne({ _id: req.query.id })
-        if (categoryData) {
-            await Category.deleteOne({ _id: req.query.id })
-        }
-        res.redirect('/admin/category')
-
-    }
-    catch (error) {
-        console.log(error.message);
-    }
-}
-const loadeditCategory = async (req, res) => {
-    try {
-        const catData = await Category.findOne({ _id: req.query.id })
-        res.render('editcategory', { category: catData })
-    }
-    catch (error) {
-        console.log(error.message);
-    }
-}
-const updateCategory = async (req, res) => {
-    try {
-        await Category.findByIdAndUpdate({ _id: req.body.id }, {
-            $set: {
-                name: req.body.name
-            }
-        })
-        setTimeout(() => {
-            res.redirect('/admin/category')
-        }, 1000)
-    }
-
-    catch (error) {
-        console.log(error.message);
-    }
-}
-const showorder = async (req, res) => {
-    try {
-        const order = await Order.find({})
-        if (order) {
-            res.render('orders', { order })
-        }
-    }
-    catch (error) {
-        console.log(error.message);
-    }
-}
-const viewOrder = async (req, res) => {
-    try {
-        let id = req.query.id
-        let ordersD = await Order.find({ _id: id }).populate('products.product_id');
-        if (ordersD) {
-            var orderDetails = ordersD.map(order => {
-                return {
-                    id: order._id,
-                    total: order.total,
-                    status: order.status,
-                    name: order.name,
-                    mobile: order.mobile,
-                    state: order.state,
-                    district: order.district,
-                    street: order.street,
-                    landmark: order.landmark,
-                    address: order.address,
-                    city: order.district,
-                    zipcode: order.zipcode,
-                    payment_method: order.payment_method
-                };
-            });
-        }
-        console.log(orderDetails);
-        let orders = await Order.findOne({ _id: id }).populate('products.product_id');
-        if (orders) {
-            let productDetails = orders.products.map(data => {
-                return ({
-                    image: data.product_id.image[0],
-                    productname: data.product_id.name,
-                    quantity: data.quantity,
-                })
-            })
-            res.render('vieworder', { title: "Orders", productDetails, orderId: id, orderDetails });
-        } else {
-            res.render('vieworder', { title: "Orders", message: "No Orders", noOrders: true });
-        }
-    } catch (error) {
-        console.log(error.message);
-    }
-};
-const cancelOrder = async (req, res) => {
-    try {
-        let id = req.query.id
-        await Order.deleteOne({ _id: id });
-        res.redirect('/admin/orders')
-
-    } catch (error) {
-        console.log(error.message);
-    }
-};
-const updateOrderStatus = async (req, res) => {
-    try {
-        const { orderId, newStatus } = req.body;
-        await Order.updateOne({ _id: orderId }, { $set: { status: newStatus } });
-        res.redirect('/admin/viewOrder')
-        // .then(() => {
-        //     res.status(200).json({ message: 'Order status updated successfully' });
-        // })
-    }
-    catch (error) {
-        console.error(error.message);
-    };
-};
 
 
 module.exports = {
@@ -477,25 +199,5 @@ module.exports = {
     resetPassword,
     loadForgotPassword,
     loadLogout,
-    listUser,
     dashBoard,
-    blockUser,
-    unblockUser,
-    listProdcut,
-    addBook,
-    loadaddBook,
-    loadeditBook,
-    loaddeleteBook,
-    updateBook,
-    deletebook,
-    loadcategory,
-    loadaddcategory,
-    addcategory,
-    deletecategory,
-    loadeditCategory,
-    updateCategory,
-    showorder,
-    viewOrder,
-    cancelOrder,
-    updateOrderStatus
 }

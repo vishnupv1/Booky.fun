@@ -1,7 +1,12 @@
-const sessionSecret='mysecret'
-const emailUser = 'vishnupv08@gmail.com'
-const passwordUser = 'fhbidnbbulatrzgm'
-module.exports= {
+const myEnv = require('dotenv').config()
+const sessionSecret = process.env.SESSIONSECRET
+const emailUser = process.env.EMAILUSER
+const passwordUser = process.env.PASSWORDUSER
+
+
+
+
+module.exports = {
     sessionSecret,
     emailUser,
     passwordUser

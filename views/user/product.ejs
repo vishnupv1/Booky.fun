@@ -43,6 +43,8 @@
                         <ul class="list">
                             <li><a class="active" href="#"><span>Category</span> : <%= product.category %></a></li>
                             <li><a class="active" href="#"><span>Author</span> : <%= product.author %></a>
+                            <li><a class="active" href="#"><span>Availability</span>: <%= product.stock> 0 ? 'In Stock'
+                                        : 'Sold Out' %></a></li>
                             </li>
                         </ul>
                         <p>
@@ -50,7 +52,7 @@
                         </p>
 
 
-                        <div class="product_count">
+                        <!-- <div class="product_count">
                             <label for="qty">Quantity:</label>
                             <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:"
                                 class="input-text qty">
@@ -60,9 +62,10 @@
                             <button <button
                                 onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) && sst > 0 ) result.value--;return false;"
                                 class="reduced items-count" type="button"><i class="fa fa-chevron-down"></i></button>
-                        </div>
+                        </div> -->
                         <div class="card_area d-flex align-items-center">
-                            <a class="primary-btn" href="/addtocart?id=<%= product._id %>" id="add-to-cart" onclick="function3()">Add to Cart</a>
+                            <a class="primary-btn" href="/addtocart?id=<%= product._id %>" id="add-to-cart"
+                                onclick="function3()">Add to Cart</a>
                             <a class="icon_btn" href="#"><i class="fa fa-diamond"></i></a>
                             <a class="icon_btn" href="#"><i class="fa fa-heart"></i></a>
                         </div>
@@ -600,7 +603,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
         integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
         crossorigin="anonymous"></script>
-    <script src="js/vendor/bootstrap.min.js"></script>
+    <!-- <script src="js/vendor/bootstrap.min.js"></script> -->
     <script src="js/jquery.ajaxchimp.min.js"></script>
     <script src="js/jquery.nice-select.min.js"></script>
     <script src="js/jquery.sticky.js"></script>
@@ -608,8 +611,8 @@
     <script src="js/jquery.magnific-popup.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <!--gmaps Js-->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
-    <script src="js/gmaps.min.js"></script>
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script> -->
+    <!-- <script src="js/gmaps.min.js"></script> -->
     <script src="js/main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.3/dist/sweetalert2.all.min.js"></script>

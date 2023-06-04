@@ -1,0 +1,36 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://www.paypal.com/sdk/js?client-id=Abe7o5xnXY5TOdVETZnj0cDbHykfaNtQUNePCu7es_xZyKt-C6DJQJGBNYYrxi86oP_rCDyeu8WoWMrE"></script>
+</head>
+<body>
+  <div id="paypal-button-container"></div>
+
+  <form id="price-form" action="/paypals" method="GET">
+    <label for="price">Price:</label>
+    <input type="text" id="price" name="price">
+    <button type="submit">Pay with PayPal</button>
+  </form>
+
+  <script>
+    paypal.Buttons({
+      createOrder: function(data, actions) {
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              value: document.getElementById('price').value
+            }
+          }]
+        });
+      },
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+          // Handle the payment success
+          alert('Payment completed successfully!');
+        });
+      }
+    }).render('#paypal-button-container');
+  </script>
+</body>
+</html>

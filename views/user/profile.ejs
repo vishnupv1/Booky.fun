@@ -1,5 +1,6 @@
 <%- include('../user/newhead')%>
 
+
 	<section class="banner-area organic-breadcrumb">
 		<div class="container">
 			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
@@ -16,8 +17,247 @@
 
 	<head>
 		<style>
+			body {
+				background-color: #f9f9fa
+			}
+
+			.padding {
+				padding: 3rem !important
+			}
+
+			.user-card-full {
+				overflow: hidden;
+			}
+
+			.card {
+				width: 70rem;
+				border-radius: 5px;
+				-webkit-box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
+				box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
+				border: none;
+				margin-bottom: 30px;
+
+			}
+
+			.m-r-0 {
+				margin-right: 0px;
+			}
+
+			.m-l-0 {
+				margin-left: 0px;
+			}
+
+			.user-card-full .user-profile {
+				border-radius: 5px 0 0 5px;
+			}
+
+			.bg-c-lite-green {
+				background: -webkit-gradient(linear, left top, right top, from(#2da700), to(#089a00));
+				background: linear-gradient(to right, #3ab833, #14b036);
+			}
+
+			.user-profile {
+				padding: 20px 0;
+			}
+
+			.card-block {
+				padding: 1.25rem;
+			}
+
+			.m-b-25 {
+				margin-bottom: 25px;
+			}
+
+			.img-radius {
+				border-radius: 10px;
+			}
+
+
+
+			h6 {
+				font-size: 14px;
+			}
+
+			.card .card-block p {
+				line-height: 25px;
+			}
+
+			@media only screen and (min-width: 1400px) {
+				p {
+					font-size: 14px;
+				}
+			}
+
+			.card-block {
+				padding: 1.25rem;
+			}
+
+			.b-b-default {
+				border-bottom: 1px solid #e0e0e0;
+			}
+
+			.m-b-20 {
+				margin-bottom: 20px;
+			}
+
+			.p-b-5 {
+				padding-bottom: 5px !important;
+			}
+
+			.card .card-block p {
+				line-height: 25px;
+			}
+
+			.m-b-10 {
+				margin-bottom: 10px;
+			}
+
+			.text-muted {
+				color: #919aa3 !important;
+			}
+
+			.b-b-default {
+				border-bottom: 1px solid #e0e0e0;
+			}
+
+			.f-w-600 {
+				font-weight: 600;
+			}
+
+			.m-b-20 {
+				margin-bottom: 20px;
+			}
+
+			.m-t-40 {
+				margin-top: 20px;
+			}
+
+			.p-b-5 {
+				padding-bottom: 5px !important;
+			}
+
+			.m-b-10 {
+				margin-bottom: 10px;
+			}
+
+			.m-t-40 {
+				margin-top: 20px;
+			}
+
+			.user-card-full .social-link li {
+				display: inline-block;
+			}
+
+			.user-card-full .social-link li a {
+				font-size: 20px;
+				margin: 0 10px 0 0;
+				-webkit-transition: all 0.3s ease-in-out;
+				transition: all 0.3s ease-in-out;
+			}
+		</style>
+		<div class="page-content page-container" id="page-content">
+			<div class="padding">
+				<div class="row container d-flex ">
+					<div class="col-xl-6 col-md-12">
+						<div class="card user-card-full">
+							<div class="row m-l-0 m-r-0">
+								<div class="col-sm-4 bg-c-lite-green user-profile">
+									<div class="card-block text-center text-white">
+										<div class="m-b-25">
+											<img src="/public/userImages/<%=user.image%>" class="img-radius"
+												alt="User-Profile-Image" style="height: 7rem;width: 7rem;">
+										</div>
+										<h6 class="f-w-600" style="color: white !important;">
+											<%= user.firstname %>
+												<%= user.lastname %>
+										</h6>
+										<i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
+									</div>
+								</div>
+								<div class="col-sm-8">
+									<div class="card-block">
+										<h6 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h6>
+										<div class="row">
+											<div class="col-sm-6">
+												<p class="m-b-10 f-w-600">Email</p>
+												<h6 class="text-muted f-w-400">
+													<%= user.mail %>
+												</h6>
+											</div>
+											<div class="col-sm-6">
+												<p class="m-b-10 f-w-600">Username</p>
+												<h6 class="text-muted f-w-400">
+													<%= user.username %>
+												</h6>
+											</div>
+										</div>
+										<h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Address</h6>
+										<div class="row">
+											<div class="col-sm-6">
+												<p class="m-b-10 f-w-600">Housename</p>
+												<h6 class="text-muted f-w-400">
+													<%= user.homeaddress[0].address %>
+												</h6>
+											</div>
+											<div class="col-sm-6">
+												<p class="m-b-10 f-w-600">District</p>
+												<h6 class="text-muted f-w-400">
+													<%= user.homeaddress[0].city %>
+												</h6>
+											</div>
+										</div>
+										<div class="col-md-6 mt-4">
+											<div class="updatebuttons d-flex" method="" id="form">
+												<div class="d-flex justify-content-center">
+													<a href="/adress?id=<%= user._id %>"><button type="submit"
+															id="submit" class="updatebtn btn-block btn-success"><i
+																class="fas fa-address-book"></i>
+															Update Profile</button></a>
+												</div>
+												<div class="d-flex justify-content-center">
+													<a href="/adress?id=<%= user._id %>"><button type="submit"
+															id="submit" class="updatebtn btn-block btn-success"><i
+																class="fas fa-address-book"></i>
+															Add adress</button></a>
+												</div>
+												<div class="d-flex justify-content-center">
+													<a href="/changepwd"><button type="submit" id="submit"
+															class="updatebtn btn-block btn-success "><i
+																class="fas fa-lock"></i>
+															Change password</button></a>
+												</div>
+												<div class="d-flex justify-content-center">
+													<a href="/adress"><button type="submit" id="submit"
+															class="updatebtn btn-block btn-success"><i
+																class="fas fa-file-image"></i>
+															Update image</button></a>
+												</div>
+												<div class="d-flex justify-content-center">
+													<a href="/orderlist"><button type="submit" id="submit"
+															class="updatebtn btn-block btn-success"><i
+																class="fas fa-shopping-cart"></i>
+															View ordes</button></a>
+												</div>
+												<div class="d-flex justify-content-center">
+													<a href="/logout"><button type="" id="submit"
+															class="updatebtn btn-block btn-success"><i
+																class="fas fa-user"></i>
+															Sign out</button></a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<style>
 			.profileb {
-				color: rgb(255, 185, 55) !important;
+				color: rgb(28, 188, 0) !important;
 			}
 
 			.btn-block {
@@ -26,6 +266,9 @@
 				/* padding-right: 39px; */
 				margin-left: 3px !important;
 				margin-top: 4px !important;
+				border: none;
+				border-radius: 5px;
+				box-shadow: #919aa3;
 			}
 		</style>
 		<title>User Signup</title>
@@ -37,95 +280,16 @@
 
 	<body>
 		<div class="d-flex mb-3">
-			<div class="container mt-3">
-
-				<div class="row">
-
-					<div class="col-md-12 ">
-
-						<form class="signup-form" action="/updateprofile" method="post" id="form">
-
-
-							<img src="/public/userImages/<%=user.image%>" alt="propic"
-								style="width : 10rem ; height: 10rem; border: black, 2px;">
-
-							<h2 style="color: rgb(28, 77, 28);">USER PROFILE</h2>
-							<div class="form-group">
-								<label class="label" for="firstname">First Name <a style="color: red;">*</a></label>
-								<input type="text" class="form-control" id="fname" name="firstname"
-									value="<%= user.firstname %>">
-								<a id="fname-error" style="color: red; font-size: small;"></a>
-
-							</div>
-							<div class="form-group">
-								<label class="label" for="lastnamename">Last Name</label>
-								<input type="text" class="form-control" id="lname" name="lastname"
-									value="<%= user.lastname %>">
-							</div>
-							<div class="form-group" hidden>
-								<label class="label" for="lastnamename">Last Name</label>
-								<input type="text" class="form-control" id="lname" name="id" value="<%= user._id %>">
-							</div>
-							<div class="form-group">
-								<label class="label" for="username">Username <a style="color: red;">*</a></label>
-								<input type="text" class="form-control" id="username" name="username"
-									value="<%= user.username %>">
-								<a id="username-error" style="color: red; font-size: small;"></a>
-
-							</div>
-							<div class="d-flex justify-content-center">
-								<button type="submit" id="submit" class="btn btn-block"><i class="fas fa-user"></i>
-									Update</button>
-							</div>
-					</div>
-				</div>
-
-				<% if(typeof message !=='undefined' ) {%>
-					<p style="color: rgb(255, 0, 0);">
-						<%=message%>
-					</p>
-					<%} %>
-						</form>
-			</div>
 			<div class="container">
 				<div class="">
-					<div class="col-md-6">
-						<div class="updatebuttons d-flex" method="" id="form">
-							<div class="d-flex justify-content-center">
-								<a href="/adress?id=<%= user._id %>"><button type="submit" id="submit"
-										class="updatebtn btn-block btn-danger"><i class="fas fa-address-book"></i>
-										Add adress</button></a>
-							</div>
-							<div class="d-flex justify-content-center">
-								<a href="/changepwd"><button type="submit" id="submit"
-										class="updatebtn btn-block btn-danger "><i class="fas fa-lock"></i>
-										Change password</button></a>
-							</div>
-							<div class="d-flex justify-content-center">
-								<a href="/adress"><button type="submit" id="submit"
-										class="updatebtn btn-block btn-danger"><i class="fas fa-file-image"></i>
-										Update image</button></a>
-							</div>
-							<div class="d-flex justify-content-center">
-								<a href="/orderlist"><button type="submit" id="submit"
-										class="updatebtn btn-block btn-danger"><i class="fas fa-shopping-cart"></i>
-										View ordes</button></a>
-							</div>
-							<div class="d-flex justify-content-center">
-								<a href="/logout"><button type="" id="submit" class="updatebtn btn-block btn-danger"><i
-											class="fas fa-user"></i>
-										Sign out</button></a>
-							</div>
-						</div>
-					</div>
+
 				</div>
 			</div>
-		</div>
 		</div>
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-		<script>
+		<!-- <script>
 			function previewImage(event) {
 				var reader = new FileReader();
 				reader.onload = function () {
@@ -137,19 +301,9 @@
 		</script>
 		<script>
 			const fname = document.getElementById('fname')
-			const email = document.getElementById('email')
 			const username = document.getElementById('username')
-			const password = document.getElementById('password')
-			const cpassword = document.getElementById('confirm-password')
-			const cover = document.getElementById('cover')
 			const fnameerror = document.getElementById('fname-error')
-			const emailerror = document.getElementById('email-error')
 			const usernameerror = document.getElementById('username-error')
-			const passworderror = document.getElementById('password-error')
-			const cpassworderror = document.getElementById('cpassword-error')
-			const covererror = document.getElementById('cover-error')
-
-			// Function to validate first name
 			function validateFirstName() {
 				let fname_message = []
 
@@ -162,8 +316,6 @@
 					fnameerror.innerText = ''
 				}
 			}
-
-			// Function to validate username
 			function validateUsername() {
 				let uname_message = []
 				if (username.value === '' || username.value === null || username.value.length < 5) {
@@ -175,126 +327,36 @@
 					usernameerror.innerText = ''
 				}
 			}
-
-			// Function to validate password
-			function validatePassword() {
-				let password_message = []
-				if (password.value === '' || password.value === null || password.value.length < 8) {
-					password_message.push('Minimum length of password required is 8')
-				} else if (!/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password.value)) {
-					password_message.push('Password must contain at least one letter and one number');
-				}
-				if (password_message.length > 0) {
-					passworderror.innerText = password_message.join(',')
-				} else {
-					passworderror.innerText = ''
-				}
-			}
-
-			// Function to validate confirm password
-			function validateConfirmPassword() {
-				let cpassword_message = []
-				if (cpassword.value !== password.value || cpassword.value === '') {
-					cpassword_message.push('Password Missmatch')
-				}
-				if (cpassword_message.length > 0) {
-					cpassworderror.innerText = cpassword_message.join(',')
-				} else {
-					cpassworderror.innerText = ''
-				}
-			}
-
-			// Function to validate email
-			function validateEmail() {
-				let email_message = []
-				if (email.value === '' || email.value === null) {
-					email_message.push('Email is required');
-				} else if (!/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email.value)) {
-					email_message.push('Invalid email address');
-				}
-				if (email_message.length > 0) {
-					emailerror.innerText = email_message.join(',')
-				} else {
-					emailerror.innerText = ''
-				}
-			}
-
-			// Function to validate cover image
-			function validateCover() {
-				const allowedExtensions = ['jpg', 'jpeg'];
-				const file_message = [];
-
-				if (cover.value === '' || cover.value === null) {
-					file_message.push('Image is required');
-				} else {
-					const fileName = cover.value;
-					const fileExtension = fileName.split('.').pop().toLowerCase();
-
-					if (!allowedExtensions.includes(fileExtension)) {
-						file_message.push('Invalid file type. Only JPG and JPEG files are allowed');
-					}
-				}
-
-				if (file_message.length > 0) {
-					covererror.innerText = file_message.join(', ');
-				} else {
-					covererror.innerText = '';
-				}
-			}
-
-			// Add keyup event listeners to the form fields
 			fname.addEventListener('keyup', validateFirstName);
 			username.addEventListener('keyup', validateUsername);
-			password.addEventListener('keyup', validatePassword);
-			cpassword.addEventListener('keyup', validateConfirmPassword);
-			email.addEventListener('keyup', validateEmail);
-			cover.addEventListener('keyup', validateCover);
 
 			function handleSubmit(event) {
-				// Prevent the form from submitting
-
-				// Call the validation functions
 				validateFirstName();
 				validateUsername();
-				validatePassword();
-				validateConfirmPassword();
-				validateEmail();
-				validateCover();
 
-				// Check if any errors exist
 				if (
 					fnameerror.innerText === '' &&
-					usernameerror.innerText === '' &&
-					passworderror.innerText === '' &&
-					cpassworderror.innerText === '' &&
-					emailerror.innerText === '' &&
-					covererror.innerText === ''
+					usernameerror.innerText === ''
 				) {
-					// All validations passed, allow form submission
 					event.target.submit();
 				} else {
 					event.preventDefault();
 				}
 			}
 
-			// Add submit event listener to the form
 			const form = document.querySelector('form');
 			form.addEventListener('submit', handleSubmit);
-		</script>
+		</script> -->
 		<script src="/public/js/vendor/jquery-2.2.4.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
 			integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
 			crossorigin="anonymous"></script>
-		<script src="/public/js/vendor/bootstrap.min.js"></script>
 		<script src="/public/js/jquery.ajaxchimp.min.js"></script>
 		<script src="/public/js/jquery.nice-select.min.js"></script>
 		<script src="/public/js/jquery.sticky.js"></script>
 		<script src="/public/js/nouislider.min.js"></script>
 		<script src="/public/js/jquery.magnific-popup.min.js"></script>
 		<script src="/public/js/owl.carousel.min.js"></script>
-		<!--gmaps Js-->
-		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
-		<script src="/public/js/gmaps.min.js"></script>
 		<script src="/public/js/main.js"></script>
 		<script src="/public/js/passwordhide.js"></script>
 		<%- include('../user/footer')%>

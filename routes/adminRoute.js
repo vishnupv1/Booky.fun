@@ -40,6 +40,11 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 const adminController = require('../controllers/adminController')
+const userController = require('../controllers/userController')
+const categoryController = require('../controllers/cateogryController')
+const orderController = require('../controllers/orderController')
+const productController = require('../controllers/productController')
+
 const { sign } = require('crypto')
 const { userInfo } = require('os')
 
@@ -49,42 +54,34 @@ admin_route.use(express.static('public'));
 admin_route.get('/',adminauth.isLogout,adminController.loadLogin)
 admin_route.get('/adminhome',adminauth.isLogin,adminController.loadHome)
 admin_route.post('/adminhome',adminController.verifyLogin)
-
 admin_route.get('/adminforgot',adminauth.isLogout,adminController.loadForgot)
 admin_route.post('/adminforgot',adminController.forgotVerify)
 admin_route.get('/adminforgotpassword',adminauth.isLogout,adminController.loadForgotPassword)
 admin_route.post('/adminforgotpassword',adminController.resetPassword)
 admin_route.get('/adminlogout',adminauth.isLogin,adminController.loadLogout)
-admin_route.get('/userlist',adminauth.isLogin,adminController.listUser)
-admin_route.get('/blockuser',adminauth.isLogin,adminController.blockUser)
-admin_route.get('/unblockuser',adminauth.isLogin,adminController.unblockUser)
-admin_route.get('/productlist',adminauth.isLogin,adminController.listProdcut)
-admin_route.get('/addbook',adminauth.isLogin,adminController.loadaddBook)
-admin_route.post('/addbook',upload.array('image'),adminController.addBook)
-admin_route.get('/editbook',adminauth.isLogin,adminController.loadeditBook)
-admin_route.post('/updatebook',upload.array('image'),adminController.updateBook)
-admin_route.get('/deletebook',adminauth.isLogin,adminController.deletebook)
-admin_route.get('/category',adminauth.isLogin,adminController.loadcategory)
-admin_route.get('/addcategory',adminauth.isLogin,adminController.loadaddcategory)
-admin_route.post('/addcategory',adminController.addcategory)
-admin_route.get('/deletecategory',adminauth.isLogin,adminController.deletecategory)
-admin_route.get('/editcategory',adminauth.isLogin,adminController.loadeditCategory)
-admin_route.post('/updatecategory',adminController.updateCategory)
-admin_route.get('/orders',adminController.showorder)
-admin_route.get('/viewOrder',adminController.viewOrder)
-admin_route.get('/cancelOrder',adminController.cancelOrder)
-admin_route.post('/updateOrderStatus',adminController.updateOrderStatus)
+admin_route.get('/userlist',adminauth.isLogin,userController.listUser)
+admin_route.get('/blockuser',adminauth.isLogin,userController.blockUser)
+admin_route.get('/unblockuser',adminauth.isLogin,userController.unblockUser)
 
+admin_route.get('/productlist',adminauth.isLogin,productController.listProdcut)
+admin_route.get('/addbook',adminauth.isLogin,productController.loadaddBook)
+admin_route.post('/addbook',upload.array('image'),productController.addBook)
+admin_route.get('/editbook',adminauth.isLogin,productController.loadeditBook)
+admin_route.post('/updatebook',upload.array('image'),productController.updateBook)
+admin_route.get('/deletebook',adminauth.isLogin,productController.deletebook)
+admin_route.get('/stockManagement',productController.stockManagement)
 
+admin_route.get('/orders',orderController.showorder)
+admin_route.get('/viewOrder',orderController.viewOrder)
+admin_route.get('/cancelOrder',orderController.cancelOrder)
+admin_route.post('/updateOrderStatus',orderController.updateOrderStatus)
 
-
-
-
-
-
-
-
-
+admin_route.get('/category',adminauth.isLogin,categoryController.loadcategory)
+admin_route.get('/addcategory',adminauth.isLogin,categoryController.loadaddcategory)
+admin_route.post('/addcategory',categoryController.addcategory)
+admin_route.get('/deletecategory',adminauth.isLogin,categoryController.deletecategory)
+admin_route.get('/editcategory',adminauth.isLogin,categoryController.loadeditCategory)
+admin_route.post('/updatecategory',categoryController.updateCategory)
 
 module.exports = admin_route
 
