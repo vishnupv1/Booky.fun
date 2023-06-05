@@ -1,0 +1,147 @@
+<%- include('../user/newhead')%>
+
+
+    <section class="banner-area organic-breadcrumb">
+        <div class="container">
+            <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+                <div class="col-first">
+                    <h1>Image Update</h1>
+                    <nav class="d-flex align-items-center">
+                        <a href="/profile">Profile<span class="fa fa-arrow-right"></span></a>
+                        <a href="/loadImageUpdate">Image Update</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <head>
+        <title>Update Image</title>
+        <link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.min.css">
+        <style>
+            body {
+                text-align: center;
+            }
+
+            #imagePreviewContainer {
+                display: inline-block;
+                margin-top: 20px;
+            }
+
+            #imagePreview {
+                max-width: 400px;
+                margin-bottom: 20px;
+            }
+
+            input[type="file"] {
+                display: none;
+            }
+
+            label {
+                display: inline-block;
+                background-color: #007bff;
+                color: #fff;
+                padding: 10px 20px;
+                cursor: pointer;
+                border-radius: 4px;
+                margin-top: 20px;
+            }
+
+            #cropButton,
+            #updateButton {
+                background-color: #007bff;
+                color: #fff;
+                padding: 10px 20px;
+                cursor: pointer;
+                border-radius: 4px;
+                margin-top: 20px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>Update Image</h1>
+
+        <div id="imagePreviewContainer">
+            <img id="imagePreview" src="/public/userImages/<%=user.image%>" alt="<%=user.image%>" style="width:5rem;height:5re">
+        </div>
+
+        <input type="file" id="imageUpload" accept="image/*">
+        <label for="imageUpload">Select Image</label>
+
+        <div>
+            <button id="cropButton">Crop Image</button>
+            <button id="updateButton" disabled>Update</button>
+        </div>
+
+        <script src="https://unpkg.com/cropperjs"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script src="/public/js/vendor/jquery-2.2.4.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+            integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+            crossorigin="anonymous"></script>
+        <script src="/public/js/jquery.ajaxchimp.min.js"></script>
+        <script src="/public/js/jquery.nice-select.min.js"></script>
+        <script src="/public/js/jquery.sticky.js"></script>
+        <script src="/public/js/nouislider.min.js"></script>
+        <script src="/public/js/jquery.magnific-popup.min.js"></script>
+        <script src="/public/js/owl.carousel.min.js"></script>
+        <script src="/public/js/main.js"></script>
+        <script src="/public/js/passwordhide.js"></script>
+        <%- include('../user/footer')%>
+            <script>
+                var cropper;
+                var croppedImageDataURL;
+
+                document.getElementById("imageUpload").addEventListener("change", function (event) {
+                    var input = event.target;
+                    var reader = new FileReader();
+
+                    reader.onload = function () {
+                        var dataURL = reader.result;
+                        var imagePreview = document.getElementById("imagePreview");
+                        imagePreview.src = dataURL;
+
+                        if (cropper) {
+                            cropper.destroy();
+                        }
+
+                        cropper = new Cropper(imagePreview, {
+                            aspectRatio: 1,
+                            viewMode: 1,
+                            crop: function (event) {
+                                croppedImageDataURL = cropper.getCroppedCanvas().toDataURL();
+                            }
+                        });
+
+                        document.getElementById("cropButton").disabled = false;
+                    };
+
+                    reader.readAsDataURL(input.files[0]);
+                });
+
+                document.getElementById("cropButton").addEventListener("click", function () {
+                    var croppedImage = document.createElement("img");
+                    croppedImage.src = croppedImageDataURL;
+                    croppedImage.alt = "Cropped Image";
+                    croppedImage.id = "croppedImage";
+
+                    var imagePreviewContainer = document.getElementById("imagePreviewContainer");
+                    imagePreviewContainer.innerHTML = "";
+                    imagePreviewContainer.appendChild(croppedImage);
+
+                    document.getElementById("cropButton").hidden = true;
+                    document.getElementById("updateButton").disabled = false;
+                });
+
+                document.getElementById("updateButton").addEventListener("click", function () {
+                    // Perform update image action here
+                    // You can send the croppedImageDataURL to the server or perform any other necessary operations
+                    alert("Image Updated Successfully!");
+                });
+            </script>
+    </body>
+
+    </html>

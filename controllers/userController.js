@@ -580,6 +580,15 @@ const unblockUser = async (req, res) => {
         console.log(error.message);
     }
 }
+const loadImageUpdate = async (req, res) => {
+    try {
+        const userD = await User.findById({ _id: req.session.user_id })
+        res.render('imageUpdate', { user: userD })
+    }
+    catch (error) {
+        console.log(error.message);
+    }
+}
 
 
 
@@ -609,5 +618,6 @@ module.exports = {
     mailme,
     listUser,
     blockUser,
-    unblockUser
+    unblockUser,
+    loadImageUpdate
 }

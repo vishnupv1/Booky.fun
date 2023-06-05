@@ -67,6 +67,8 @@ user_route.get('/payment',auth.isLogin,userController.loadHome)
 user_route.get('/contact',userController.contact)
 user_route.get('/start',userController.loadStart)
 user_route.post('/mailme',userController.mailme)
+user_route.get('/loadImageUpdate',userController.loadImageUpdate)
+
 
 //user side product related functions
 user_route.get('/viewproduct',auth.isLogin,upload.array('image'),productController.viewproduct)
