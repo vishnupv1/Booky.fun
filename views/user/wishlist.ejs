@@ -1,0 +1,187 @@
+<%- include('../user/newhead')%>
+    <%- include('../user/loader')%>
+
+        <head>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        </head>
+
+        <body>
+            <section class="banner-area organic-breadcrumb">
+                <div class="container">
+                    <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+                        <div class="col-first">
+                            <h1>My wishlist</h1>
+                            <nav class="d-flex align-items-center">
+                                <a href="/home">Home<span class="fa fa-arrow-right"></span></a>
+                                <a href="/cart">My wishlist</a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="mt-3 justify-content-center">
+                <% if(typeof cancel_message !=='undefined' ) {%>
+                    <h3 class="message success" style="color:red">
+                        <%=cancel_message%>
+                    </h3>
+                    <%} %>
+            </div>
+            <div class="mt-3 justify-content-center">
+                <% if(typeof error_message !=='undefined' ) {%>
+                    <h3 class="message success" style="color:red">
+                        <%=error_message%>
+                    </h3>
+                    <%} %>
+            </div>
+            <div class="mt-3" style="margin-left: 10rem;">
+                <% if(typeof success_message !=='undefined' ) {%>
+                    <h3 class="message success" style="color:rgb(0, 161, 48)">
+                        <%=success_message%>
+                    </h3>
+                    <%} %>
+            </div>
+            <div class="container mt-3 mb-3">
+                <div class="row d-flex justify-content-center align-items-center">
+                    <div class="col-10">
+                        <h5 class="fw-normal mb-0" style="color : red">
+                            <%= message %>
+                        </h5>
+                        <% if (cartData.length> 0) {
+                            for(let i=0; i<cartData.length; i++) { %>
+                                <div class="cardDataClass card rounded-3 mb-4">
+                                    <div hidden>
+                                        <input type="text" class="prod_id_class" data-prod-id="<%= cartData[i]._id %>"
+                                            value="<%= cartData[i]._id %>">
+
+                                    </div>
+                                    <div class="card-body p-4">
+                                        <div class="row d-flex justify-content-between align-items-center">
+                                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                                <img style="width:auto;height : auto"
+                                                    src="/public/productImages/<%= cartData[i].image[0] %>"
+                                                    class="img-fluid rounded-3" alt="book">
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-xl-3">
+                                                <p class="lead fw-normal mb-2">
+                                                    <%= cartData[i].name %>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                                <button class="btn btn-link px-2"
+                                                    onclick="this.parentNode.querySelector('input[type=number]').stepDown();this.parentNode.querySelector('.quantityInput').dispatchEvent(new CustomEvent('change'));">
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+
+                                                <input id="form1"
+                                                    class="quantity_class quantityInput form-control form-control-sm"
+                                                    min="0" name="quantity" value="<%= cartData[i].quantity %>"
+                                                    type="number" />
+
+                                                <button class="btn btn-link px-2"
+                                                    onclick="this.parentNode.querySelector('input[type=number]').stepUp();this.parentNode.querySelector('.quantityInput').dispatchEvent(new CustomEvent('change'));">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </div>
+                                            <input type="hidden" name="originalPrice" class="originalPriceClass"
+                                                id="originalPrice" value="<%= cartData[i].price %>">
+                                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                                <h5 class="totalPriceClass mb-0" id="totalPrice">
+                                                    <%= cartData[i].total %>
+                                                </h5>
+                                            </div>
+                                            <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                                                <a href="/cart/delete/<%= cartData[i]._id %>" class="text-danger"><i
+                                                        class="fas fa-trash fa-lg"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } } %>
+                                    <div class="card mb-4">
+                                        <div class="card-body p-4 d-flex flex-row">
+                                            <div class="form-outline flex-fill">
+                                                <h3>
+                                                    <%= total %>
+                                                </h3>
+                                            </div>
+                                            <div class="totalPrice">
+                                                <h3 id="finalAmount"></h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                    </div>
+                </div>
+            </div>
+        </body>
+        <%- include('../user/footer')%>
+
+            </script>
+            <script src="/public/js/vendor/jquery-2.2.4.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+                integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+                crossorigin="anonymous"></script>
+            <script src="/public/js/jquery.ajaxchimp.min.js"></script>
+            <script src="/public/js/jquery.nice-select.min.js"></script>
+            <script src="/public/js/jquery.sticky.js"></script>
+            <script src="/public/js/nouislider.min.js"></script>
+            <script src="/public/js/jquery.magnific-popup.min.js"></script>
+            <script src="/public/js/owl.carousel.min.js"></script>
+            <script src="/public/js/main.js"></script>
+            <script src="/public/js/passwordhide.js"></script>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const finalAmount = document.getElementById('finalAmount');
+                    const cardDataArray = Array.from(document.getElementsByClassName('cardDataClass'));
+
+                    cardDataArray.map(cardData => {
+                        const quantityInput = cardData.querySelector('.quantityInput');
+                        const originalPrice = cardData.querySelector('.originalPriceClass');
+                        const totalPriceEl = cardData.querySelector('.totalPriceClass');
+
+                        quantityInput.addEventListener('change', () => {
+                            const totalPrice = quantityInput.value * originalPrice.value;
+                            totalPriceEl.innerText = totalPrice.toString();
+                            totalPriceEl.dispatchEvent(new CustomEvent('change'));
+                            updateCart();
+                        })
+                        totalPriceEl.addEventListener('change', () => {
+                            const sum = cardDataArray.reduce((sum, cardData) => {
+                                return sum + Number(cardData.querySelector('.totalPriceClass').innerText);
+                            }, 0);
+                            finalAmount.innerText = sum.toString();
+                        });
+
+                        totalPriceEl.dispatchEvent(new CustomEvent('change'));
+                    });
+                    async function updateCart() {
+                        const products = cardDataArray.map(cardData => {
+                            const prod_id = cardData.querySelector('.prod_id_class').value;
+                            const quantity = Number(cardData.querySelector('.quantity_class').value);
+                            return ({
+                                prod_id,
+                                quantity,
+                                finalAmount: Number(finalAmount.innerText)
+                            })
+                        })
+                        const updatedCartData = { products };
+                        try {
+                            const response = await fetch('/cart/updatecart', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(updatedCartData),
+                            });
+
+                            const resBody = await response.json();
+                            console.info(resBody);
+                        } catch (err) {
+                            console.err(err);
+                        }
+                    }
+
+                });
+
+            </script>

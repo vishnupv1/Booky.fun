@@ -36,6 +36,7 @@ const userController = require('../controllers/userController')
 const cartController = require('../controllers/cartController')
 const orderController = require('../controllers/orderController')
 const productController = require('../controllers/productController')
+const wishlistController = require('../controllers/wishlistController')
 const { sign } = require('crypto')
 const { userInfo } = require('os')
 
@@ -69,8 +70,12 @@ user_route.get('/start',userController.loadStart)
 user_route.post('/mailme',userController.mailme)
 user_route.get('/loadImageUpdate',userController.loadImageUpdate)
 
-user_route.patch('/imageUpdate',userController.imageUpdate)
+user_route.post('/imageUpdate',upload.single('image'),userController.imageUpdate)
 
+user_route.get('/addtowishlist',auth.isLogin,wishlistController.addtowishlist)
+user_route.post('/updatewishlist',wishlistController.updateWishlist)
+user_route.get('/showwishlist',auth.isLogin,wishlistController.showWishlist)
+user_route.get('/deletewishlist/:id',auth.isLogin,wishlistController.deleteWishlist)
 
 //user side product related functions
 user_route.get('/viewproduct',auth.isLogin,upload.array('image'),productController.viewproduct)

@@ -19,7 +19,9 @@ const checkout = async (req, res) => {
         let home = userData.homeaddress
         let work = userData.workaddress
         let personal = userData.personaladdress
+        
         let cart = await Cart.findOne({ user_id: req.session.user_id }).populate("products.product_id").lean().exec()
+        console.log(cart);
         if (cart) {
             const total = cart.products.map(prod => {
                 return Number(prod.quantity) * Number(prod.product_id.price)
