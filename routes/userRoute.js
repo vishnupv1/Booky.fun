@@ -69,6 +69,8 @@ user_route.get('/start',userController.loadStart)
 user_route.post('/mailme',userController.mailme)
 user_route.get('/loadImageUpdate',userController.loadImageUpdate)
 
+user_route.patch('/imageUpdate',userController.imageUpdate)
+
 
 //user side product related functions
 user_route.get('/viewproduct',auth.isLogin,upload.array('image'),productController.viewproduct)

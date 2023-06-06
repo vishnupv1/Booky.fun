@@ -589,7 +589,18 @@ const loadImageUpdate = async (req, res) => {
         console.log(error.message);
     }
 }
+const imageUpdate = async (req, res) => {
+    try {
+        const userD = await User.findById({ _id: req.session.user_id })
+        
+        await User.updateOne({_id:req.session.user_id},{$set:{image: req.file.filename}})
+        res.redirect('/profile')
 
+    }
+    catch (error) {
+        console.log(error.message);
+    }
+}
 
 
 module.exports = {
@@ -619,5 +630,6 @@ module.exports = {
     listUser,
     blockUser,
     unblockUser,
-    loadImageUpdate
+    loadImageUpdate,
+    imageUpdate
 }

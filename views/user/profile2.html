@@ -1,0 +1,306 @@
+<!-- <%- include('../user/newhead')%>
+
+
+	<section class="banner-area organic-breadcrumb">
+		<div class="container">
+			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+				<div class="col-first">
+					<h1>Checkout</h1>
+					<nav class="d-flex align-items-center">
+						<a href="/home">Home<span class="fa fa-arrow-right"></span></a>
+						<a href="/profile">Profile</a>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<head>
+		<style>
+			body {
+				background-color: #f9f9fa
+			}
+
+			.padding {
+				padding: 3rem !important
+			}
+
+			.user-card-full {
+				overflow: hidden;
+			}
+
+			.card {
+				width: 70rem;
+				border-radius: 5px;
+				-webkit-box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
+				box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
+				border: none;
+				margin-bottom: 30px;
+
+			}
+
+			.m-r-0 {
+				margin-right: 0px;
+			}
+
+			.m-l-0 {
+				margin-left: 0px;
+			}
+
+			.user-card-full .user-profile {
+				border-radius: 5px 0 0 5px;
+			}
+
+			.bg-c-lite-green {
+				background: -webkit-gradient(linear, left top, right top, from(#2da700), to(#089a00));
+				background: linear-gradient(to right, #3ab833, #14b036);
+			}
+
+			.user-profile {
+				padding: 20px 0;
+			}
+
+			.card-block {
+				padding: 1.25rem;
+			}
+
+			.m-b-25 {
+				margin-bottom: 25px;
+			}
+
+			.img-radius {
+				border-radius: 10px;
+			}
+
+
+
+			h6 {
+				font-size: 14px;
+			}
+
+			.card .card-block p {
+				line-height: 25px;
+			}
+
+			@media only screen and (min-width: 1400px) {
+				p {
+					font-size: 14px;
+				}
+			}
+
+			.card-block {
+				padding: 1.25rem;
+			}
+
+			.b-b-default {
+				border-bottom: 1px solid #e0e0e0;
+			}
+
+			.m-b-20 {
+				margin-bottom: 20px;
+			}
+
+			.p-b-5 {
+				padding-bottom: 5px !important;
+			}
+
+			.card .card-block p {
+				line-height: 25px;
+			}
+
+			.m-b-10 {
+				margin-bottom: 10px;
+			}
+
+			.text-muted {
+				color: #919aa3 !important;
+			}
+
+			.b-b-default {
+				border-bottom: 1px solid #e0e0e0;
+			}
+
+			.f-w-600 {
+				font-weight: 600;
+			}
+
+			.m-b-20 {
+				margin-bottom: 20px;
+			}
+
+			.m-t-40 {
+				margin-top: 20px;
+			}
+
+			.p-b-5 {
+				padding-bottom: 5px !important;
+			}
+
+			.m-b-10 {
+				margin-bottom: 10px;
+			}
+
+			.m-t-40 {
+				margin-top: 20px;
+			}
+
+			.user-card-full .social-link li {
+				display: inline-block;
+			}
+
+			.user-card-full .social-link li a {
+				font-size: 20px;
+				margin: 0 10px 0 0;
+				-webkit-transition: all 0.3s ease-in-out;
+				transition: all 0.3s ease-in-out;
+			}
+		</style>
+		<div class="page-content page-container" id="page-content">
+			<div class="padding">
+				<div class="row container d-flex ">
+					<div class="col-xl-6 col-md-12">
+						<div class="card user-card-full">
+							<div class="row m-l-0 m-r-0">
+								<div class="col-sm-4 bg-c-lite-green user-profile">
+									<div class="card-block text-center text-white">
+										<div class="m-b-25">
+											<img src="/public/userImages/<%=user.image%>" class="img-radius"
+												alt="User-Profile-Image" style="height: 7rem;width: 7rem;">
+										</div>
+										<h6 class="f-w-600" style="color: white !important;">
+											<%= user.firstname %>
+												<%= user.lastname %>
+										</h6>
+										<i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
+									</div>
+								</div>
+								<div class="col-sm-8">
+									<div class="card-block">
+										<h6 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h6>
+										<div class="row">
+											<div class="col-sm-6">
+												<p class="m-b-10 f-w-600">Email</p>
+												<h6 class="text-muted f-w-400">
+													<%= user.mail %>
+												</h6>
+											</div>
+											<div class="col-sm-6">
+												<p class="m-b-10 f-w-600">Username</p>
+												<h6 class="text-muted f-w-400">
+													<%= user.username %>
+												</h6>
+											</div>
+										</div>
+										<h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Address</h6>
+										<div class="row">
+											<div class="col-sm-6">
+												<p class="m-b-10 f-w-600">Housename</p>
+												<h6 class="text-muted f-w-400">
+													<%= user.homeaddress[0].address %>
+												</h6>
+											</div>
+											<div class="col-sm-6">
+												<p class="m-b-10 f-w-600">District</p>
+												<h6 class="text-muted f-w-400">
+													<%= user.homeaddress[0].city %>
+												</h6>
+											</div>
+										</div>
+										<div class="col-md-6 mt-4">
+											<div class="updatebuttons d-flex" method="" id="form">
+												<div class="d-flex justify-content-center">
+													<a href="/adress?id=<%= user._id %>"><button type="submit"
+															id="submit" class="updatebtn btn-block btn-success"><i
+																class="fas fa-address-book"></i>
+															Update Profile</button></a>
+												</div>
+												<div class="d-flex justify-content-center">
+													<a href="/adress?id=<%= user._id %>"><button type="submit"
+															id="submit" class="updatebtn btn-block btn-success"><i
+																class="fas fa-address-book"></i>
+															Add adress</button></a>
+												</div>
+												<div class="d-flex justify-content-center">
+													<a href="/changepwd"><button type="submit" id="submit"
+															class="updatebtn btn-block btn-success "><i
+																class="fas fa-lock"></i>
+															Change password</button></a>
+												</div>
+												<div class="d-flex justify-content-center">
+													<a href="/loadImageUpdate"><button type="submit" id="submit"
+															class="updatebtn btn-block btn-success"><i
+																class="fas fa-file-image"></i>
+															Update image</button></a>
+												</div>
+												<div class="d-flex justify-content-center">
+													<a href="/orderlist"><button type="submit" id="submit"
+															class="updatebtn btn-block btn-success"><i
+																class="fas fa-shopping-cart"></i>
+															View ordes</button></a>
+												</div>
+												<div class="d-flex justify-content-center">
+													<a href="/logout"><button type="" id="submit"
+															class="updatebtn btn-block btn-success"><i
+																class="fas fa-user"></i>
+															Sign out</button></a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<style>
+			.profileb {
+				color: rgb(28, 188, 0) !important;
+			}
+
+			.btn-block {
+				/* display: block; */
+				width: max-content !important;
+				/* padding-right: 39px; */
+				margin-left: 3px !important;
+				margin-top: 4px !important;
+				border: none;
+				border-radius: 5px;
+				box-shadow: #919aa3;
+			}
+		</style>
+		<title>User Signup</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+	</head>
+
+	<body>
+		<div class="d-flex mb-3">
+			<div class="container">
+				<div class="">
+
+				</div>
+			</div>
+		</div>
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+		<script src="/public/js/vendor/jquery-2.2.4.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+			integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+			crossorigin="anonymous"></script>
+		<script src="/public/js/jquery.ajaxchimp.min.js"></script>
+		<script src="/public/js/jquery.nice-select.min.js"></script>
+		<script src="/public/js/jquery.sticky.js"></script>
+		<script src="/public/js/nouislider.min.js"></script>
+		<script src="/public/js/jquery.magnific-popup.min.js"></script>
+		<script src="/public/js/owl.carousel.min.js"></script>
+		<script src="/public/js/main.js"></script>
+		<script src="/public/js/passwordhide.js"></script>
+		<%- include('../user/footer')%>
+
+	</body> -->
