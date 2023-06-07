@@ -108,17 +108,16 @@
                                     </div>
 
                                     <div class="prd-bottom">
-                                        <a href="/addtocart?id=<%= products[i]._id %>" class="social-info">
+                                        </script>
+                                        <a href="/addtocart?id=<%= products[i]._id %>" class="social-info"
+                                            onclick="function3()">
                                             <span class="fa fa-shopping-cart"></span>
                                             <p class="hover-text">add to bag</p>
                                         </a>
-                                        <a href="/addtowishlist?id=<%= products[i]._id %>" class="social-info">
+                                        <a href="/addtowishlist?id=<%= products[i]._id %>" class="social-info"
+                                            onclick="function4()">
                                             <span class="fa fa-heart"></span>
                                             <p class="hover-text">Wishlist</p>
-                                        </a>
-                                        <a href="" class="social-info">
-                                            <span class="fa fa-diamond"></span>
-                                            <p class="hover-text">compare</p>
                                         </a>
                                         <a href="/viewproduct?id=<%= products[i]._id %>" class="social-info">
                                             <span class="fa fa-eye"></span>
@@ -283,7 +282,22 @@
                     }
                 }
             }
-
+            function function3() {
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Item added to cart successfully!',
+                    icon: 'success',
+                    showConfirmButton: false, // Hide the "OK" button
+                });
+            }
+            function function4() {
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Item added to wishlist successfully!',
+                    icon: 'success',
+                    showConfirmButton: false, // Hide the "OK" button
+                });
+            }
         </script>
 
 

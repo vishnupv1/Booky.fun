@@ -29,95 +29,135 @@
     </head>
 
     <body>
-        <section>
-            <div class="container">
-                <div class="row d-flex justify-content-center align-items-center">
-                    <div class="col-10">
-                        <div class="d-flex justify-content-center align-items-center" style="color:rgb(34, 14, 54)">
-                            <h3 class="fw-normal mb-0 text-black">
-                                <%= %>
-                            </h3>
-                        </div>
 
-                        <% if (productDetails.length> 0) {
-                            for (let i = 0; i < productDetails.length; i++) { %>
-                                <div class="card-body p-4">
-                                    <div class="row d-flex align-items-center">
-                                        <div class="col-md-2 col-lg-2 col-xl-2">
-                                            <img style="width:auto;height:auto"
-                                                src="/public/productImages/<%= productDetails[i].image %>"
-                                                class="img-fluid rounded-3" alt="book">
-                                        </div>
-                                        <div class="col-md-3 col-lg-3 col-xl-3">
-                                            <p class="lead fw-normal mb-2">
-                                                <%= productDetails[i].productname %>
-                                            </p>
-                                        </div>
-                                        <div class="col-md-3 col-lg-2 col-xl-2">
-                                            <p class="lead fw-normal mb-2">Quantity: <%= productDetails[i].quantity %>
-                                            </p>
-                                        </div>
-                                        <div class="col-md-2 col-lg-2 col-xl-2">
-                                            <a><button onclick="deleteOrder('<%= orderId %>')"
-                                                    class="btn btn-danger">Cancel
-                                                    Order</button></a>
-                                        </div>
-                                    </div>
+        <% if(status==='Delivered' ) { %>
+            <div style="margin-left: 9rem ;margin-top: 3rem;;">
+                <p>
+                    Book delivered on : <%= formattedDate %>
+                </p>
+            </div>
+            <%}%>
+                <section>
+
+                    <div class="container">
+                        <div class="row d-flex justify-content-center align-items-center">
+                            <div class="col-10">
+                                <div class="d-flex justify-content-center align-items-center"
+                                    style="color:rgb(34, 14, 54)">
+                                    <h3 class="fw-normal mb-0 text-black">
+                                        <%= %>
+                                    </h3>
                                 </div>
 
-                                <% } } else { %>
-                                    <div class="card rounded-3 mb-4">
+                                <% if (productDetails.length> 0) {
+                                    for (let i = 0; i < productDetails.length; i++) { %>
                                         <div class="card-body p-4">
-                                            <p>No orders found.</p>
+                                            <div class="row d-flex align-items-center">
+                                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                                    <img style="width:auto;height:auto"
+                                                        src="/public/productImages/<%= productDetails[i].image %>"
+                                                        class="img-fluid rounded-3" alt="book">
+                                                </div>
+                                                <div class="col-md-3 col-lg-3 col-xl-3">
+                                                    <p class="lead fw-normal mb-2">
+                                                        <%= productDetails[i].productname %>
+                                                    </p>
+                                                </div>
+                                                <div class="col-md-3 col-lg-2 col-xl-2">
+                                                    <p class="lead fw-normal mb-2">Quantity: <%=
+                                                            productDetails[i].quantity %>
+                                                    </p>
+                                                </div>
+                                                <% if(status==='Cancelled' ) { %>
+
+                                                    <div class="col-md-2 col-lg-2 col-xl-2">
+                                                        <p>
+                                                            <%= status %>
+                                                        </p>
+                                                        <%}%>
+
+                                                    </div>
+                                            </div>
+                                            <% } } else { %>
+                                                <div class=" card rounded-3 mb-4">
+                                                    <div class="card-body p-4">
+                                                        <p>No orders found.</p>
+                                                    </div>
+                                                </div>
+                                                <% } %>
                                         </div>
-                                    </div>
-                                    <% } %>
-                    </div>
+                            </div>
+                        </div>
+                </section>
+
+                <div style="margin-bottom: 2rem; " class=" d-flex justify-content-center">
+                    <% if(status==='Delivered' && daysDiff<7 && status!=='Return requested' && status!=='Returned' ){ %>
+                        <a href="/returnOrder?id=<%= orderId %>"><button onclick="returnOrder()"
+                                class="btn btn-info block " style="height: 34px !important;">Return
+                                Item/s</button></a>
+                        <% } %>
                 </div>
-            </div>
-        </section>
-        </script>
-        <script src="/public/js/vendor/jquery-2.2.4.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
-            integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-            crossorigin="anonymous"></script>
-        <!-- <script src="/public/js/vendor/bootstrap.min.js"></script> -->
-        <script src="/public/js/jquery.ajaxchimp.min.js"></script>
-        <script src="/public/js/jquery.nice-select.min.js"></script>
-        <script src="/public/js/jquery.sticky.js"></script>
-        <script src="/public/js/nouislider.min.js"></script>
-        <script src="/public/js/jquery.magnific-popup.min.js"></script>
-        <script src="/public/js/owl.carousel.min.js"></script>
-        <!--gmaps Js-->
-        <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script> -->
-        <!-- <script src="/public/js/gmaps.min.js"></script> -->
-        <script src="/public/js/main.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="/public/js/passwordhide.js"></script>
-        <%- include('../user/footer')%>
-            <script>
-                function deleteOrder(id) {
-                    Swal.fire({
-                        title: 'Are you sure to cancel this order?',
-                        text: "You won't be able to revert this!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, cancel!'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            Swal.fire(
-                                'cancelled!',
-                                'Order has been cancelled.',
-                                'success'
-                            ).then(() => {
-                                window.location.href = "/cancelOrder?id=" + id
+                </script>
+                <script src="/public/js/vendor/jquery-2.2.4.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+                    integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+                    crossorigin="anonymous"></script>
+                <script src="/public/js/jquery.ajaxchimp.min.js"></script>
+                <script src="/public/js/jquery.nice-select.min.js"></script>
+                <script src="/public/js/jquery.sticky.js"></script>
+                <script src="/public/js/nouislider.min.js"></script>
+                <script src="/public/js/jquery.magnific-popup.min.js"></script>
+                <script src="/public/js/owl.carousel.min.js"></script>
+                <script src="/public/js/main.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script src="/public/js/passwordhide.js"></script>
+                <%- include('../user/footer')%>
+                    <script>
+                        function deleteOrder(id) {
+                            Swal.fire({
+                                title: 'Are you sure to cancel this order?',
+                                text: "You won't be able to revert this!",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Yes, cancel!'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    Swal.fire(
+                                        'cancelled!',
+                                        'Order has been cancelled.',
+                                        'success'
+                                    ).then(() => {
+                                        window.location.href = "/cancelOrder?id=" + id
+                                    });
+                                }
                             });
                         }
-                    });
-                }
-            </script>
+                    </script>
+                    <script>
+                        function returnOrder(id) {
+                            Swal.fire({
+                                title: 'Are you sure to return this order?',
+                                text: "You won't be able to revert this!",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Yes, cancel!'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    Swal.fire(
+                                        'cancelled!',
+                                        'Order has been cancelled.',
+                                        'success'
+                                    ).then(() => {
+                                        window.location.href = "/cancelOrder?id=" + id
+                                    });
+                                }
+                            });
+                        }
+                    </script>
     </body>
 
     </html>

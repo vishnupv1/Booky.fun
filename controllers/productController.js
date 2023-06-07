@@ -51,8 +51,6 @@ const pricefilter = async (req, res) => {
     try {
         const productD = await Product.find({})
         const price = req.query.price;
-        console.log(price);
-
         const maxPrice = parseInt(price);
         filteredProducts = productD.filter(product => product.price <= maxPrice);
 
@@ -187,7 +185,6 @@ const updateBook = async (req, res) => {
 const deletebook = async (req, res) => {
     try {
         const productData = await Product.findOne({ _id: req.query.id })
-        console.log(productData);
         if (productData) {
             await Product.deleteOne({ _id: req.query.id })
         }

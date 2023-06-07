@@ -44,6 +44,7 @@ const userController = require('../controllers/userController')
 const categoryController = require('../controllers/cateogryController')
 const orderController = require('../controllers/orderController')
 const productController = require('../controllers/productController')
+const couponController = require('../controllers/couponController')
 
 const { sign } = require('crypto')
 const { userInfo } = require('os')
@@ -63,6 +64,7 @@ admin_route.get('/userlist',adminauth.isLogin,userController.listUser)
 admin_route.get('/blockuser',adminauth.isLogin,userController.blockUser)
 admin_route.get('/unblockuser',adminauth.isLogin,userController.unblockUser)
 
+
 admin_route.get('/productlist',adminauth.isLogin,productController.listProdcut)
 admin_route.get('/addbook',adminauth.isLogin,productController.loadaddBook)
 admin_route.post('/addbook',upload.array('image'),productController.addBook)
@@ -76,12 +78,20 @@ admin_route.get('/viewOrder',orderController.viewOrder)
 admin_route.get('/cancelOrder',orderController.cancelOrder)
 admin_route.post('/updateOrderStatus',orderController.updateOrderStatus)
 
+
 admin_route.get('/category',adminauth.isLogin,categoryController.loadcategory)
 admin_route.get('/addcategory',adminauth.isLogin,categoryController.loadaddcategory)
 admin_route.post('/addcategory',categoryController.addcategory)
 admin_route.get('/deletecategory',adminauth.isLogin,categoryController.deletecategory)
 admin_route.get('/editcategory',adminauth.isLogin,categoryController.loadeditCategory)
 admin_route.post('/updatecategory',categoryController.updateCategory)
+
+admin_route.get('/couponManagement',adminauth.isLogin,couponController.loadedcouponManagement)
+admin_route.post('/addCoupon',adminauth.isLogin,couponController.addCoupon)
+admin_route.post('/editcoupon',adminauth.isLogin,couponController.editCoupon)
+admin_route.get('/deleteCoupon',adminauth.isLogin,couponController.deleteCoupon)
+
+
 
 module.exports = admin_route
 

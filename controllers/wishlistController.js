@@ -17,7 +17,6 @@ const addtowishlist = async (req, res) => {
         }
         const productIndex = wishlist?.products.findIndex((product) => product.product_id == prodId)
         const item = await Product.find({ _id: prodId })
-        console.log(item[0].price);
         if (productIndex == -1) {
             wishlist.products.push({ product_id: prodId, quantity: 1, price: item[0].price })
 
@@ -28,7 +27,7 @@ const addtowishlist = async (req, res) => {
         }
         await wishlist.save()
         setTimeout(() => {
-            res.redirect('/wishlist')
+            res.redirect('/home')
         }, 1000)
     } catch (error) {
         console.log(error.message)
@@ -44,7 +43,7 @@ const showWishlist = async (req, res) => {
         let session = req.session.loggedIn
         let wishlist = await Wishlist.findOne({ user_id: req.session.user_id }).populate("products.product_id").lean().exec()
         if (wishlist) {
-            cartData = wishlist.products
+            wishlistData = wishlist.products
             const products = wishlist.products.map(prod => {
                 const totalS = Number(prod.quantity) * Number(prod.product_id.price)
 
@@ -57,9 +56,9 @@ const showWishlist = async (req, res) => {
                     total: totalS,
                 })
             })
-            res.render('wishlist', { title: "User Wislist", cartData: products, username, session, message: '', total: "Total amount payable", cancel_message, error_message, success_message })
+            res.render('wishlist', { title: "User Wislist", wishlistData: products, username, session, message: '', total: "Total wishlist amount" })
         } else {
-            res.render('wishlist', { title: 'User Wishlist', message: "Wishlist is empty", cartData: '', total: '' })
+            res.render('wishlist', { title: 'User Wishlist', message: "Wishlist is empty", wishlistData: '', total: '' })
         }
     } catch (error) {
         console.log(error.message)
@@ -72,7 +71,7 @@ const deleteWishlist = async (req, res) => {
         const productId = req.params.id;
         let wishlist = await Wishlist.findOne({ user_id: userId })
         if (wishlist.products.length > 1) {
-            const deletedItem = await Cart.findOneAndUpdate(
+            const deletedItem = await Wishlist.findOneAndUpdate(
                 { user_id: userId },
                 { $pull: { products: { product_id: productId } } },
                 { new: true }

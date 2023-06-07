@@ -59,8 +59,9 @@
                 <input type="text" name="" id="pendValue" hidden value="<%=orderStatusCounts.Pending%>">
                 <input type="text" name="" id="procValue" hidden value="<%=orderStatusCounts.Processing%>">
                 <input type="text" name="" id="shipValue" hidden value="<%=orderStatusCounts.Shipped%>">
-                <input type="text" name="" id="delValue" hidden value="<%=orderStatusCounts.delivered%>">
+                <input type="text" name="" id="delValue" hidden value="<%=orderStatusCounts.Delivered%>">
                 <input type="text" name="" id="canValue" hidden value="<%=orderStatusCounts.Cancelled%>">
+                <input type="text" name="" id="retValue" hidden value="<%=orderStatusCounts.Returned%>">
 
                 <div class="card border-dark bg-light mb-3 mt-5 ml-5" style="max-width: 18rem;">
 
@@ -91,18 +92,20 @@
             var Sh = parseInt(document.getElementById("shipValue").value)
             var De = parseInt(document.getElementById("delValue").value)
             var Ca = parseInt(document.getElementById("canValue").value)
+            var Re = parseInt(document.getElementById("retValue").value)
+
 
             var ctx = document.getElementById("orderStatusChart").getContext("2d");
             var chart = new Chart(ctx, {
                 type: "bar",
                 data: {
-                    labels: ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"],
+                    labels: ["Pending", "Processing", "Shipped", "Delivered", "Cancelled","Returned"],
                     datasets: [
                         {
                             label: "Order Status",
-                            data: [Pe, Pr, Sh, De, Ca], // Replace with actual data for order statuses
-                            backgroundColor: ["orange","blue","grey","green","red"],
-                            borderColor: ["orange","blue","grey","green","red"],
+                            data: [Pe, Pr, Sh, De, Ca,Re], // Replace with actual data for order statuses
+                            backgroundColor: ["orange","blue","grey","green","red","cyan"],
+                            borderColor: ["orange","blue","grey","green","red","cyan"],
                             borderWidth: 0
                         }
                     ]

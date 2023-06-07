@@ -17,6 +17,7 @@
 
                 color: rgb(0, 255, 110) !important;
             }
+
             div.dataTables_wrapper div.dataTables_filter input {
                 padding: 10px !important;
                 border: 1px solid #ccc !important;
@@ -25,6 +26,7 @@
                 box-shadow: 0 2px 5px rgba(1, 0, 0, 0.1) !important;
                 width: 200px !important;
             }
+
             .dataTables_paginate {
                 display: flex;
                 justify-content: center;
@@ -95,35 +97,36 @@
                         </tr>
                     <tbody>
                         <% if (users.length> 0) {
-                            for(let i=0; i<users.length; i++) { %>
-                                <tr>
-                                    <th scope="row">
-                                        <%= i+1 %>
-                                    </th>
-                                    <td>
-                                        <%= users[i].username %>
-                                    </td>
-                                    <td>
-                                        <%= users[i].mail %>
-                                    </td>
-                                    <td>
+                            let k=1
+                            for (let i = users.length - 1; i >= 0; i--) { %>
+                            <tr>
+                                <th scope="row">
+                                    <%= i+1 %>
+                                </th>
+                                <td>
+                                    <%= users[i].username %>
+                                </td>
+                                <td>
+                                    <%= users[i].mail %>
+                                </td>
+                                <td>
 
-                                        <% if(users[i].is_verified==0) { %>
-                                            <p>No</p>
-                                            <% }else { %>
-                                                <p>Yes</p>
-                                                <% } %>
-                                    </td>
-                                    <td><img src="/userImages/<%= users[i].image %>" width="100px" height="100px"
-                                            alt="<%= users[i].image %>"></td>
-
-                                    <% if(users[i].is_blocked==0) { %>
-                                        <td><a href="/admin/blockuser?id=<%= users[i]._id %>"><button
-                                                    class="btn btn-danger block">Block</button></a></td>
+                                    <% if(users[i].is_verified==0) { %>
+                                        <p>No</p>
                                         <% }else { %>
-                                            <td><a href="/admin/unblockuser?id=<%= users[i]._id %>"><button
-                                                        class="btn btn-success ublock">Unblock</button></a></td>
+                                            <p>Yes</p>
                                             <% } %>
+                                </td>
+                                <td><img src="/userImages/<%= users[i].image %>" width="100px" height="100px"
+                                        alt="<%= users[i].image %>"></td>
+
+                                <% if(users[i].is_blocked==0) { %>
+                                    <td><a href="/admin/blockuser?id=<%= users[i]._id %>"><button
+                                                class="btn btn-danger block">Block</button></a></td>
+                                    <% }else { %>
+                                        <td><a href="/admin/unblockuser?id=<%= users[i]._id %>"><button
+                                                    class="btn btn-success ublock">Unblock</button></a></td>
+                                        <% } %>
 
 
 
@@ -132,12 +135,12 @@
 
 
 
+                            </tr>
+                            <% k++ } } else { %>
+                                <tr>
+                                    <td colspan="5">Users Not Found</td>
                                 </tr>
-                                <% } } else { %>
-                                    <tr>
-                                        <td colspan="5">Users Not Found</td>
-                                    </tr>
-                                    <% } %>
+                                <% } %>
                     </tbody>
                     </thead>
                 </table>

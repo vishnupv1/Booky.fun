@@ -19,9 +19,8 @@ const checkout = async (req, res) => {
         let home = userData.homeaddress
         let work = userData.workaddress
         let personal = userData.personaladdress
-        
+
         let cart = await Cart.findOne({ user_id: req.session.user_id }).populate("products.product_id").lean().exec()
-        console.log(cart);
         if (cart) {
             const total = cart.products.map(prod => {
                 return Number(prod.quantity) * Number(prod.product_id.price)
@@ -83,6 +82,19 @@ const myOrders = async (req, res) => {
     try {
         let id = req.query.id
         let orders = await Order.findOne({ _id: id }).populate('products.product_id');
+        let status = orders.status
+        if (status == 'Delivered') {
+            let delivery = orders.delivery_date
+            const dateOnly = new Date(delivery.getFullYear(), delivery.getMonth(), delivery.getDate());
+            const year = dateOnly.getFullYear();
+            const month = (dateOnly.getMonth() + 1).toString().padStart(2, '0');
+            const day = dateOnly.getDate().toString().padStart(2, '0');
+            var formattedDate = `${year}/${month}/${day}`;
+            let today = new Date()
+            const timeDiff = delivery.getTime() - today.getTime();
+            var daysDiff = Math.abs(Math.ceil(timeDiff / (1000 * 60 * 60 * 24)))
+        }
+
         if (orders) {
             let productDetails = orders.products.map(data => {
                 return ({
@@ -92,9 +104,9 @@ const myOrders = async (req, res) => {
                     date: data.date
                 })
             })
-            res.render('orders', { title: "Orders", productDetails, orderId: id });
+            res.render('orders', { title: "Orders", productDetails, orderId: id, status, daysDiff, formattedDate });
         } else {
-            res.render('orders', { title: "Orders", message: "No Orders", noOrders: true });
+            res.render('orders', { title: "Orders", message: "No Orders", noOrders: true, status: '',formattedDate :'' });
         }
     } catch (error) {
         console.log(error.message);
@@ -120,7 +132,6 @@ const Orderlist = async (req, res) => {
                     })
                 };
             });
-            console.log(orderDetails);
             res.render('orderlist', { title: "Orders", orders: orderDetails });
         } else {
             res.render('orderlist', { title: "Orders", orders: [] });
@@ -236,11 +247,17 @@ const paypalpost = async (req, res) => {
 const updateOrderStatus = async (req, res) => {
     try {
         const { orderId, newStatus } = req.body;
-        await Order.updateOne({ _id: orderId }, { $set: { status: newStatus } });
-        res.redirect('/admin/viewOrder')
-        // .then(() => {
-        //     res.status(200).json({ message: 'Order status updated successfully' });
-        // })
+
+        await Order.updateOne({ _id: orderId }, { $set: { status: newStatus, status_date: new Date() } });
+        if (newStatus === 'Delivered') {
+            await Order.updateOne({ _id: orderId }, { $set: { status: newStatus, delivery_date: new Date() } });
+        }
+        let order = await Order.findOne({ _id: orderId });
+        res.redirect(`/admin/viewOrder?id=${orderId}&status=${order.status}`)
+
+
+
+
     }
     catch (error) {
         console.error(error.message);
@@ -280,7 +297,6 @@ const viewOrder = async (req, res) => {
                 };
             });
         }
-        console.log(orderDetails);
         let orders = await Order.findOne({ _id: id }).populate('products.product_id');
         if (orders) {
             let productDetails = orders.products.map(data => {
@@ -298,7 +314,16 @@ const viewOrder = async (req, res) => {
         console.log(error.message);
     }
 }
+const returnOrder = async (req, res) => {
+    try {
+        let id = req.query.id
+        await Order.updateOne({ _id: id }, { $set: { status: "Return requested" } });
+        res.redirect('/orderlist')
 
+    } catch (error) {
+        console.log(error.message);
+    }
+};
 
 
 module.exports = {
@@ -314,6 +339,7 @@ module.exports = {
     paypalpost,
     updateOrderStatus,
     showorder,
-    viewOrder
+    viewOrder,
+    returnOrder
 
 }

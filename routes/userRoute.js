@@ -94,10 +94,14 @@ user_route.get('/success',orderController.success)
 user_route.get('/cancel',orderController.cancel)
 user_route.get('/paypal',orderController.loadpaypal)
 user_route.post('/paypalpost',orderController.paypalpost)
+user_route.get('/returnOrder',orderController.returnOrder)
 
 //cart related functions
 user_route.get('/checkout',auth.isLogin,cartController.showCart2)
 user_route.get('/addtocart',auth.isLogin,cartController.addtocart)
+user_route.get('/addtocartFromWishlist',auth.isLogin,cartController.addtocartFromWishlist)
+
+
 user_route.post('/cart/updatecart',cartController.updateCart)
 user_route.get('/showcart',auth.isLogin,cartController.showCart)
 user_route.get('/cart/delete/:id',auth.isLogin,cartController.deleteCart)

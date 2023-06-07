@@ -26,7 +26,15 @@
         .nav-link.active {
             text-decoration: underline yellow;
         }
+        .fa{
+            color: whitesmoke !important;
+        }
+        i{
+            margin-right: 2rem;
+        }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 
 <body>
@@ -61,13 +69,17 @@
                     <a class="nav-link category" href="/admin/category" style="color: white; padding-right: 1.5rem;"
                         name="category">Category</a>
                 </li>
-                <li class="nav-item category">
+                <li class="nav-item order">
                     <a class="nav-link orders" href="/admin/orders" style="color: white; padding-right: 1.5rem;"
                         name="orders">Orders</a>
                 </li>
-                <li class="nav-item category">
+                <li class="nav-item sales">
                     <a class="nav-link stock" href="/admin/stockManagement" style="color: white; padding-right: 1.5rem;"
                         name="orders">Sales Management</a>
+                </li>
+                <li class="nav-item coupon">
+                    <a class="nav-link coupon" href="/admin/couponManagement" style="color: white; padding-right: 1.5rem;"
+                        name="orders">Coupon Management</a>
                 </li>
 
             </ul>
@@ -75,12 +87,13 @@
             </form>
 
         </div>
-        <a href="/admin/adminprofile"><img src="/public/images/user_2.png" alt="cart"></a>
-        <a href="/admin/adminlogout"><img src="/public/images/check-out.png" alt="cart"></a>
+        <a href="/admin/notifications"><i class="fa fa-bell" aria-hidden="true"></i></a>
+        <a href="/admin/adminlogout"><i class="fa fa-location-arrow" aria-hidden="true"></i></a>
     </nav>
     <div>
 
     </div>
+
 </body>
 
 </html>

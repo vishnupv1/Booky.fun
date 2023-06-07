@@ -35,41 +35,42 @@
                             <th scope="col" style="width: 100px;">Delete</th>
                     <tbody>
                         <% if (products.length> 0) {
-                            for(let i=0; i<products.length; i++) { %>
-        
-                        <tr>
-                            <th scope="row">
-                                <%= i+1 %>
-                            </th>
-                            <td>
-                                <%= products[i].name %>
-                            </td>
-                            <td>
-                                <%= products[i].author %>
-                            </td>
-                            <td>
-                                <%= products[i].stock %>
-                            </td>
-                            <td>
-                                <%= products[i].price %>
-                            </td>
-                            <td><img src="/productImages/<%= products[i].image[0] %>" style="width: 80px; height: 90px;"
-                                    alt="<%= products[i].image[0] %>"></td>
+                            let k=1
+                            for (let i = products.length - 1; i >= 0; i--) { %>
+
+                            <tr>
+                                <th scope="row">
+                                    <%= k %>
+                                </th>
+                                <td>
+                                    <%= products[i].name %>
+                                </td>
+                                <td>
+                                    <%= products[i].author %>
+                                </td>
+                                <td>
+                                    <%= products[i].stock %>
+                                </td>
+                                <td>
+                                    <%= products[i].price %>
+                                </td>
+                                <td><img src="/productImages/<%= products[i].image[0] %>"
+                                        style="width: 80px; height: 90px;" alt="<%= products[i].image[0] %>"></td>
 
 
-                            <td><a href="/admin/editbook?id=<%= products[i]._id %>"><button
-                                        class="btn btn-info block">Edit</button></a></td>
-                            <td>
-                                <a><button class="btn btn-danger ublock"
-                                        onclick="deleteBook('<%= products[i]._id %>')">Delete</button></a>
-                            </td>
+                                <td><a href="/admin/editbook?id=<%= products[i]._id %>"><button
+                                            class="btn btn-info block">Edit</button></a></td>
+                                <td>
+                                    <a><button class="btn btn-danger ublock"
+                                            onclick="deleteBook('<%= products[i]._id %>')">Delete</button></a>
+                                </td>
 
-                        </tr>
-                        <% } } else { %>
-                            <div>
-                                <h3 style="color: red;">No book Found</h3>
-                            </div> 
-                            <% } %>
+                            </tr>
+                            <% k++} } else { %>
+                                <div>
+                                    <h3 style="color: red;">No book Found</h3>
+                                </div>
+                                <% } %>
 
                     </tbody>
                 </table>
@@ -105,7 +106,7 @@
                         'Book has been deleted.',
                         'success'
                     ).then(() => {
-                        window.location.href = '/admin/deletebook?id=' + bookId;
+                        window.location.href = '/deletewishlist/' + bookId;
                     });
                 }
             });

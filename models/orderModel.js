@@ -64,6 +64,12 @@ const orderSchema = new mongoose.Schema({
     date: {
         type: Date,
         default: Date.now
+    },
+    status_date: {
+        type: Date,
+    },
+    delivery_date: {
+        type: Date,
     }
 });
 

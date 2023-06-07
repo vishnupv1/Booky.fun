@@ -17,7 +17,6 @@ const addtocart = async (req, res) => {
         }
         const productIndex = userCart?.products.findIndex((product) => product.product_id == prodId)
         const item = await Product.find({ _id: prodId })
-        console.log(item[0].price);
         if (productIndex == -1) {
             userCart.products.push({ product_id: prodId, quantity: 1, price: item[0].price })
 
@@ -47,7 +46,6 @@ const addtowishlist = async (req, res) => {
         }
         const productIndex = wishlist?.products.findIndex((product) => product.product_id == prodId)
         const item = await Product.find({ _id: prodId })
-        console.log(item[0].price);
         if (productIndex == -1) {
             wishlist.products.push({ product_id: prodId, quantity: 1, price: item[0].price })
 
@@ -139,11 +137,42 @@ const showCart2 = async (req, res) => {
         console.log(error.message);
     }
 };
+
+const addtocartFromWishlist = async (req, res) => {
+    try {
+        let prodId = req.query.id
+        let userId = req.session.user_id
+        let quan = req.query.quantity
+        let userCart = await Cart.findOne({ user_id: userId })
+        if (!userCart) {
+            const newCart = new Cart({ user_id: userId, products: [] })
+            await newCart.save()
+            userCart = newCart
+        }
+        const productIndex = userCart?.products.findIndex((product) => product.product_id == prodId)
+        const item = await Product.find({ _id: prodId })
+        if (productIndex == -1) {
+            userCart.products.push({ product_id: prodId, quantity: quan, price: item[0].price })
+
+        } else {
+            userCart.products[productIndex].quantity += parseInt(quan)
+
+
+        }
+        await userCart.save()
+        setTimeout(() => {
+            res.redirect('/showwishlist')
+        }, 1000)
+    } catch (error) {
+        console.log(error.message)
+    }
+}
 module.exports = {
     addtocart,
     showCart,
     deleteCart,
     updateCart,
     showCart2,
-    addtowishlist
+    addtowishlist,
+    addtocartFromWishlist
 }
