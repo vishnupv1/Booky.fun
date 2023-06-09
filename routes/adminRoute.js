@@ -77,6 +77,8 @@ admin_route.get('/orders',orderController.showorder)
 admin_route.get('/viewOrder',orderController.viewOrder)
 admin_route.get('/cancelOrder',orderController.cancelOrder)
 admin_route.post('/updateOrderStatus',orderController.updateOrderStatus)
+admin_route.post('/reportExport',adminController.reportExport)
+
 
 
 admin_route.get('/category',adminauth.isLogin,categoryController.loadcategory)

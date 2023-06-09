@@ -126,7 +126,11 @@ const userSchema = mongoose.Schema({
                 type: Number,
             }
         }
-    ]
+    ],
+    wallet:{
+        type :Number,
+        default:0
+    }
 
 
 })

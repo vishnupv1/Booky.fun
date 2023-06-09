@@ -601,6 +601,16 @@ const imageUpdate = async (req, res) => {
         console.log(error.message);
     }
 }
+const wallet = async (req, res) => {
+    try {
+        const userD = await User.findById({ _id: req.session.user_id })
+        res.render('wallet', { user: userD })
+    }
+    catch (error) {
+        console.log(error.message);
+    }
+}
+
 
 
 module.exports = {
@@ -631,5 +641,6 @@ module.exports = {
     blockUser,
     unblockUser,
     loadImageUpdate,
-    imageUpdate
+    imageUpdate,
+    wallet
 }

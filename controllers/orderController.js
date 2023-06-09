@@ -3,6 +3,9 @@ const Order = require('../models/orderModel')
 const Cart = require('../models/cartModel')
 const paypal = require('paypal-rest-sdk')
 const express = require('express')
+const easyinvoice = require('easyinvoice')
+const fs = require('fs')
+const { stringify } = require('querystring')
 
 
 paypal.configure({
@@ -19,6 +22,7 @@ const checkout = async (req, res) => {
         let home = userData.homeaddress
         let work = userData.workaddress
         let personal = userData.personaladdress
+        let balance = encodeURIComponent(JSON.stringify(userData.wallet))
 
         let cart = await Cart.findOne({ user_id: req.session.user_id }).populate("products.product_id").lean().exec()
         if (cart) {
@@ -39,9 +43,9 @@ const checkout = async (req, res) => {
             let totalamount = total.reduce((a, b) => {
                 return a + b;
             });
-            res.render('checkout', { title: "User Cart", cartData: products, username, session, message: '', total: "Total amount payable", totalamount, userData, total, home: encodeURIComponent(JSON.stringify(home)), work: encodeURIComponent(JSON.stringify(work)), personal: encodeURIComponent(JSON.stringify(personal)) })
+            res.render('checkout', { title: "User Cart", cartData: products, username, session, message: '', total: "Total amount payable", totalamount, userData, total, home: encodeURIComponent(JSON.stringify(home)), work: encodeURIComponent(JSON.stringify(work)), personal: encodeURIComponent(JSON.stringify(personal)), balance })
         } else {
-            res.render('checkout', { title: 'User Cart', message: "Cart is empty", cartData: '', total: '', totalamount: '', total: '', home: encodeURIComponent(JSON.stringify(home)), work: encodeURIComponent(JSON.stringify(work)), personal: encodeURIComponent(JSON.stringify(personal)) })
+            res.render('checkout', { title: 'User Cart', message: "Cart is empty", cartData: '', total: '', totalamount: '', total: '', home: encodeURIComponent(JSON.stringify(home)), work: encodeURIComponent(JSON.stringify(work)), personal: encodeURIComponent(JSON.stringify(personal)), balance })
         }
     } catch (error) {
         console.log(error.message)
@@ -51,6 +55,11 @@ const placeorder = async (req, res) => {
     try {
         let userId = req.session.user_id
         let userDetails = await User.findOne({ _id: userId })
+        if (req.body.payment == 'wallet') {
+            let amount = userDetails.wallet
+            let walletUpdate = amount-parseFloat(req.body.total)
+            await User.updateOne({ _id: userId },{$set:{wallet:walletUpdate}})
+        }
         let CartDetails = await Cart.findOne({ user_id: userId }).populate('products.product_id')
         let orderData = new Order({
             user_id: userId,
@@ -58,7 +67,7 @@ const placeorder = async (req, res) => {
             email: userDetails.mail,
             mobile: req.body.mobile,
             products: CartDetails.products,
-            total: req.body.total,
+            total: parseFloat(req.body.total),
             state: req.body.state,
             city: req.body.city,
             street: req.body.street,
@@ -82,6 +91,25 @@ const myOrders = async (req, res) => {
     try {
         let id = req.query.id
         let orders = await Order.findOne({ _id: id }).populate('products.product_id');
+
+        if (orders) {
+            var orderDetails = {
+                id: orders._id,
+                total: orders.total,
+                status: orders.status,
+                name: orders.name,
+                mobile: orders.mobile,
+                state: orders.state,
+                city: orders.city,
+                street: orders.street,
+                landmark: orders.landmark,
+                address: orders.address,
+                city: orders.district,
+                zipcode: orders.zipcode,
+                payment_method: orders.payment_method
+            };
+        }
+
         let status = orders.status
         if (status == 'Delivered') {
             let delivery = orders.delivery_date
@@ -101,12 +129,15 @@ const myOrders = async (req, res) => {
                     image: data.product_id.image[0],
                     productname: data.product_id.name,
                     quantity: data.quantity,
-                    date: data.date
+                    date: data.date,
+                    price: data.price
                 })
             })
-            res.render('orders', { title: "Orders", productDetails, orderId: id, status, daysDiff, formattedDate });
+            let array = encodeURIComponent(JSON.stringify(productDetails))
+            let ordersD = encodeURIComponent(JSON.stringify(orderDetails))
+            res.render('orders', { title: "Orders", productDetails, orderId: id, status, daysDiff, formattedDate, array, ordersD });
         } else {
-            res.render('orders', { title: "Orders", message: "No Orders", noOrders: true, status: '',formattedDate :'' });
+            res.render('orders', { title: "Orders", message: "No Orders", noOrders: true, status: '', formattedDate: '', array: '', ordersD: '' });
         }
     } catch (error) {
         console.log(error.message);
@@ -142,8 +173,18 @@ const Orderlist = async (req, res) => {
 };
 const cancelOrder = async (req, res) => {
     try {
+        let user = req.session.user_id
+        let userDetails = await User.find({ _id: user })
+        let walletAmount = userDetails[0].wallet
         let id = req.query.id
+        let order = await Order.find({ _id: id })
         await Order.updateOne({ _id: id }, { $set: { status: "Cancelled" } });
+        if (order[0].payment_method === 'internet' || order[0].payment_method === 'wallet') {
+            var amount = order[0].total + walletAmount
+            await User.updateOne({ _id: user }, { $set: { wallet: amount } })
+
+        }
+
         res.redirect('/orderlist')
 
     } catch (error) {
@@ -214,7 +255,6 @@ const paypalpost = async (req, res) => {
     try {
         const formDataString = req.body.formData;
         let formData = JSON.parse(formDataString)
-        console.log(formData.uname);
         let userId = req.session.user_id
         let userDetails = await User.findOne({ _id: userId })
         let CartDetails = await Cart.findOne({ user_id: userId }).populate('products.product_id')
@@ -224,7 +264,7 @@ const paypalpost = async (req, res) => {
             email: userDetails.mail,
             mobile: formData.mobile,
             products: CartDetails.products,
-            total: parseInt(formData.total),
+            total: parseFloat(formData.total),
             state: formData.state,
             city: formData.city,
             street: formData.street,
@@ -246,17 +286,23 @@ const paypalpost = async (req, res) => {
 }
 const updateOrderStatus = async (req, res) => {
     try {
+
         const { orderId, newStatus } = req.body;
+        let orders = await Order.findOne({ _id: orderId })
+        var userID = orders.user_id
+        let user = await User.findOne({ _id: userID })
+        var wallet = user.wallet
 
         await Order.updateOne({ _id: orderId }, { $set: { status: newStatus, status_date: new Date() } });
         if (newStatus === 'Delivered') {
             await Order.updateOne({ _id: orderId }, { $set: { status: newStatus, delivery_date: new Date() } });
         }
+        if (newStatus === 'Returned') {
+            var amount = orders.total + wallet
+            await User.updateOne({ _id: userID }, { $set: { wallet: amount } })
+        }
         let order = await Order.findOne({ _id: orderId });
         res.redirect(`/admin/viewOrder?id=${orderId}&status=${order.status}`)
-
-
-
 
     }
     catch (error) {
@@ -324,8 +370,6 @@ const returnOrder = async (req, res) => {
         console.log(error.message);
     }
 };
-
-
 module.exports = {
     checkout,
     placeorder,
@@ -340,6 +384,7 @@ module.exports = {
     updateOrderStatus,
     showorder,
     viewOrder,
-    returnOrder
+    returnOrder,
+
 
 }

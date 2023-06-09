@@ -1,45 +1,49 @@
 <%- include('../admin/adminHeader')%>
-        <style>
-            .stock {
-                color: yellow !important;
-            }
+    <style>
+        .stock {
+            color: yellow !important;
+        }
 
-            #myChart {
-                height: 260px !important;
-                width: 520px !important;
-            }
-        </style>
-
+        #myChart {
+            height: 260px !important;
+            width: 520px !important;
+        }
+    </style>
+    <form action="/admin/reportExport" method="post">
         <div style="margin: 7rem;">
-            <canvas id="myChart"></canvas>
+            <button type="submit" class="btn btn-danger">Sales Report</button>
         </div>
+    </form>
+    <div style="margin: 7rem;">
+        <canvas id="myChart"></canvas>
+    </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script>
-            const ctx = document.getElementById('myChart');
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('myChart');
 
-            new Chart(ctx, {
-                type: 'line', // Use a line chart to display sales history
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                    datasets: [{
-                        label: 'Sales History',
-                        data: [100, 200, 150, 300, 250, 180],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+        new Chart(ctx, {
+            type: 'line', // Use a line chart to display sales history
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Sales History',
+                    data: [100, 200, 150, 300, 250, 180],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
                     }
                 }
-            });
-        </script>
-        </body>
+            }
+        });
+    </script>
+    </body>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.min.js"
-            integrity="sha512-mlz/Fs1VtBou2TrUkGzX4VoGvybkD9nkeXWJm3rle0DPHssYYx4j+8kIS15T78ttGfmOjH0lLaBXGcShaVkdkg=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.min.js"
+        integrity="sha512-mlz/Fs1VtBou2TrUkGzX4VoGvybkD9nkeXWJm3rle0DPHssYYx4j+8kIS15T78ttGfmOjH0lLaBXGcShaVkdkg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    </body>

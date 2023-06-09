@@ -37,6 +37,7 @@ const cartController = require('../controllers/cartController')
 const orderController = require('../controllers/orderController')
 const productController = require('../controllers/productController')
 const wishlistController = require('../controllers/wishlistController')
+const couponController = require('../controllers/couponController')
 const { sign } = require('crypto')
 const { userInfo } = require('os')
 
@@ -96,6 +97,9 @@ user_route.get('/paypal',orderController.loadpaypal)
 user_route.post('/paypalpost',orderController.paypalpost)
 user_route.get('/returnOrder',orderController.returnOrder)
 
+user_route.get('/wallet',userController.wallet)
+
+
 //cart related functions
 user_route.get('/checkout',auth.isLogin,cartController.showCart2)
 user_route.get('/addtocart',auth.isLogin,cartController.addtocart)
@@ -105,6 +109,11 @@ user_route.get('/addtocartFromWishlist',auth.isLogin,cartController.addtocartFro
 user_route.post('/cart/updatecart',cartController.updateCart)
 user_route.get('/showcart',auth.isLogin,cartController.showCart)
 user_route.get('/cart/delete/:id',auth.isLogin,cartController.deleteCart)
+
+user_route.get('/applycoupon',auth.isLogin,couponController.applycoupon)
+
+
+
 
 
 

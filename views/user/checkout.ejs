@@ -19,11 +19,14 @@
     <section class="checkout_area section_gap">
         <div class="container">
             <div class="cupon_area">
-                <div class="check_title">
-                    <h2>Have a coupon? <a href="#">Click here to enter your code</a></h2>
+                <div class="check_title col-md-12 form-group">
+                    <form onsubmit="addOffer(event)">
+                        <!-- form fields -->
+                        <input type="text" placeholder="Enter coupon code if you have" id="code">
+                        <button class="btn btn-info ml-5" type="submit">Apply Coupon</button>
+                    </form>
                 </div>
-                <input type="text" placeholder="Enter coupon code">
-                <a class="tp_btn" href="#">Apply Coupon</a>
+
             </div>
             <div class="billing_details">
                 <div class="row">
@@ -99,28 +102,41 @@
                                 <li><a href="#">Subtotal <span> ₹ <%= totalamount %>.00</span></a></li>
                                 <li><a href="#">Delivery <span>Flat rate: ₹ 50.00</span></a></li>
                                 <% let Gtotal=totalamount + 50; %>
-                                    <li><a href="#">Total <span>₹ <%= Gtotal %>.00</span></a></li>
-                                    <input name="total" value="<%= Gtotal %>" hidden>
+                                    <li><a href="#">Total (In Rupees)</a></li>
+
+                                    <div class="d-flex justify-content-end ml-5">
+                                        <input class="justify-content-end" name="total" value="<%= Gtotal %>" id="total"
+                                            style="border:none;text-align: end;" readonly>
+                                    </div>
                             </ul>
 
-                            <div class="payment_item active" style="font-size: larger;font-weight: bolder;">
+                            <div class="payment_item active mb-2" style="font-size: larger;font-weight: bolder;">
                                 <label for="" style="color: rgb(255, 0, 0);">Payment Options</label>
-                                <div class="form-check ">
+                                <div class="form-check mb-2 ">
                                     <input class="form-check-input" type="radio" name="payment" id="paymentType1"
                                         value="cash">
                                     <label class="form-check-label" for="paymentType1">
                                         Cash on delivery
                                     </label>
                                 </div>
-                                <div class="form-check ">
+                                <div class="form-check mb-2">
                                     <input class="form-check-input" type="radio" name="payment" id="paymentType2"
                                         value="internet">
                                     <label class="form-check-label" for="paymentType2">
                                         Internet Banking
                                     </label>
                                 </div>
+                                <div class="form-check ">
+                                    <input class="form-check-input" type="radio" name="payment" id="paymentType3"
+                                        value="wallet">
+                                    <label class="form-check-label" for="paymentType3">
+                                        Wallet
+                                    </label>
+                                </div>
                             </div>
-                            <button type="submit" class="primary-btn">Proceed to Pay</button>
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class="primary-btn" style="border: none;">Proceed to Pay</button>
+                            </div>
                         </div>
                         </form>
                     </div>
@@ -130,7 +146,7 @@
     </section>
     <!--================End Checkout Area =================-->
     <%- include('../user/footer')%>
-        
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
             integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
             crossorigin="anonymous"></script>
@@ -288,27 +304,81 @@
 
         </script>
         <script>
-            // Add an event listener to the form submission
-            document.getElementById('form2').addEventListener('submit', function (event) {
-                // Prevent the default form submission
-                event.preventDefault();
-                // Get the selected payment option
-                var paymentType = document.querySelector('input[name="payment"]:checked').value;
+            function addOffer(event) {
+                event.preventDefault(); // Prevent the default form submission or button click behavior
 
-                // Check the payment option and take appropriate action
+                var amount = document.getElementById('total').value;
+                var code = document.getElementById('code').value;
+
+                // Make an AJAX request to the /applycoupon endpoint
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/applycoupon?code=' + code + '&amount=' + amount, true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        // Parse the response as JSON
+                        var response = JSON.parse(xhr.responseText);
+
+                        // Access the newTotal value from the response
+                        var newTotal = response.newTotal;
+
+
+                        const input = document.getElementById('total');
+                        console.log(input.value)
+                        input.value = newTotal;
+                        console.log(input.value)
+
+                        input.dispatchEvent(new Event('input'));
+
+
+
+                    }
+
+                };
+                document.getElementById('code').value = ''
+
+                xhr.send();
+            }
+        </script>
+        <script>
+
+            var wallet = JSON.parse(decodeURIComponent('<%- decodeURIComponent(balance) %>'))
+            var total = parseFloat(document.getElementById('total').value);
+
+
+
+
+            document.getElementById('form2').addEventListener('submit', function (event) {
+                event.preventDefault();
+                var paymentType = document.querySelector('input[name="payment"]:checked').value;
                 if (paymentType === 'cash') {
-                    // Place the order directly
                     this.submit();
                 } else if (paymentType === 'internet') {
-                    // Redirect to PayPal page for payment
                     var formData = new FormData(this);
-                    // Store the form data in the session or localStorage
-
                     sessionStorage.setItem('formData', JSON.stringify(Object.fromEntries(formData)));
-                    window.location.href = '/paypal?price=<%= Gtotal %>'; // Replace with your PayPal payment URL
+                    window.location.href = `/paypal?price=${total}`;
+                } else if (paymentType === 'wallet') {
+                    console.log(wallet);
+                    if (wallet >= total) {
+                        this.submit()
+                    } else {
+                        walletAlert()
+                    }
                 }
             });
         </script>
+        <script>
+            function walletAlert() {
+                var wallet = JSON.parse(decodeURIComponent('<%- decodeURIComponent(balance) %>'))
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Sorry...',
+                    text: `You don't have enough wallet balance (Balance : ${wallet}) `,
+                })
+            }
+
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.3/dist/sweetalert2.all.min.js"></script>
 
         </body>
 

@@ -62,10 +62,33 @@ const editCoupon = async (req, res) => {
         console.log(error.message);
     }
 }
+const applycoupon = async (req, res) => {
+    try {
+
+        const couponCode = req.query.code;
+        const totalamount = req.query.amount;
+        const coupon = await Coupon.findOne({ code: couponCode })
+        if (!coupon) {
+            return res.status(404).json({ error: 'Coupon not found' });
+        }
+        const discountPercentage = parseInt(coupon.offer)
+        const discountAmount = totalamount * (discountPercentage / 100);
+
+        // Calculate the new total
+        const newTotal = totalamount - discountAmount;
+        console.log(newTotal);
+        return res.json({ newTotal });
+    }
+    catch (error) {
+        console.log(error.message);
+    }
+}
+
 module.exports = {
     loadedcouponManagement,
     addCoupon,
     editCoupon,
-    deleteCoupon
+    deleteCoupon,
+    applycoupon
 }
 

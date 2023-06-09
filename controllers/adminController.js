@@ -7,6 +7,9 @@ const bcrypt = require('bcrypt')
 const randomstring = require('randomstring')
 const config = require('../config/config')
 const nodemailer = require('nodemailer')
+const PDFDocument = require('pdfkit');
+const XLSX = require('xlsx');
+const fs = require('fs');
 
 const securePassword = async (passwrod) => {
     try {
@@ -187,7 +190,62 @@ const dashBoard = async (req, res) => {
         console.log(error.message);
     }
 }
+const reportExport = async (req, res) => {
 
+
+    const sales = [
+        { product: 'Product A', quantity: 10, price: 100 },
+        { product: 'Product B', quantity: 5, price: 50 },
+        // ... more sales data
+    ];
+
+    // Generate PDF Report
+    const generatePDFReport = () => {
+        const doc = new PDFDocument();
+        doc.pipe(fs.createWriteStream('sales_report.pdf'));
+
+        doc.fontSize(16).text('Sales Report', { align: 'center' });
+        doc.moveDown();
+
+        doc.font('Helvetica-Bold').fontSize(12);
+        doc.text('Product', { continued: true });
+        doc.text('Quantity', { continued: true });
+        doc.text('Price', { continued: true });
+        doc.text('Total', { align: 'right' });
+
+        doc.font('Helvetica').fontSize(12);
+        sales.forEach((sale) => {
+            doc.text(sale.product, { continued: true });
+            doc.text(sale.quantity.toString(), { continued: true });
+            doc.text(sale.price.toString(), { continued: true });
+            doc.text((sale.quantity * sale.price).toString(), { align: 'right' });
+        });
+
+        doc.end();
+    };
+
+    // Generate Excel Report
+    const generateExcelReport = () => {
+        const excelData = sales.map((sale) => ({
+            Product: sale.product,
+            Quantity: sale.quantity,
+            Price: sale.price,
+            Total: sale.quantity * sale.price,
+        }));
+
+        const worksheet = XLSX.utils.json_to_sheet(excelData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Sales');
+
+        XLSX.writeFile(workbook, 'sales_report.xlsx');
+    };
+
+    // Generate PDF and Excel Reports
+    generatePDFReport();
+    generateExcelReport();
+
+    res.redirect('/admin/stockManagement')
+}
 
 
 module.exports = {
@@ -200,4 +258,5 @@ module.exports = {
     loadForgotPassword,
     loadLogout,
     dashBoard,
+    reportExport
 }

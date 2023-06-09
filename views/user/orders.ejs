@@ -26,15 +26,21 @@
     <head>
         <title>My Orders</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
     </head>
 
     <body>
 
         <% if(status==='Delivered' ) { %>
-            <div style="margin-left: 9rem ;margin-top: 3rem;;">
+            <div style="margin-left: 12rem ;margin-top: 3rem;margin-bottom : 3rem;">
                 <p>
-                    Book delivered on : <%= formattedDate %>
+                    Book delivered
                 </p>
+                <p id="date">
+                    <%= formattedDate %>
+                </p>
+                <button class="btn btn-info" onclick="invoiceGenerate()">invoice</button>
             </div>
             <%}%>
                 <section>
@@ -48,10 +54,9 @@
                                         <%= %>
                                     </h3>
                                 </div>
-
                                 <% if (productDetails.length> 0) {
                                     for (let i = 0; i < productDetails.length; i++) { %>
-                                        <div class="card-body p-4">
+                                        <div class="card-body p-4" style="border : 1px solid black">
                                             <div class="row d-flex align-items-center">
                                                 <div class="col-md-2 col-lg-2 col-xl-2">
                                                     <img style="width:auto;height:auto"
@@ -90,10 +95,10 @@
                         </div>
                 </section>
 
-                <div style="margin-bottom: 2rem; " class=" d-flex justify-content-center">
+                <div style="margin-bottom: 2rem;margin-top: 2rem; " class=" d-flex justify-content-center">
                     <% if(status==='Delivered' && daysDiff<7 && status!=='Return requested' && status!=='Returned' ){ %>
                         <a href="/returnOrder?id=<%= orderId %>"><button onclick="returnOrder()"
-                                class="btn btn-info block " style="height: 34px !important;">Return
+                                class="btn btn-dark block " style="height: 34px !important;">Return
                                 Item/s</button></a>
                         <% } %>
                 </div>
@@ -158,6 +163,85 @@
                             });
                         }
                     </script>
+                    <script>
+
+                        function invoiceGenerate() {
+
+                            var invoiceDate = document.getElementById('date').innerText
+                            var products = JSON.parse(decodeURIComponent('<%- decodeURIComponent(array) %>'))
+                            var orders = JSON.parse(decodeURIComponent('<%- decodeURIComponent(ordersD) %>'))
+                            let invoiceProducts = [];
+                            for (let i = 0; i < products.length; ++i) {
+                                invoiceProducts.push({
+                                    quantity: products[i].quantity,
+                                    description: products[i].productname,
+                                    "tax-rate": 0.00,
+                                    price: products[i].price,
+                                })
+                            }
+                            var data = {
+                                // Customize enables you to provide your own templates
+                                // Please review the documentation for instructions and examples
+                                "customize": {
+                                    //  "template": fs.readFileSync('template.html', 'base64') // Must be base64 encoded html 
+                                },
+                                "images": {
+                                    // The logo on top of your invoice
+                                    "logo": "https://public.easyinvoice.cloud/img/logo_en_original.png",
+                                    // The invoice background
+                                    "background": "https://public.easyinvoice.cloud/img/watermark-draft.jpg"
+                                },
+                                // Your own data
+                                "sender": {
+                                    "company": "Booky.com",
+                                    "address": "Wayanad",
+                                    "zip": "670721",
+                                    "city": "Kalpetta",
+                                    "country": "India"
+
+                                },
+                                // Your recipient
+                                "client": {
+                                    "company": orders.name,
+                                    "address": orders.address,
+                                    "zip": orders.zipcode,
+                                    "city": orders.city,
+                                    "country": orders.state
+
+                                },
+                                "information": {
+                                    // Invoice number
+                                    "number": orders.id,
+                                    // Invoice data
+                                    "date": invoiceDate,
+                                    // "due-date": ""
+
+                                },
+
+                                "products": invoiceProducts,
+                                // The message you would like to display on the bottom of your invoice
+                                "bottom-notice": "Thanks for purchasing from us..",
+                                // Settings to customize your invoice
+                                "settings": {
+                                    "currency": "INR",
+                                },
+                                // Translate your invoice to your preferred language
+                                "translate": {
+                                },
+                            };
+
+                            //Create your invoice! Easy!
+                            easyinvoice.createInvoice(data, function (result) {
+                                //The response will contain a base64 encoded PDF file
+                                console.log('PDF base64 string: ', result.pdf);
+                                easyinvoice.download('invoice.pdf')
+                            });
+                        }
+
+                    </script>
+                    <script src="https://cdn.jsdelivr.net/npm/easyinvoice/dist/easyinvoice.min.js"></script>
+                    <script src="https://unpkg.com/easyinvoice/dist/easyinvoice.min.js"></script>
+
     </body>
 
     </html>
