@@ -2,6 +2,7 @@ const express = require('express')
 const User = require('../models/userModel')
 const Product = require('../models/productModel')
 const Category = require('../models/categoryModel')
+const Banner = require('../models/bannerModel')
 const bcrypt = require('bcrypt')
 const randomstring = require('randomstring')
 const config = require('../config/config')
@@ -71,6 +72,7 @@ const loadLogin = async (req, res) => {
 //loading home page
 const loadHome = async (req, res) => {
     try {
+        const banner = await Banner.find({})
         const category = await Category.find({});
         const totalProducts = await Product.countDocuments({});
         const perPage = 8; // Number of products per page
@@ -89,12 +91,12 @@ const loadHome = async (req, res) => {
         if (minPrice && maxPrice) {
             filter.price = { $gte: minPrice, $lte: maxPrice };
         }
+        
 
         // Query products with applied filters
         const products = await Product.find(filter)
             .skip((currentPage - 1) * perPage)
             .limit(perPage);
-
         const userD = await User.findById({ _id: req.session.user_id });
         res.render('start', {
             user: userD,
@@ -104,7 +106,8 @@ const loadHome = async (req, res) => {
             totalPages: Math.ceil(totalProducts / perPage),
             selectedCategory: selectedCategory,
             minPrice: minPrice,
-            maxPrice: maxPrice
+            maxPrice: maxPrice,
+            banner : banner
         });
     } catch (error) {
         console.log(error.message);
@@ -592,8 +595,8 @@ const loadImageUpdate = async (req, res) => {
 const imageUpdate = async (req, res) => {
     try {
         const userD = await User.findById({ _id: req.session.user_id })
-        
-        await User.updateOne({_id:req.session.user_id},{$set:{image: req.file.filename}})
+
+        await User.updateOne({ _id: req.session.user_id }, { $set: { image: req.file.filename } })
         res.redirect('/profile')
 
     }
