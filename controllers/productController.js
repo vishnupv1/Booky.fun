@@ -63,7 +63,7 @@ const pricefilter = async (req, res) => {
 //list products in admin side
 const listProdcut = async (req, res) => {
     try {
-        const productData = await Product.find({ listable: 1 })
+        const productData = await Product.find({})
         res.render('productlist', { products: productData })
     }
     catch (error) {
@@ -103,10 +103,8 @@ const addBook = async (req, res) => {
                 image: arrayimage,
             })
             await prodcut.save()
-
-            setTimeout(() => {
                 res.redirect('/admin/productlist');
-            }, 3000)
+
         }
     }
     catch (error) {
@@ -140,6 +138,7 @@ const updateBook = async (req, res) => {
         for (let i = 0; i < req.files.length; i++) {
             arrayimage[i] = req.files[i].filename
         }
+        console.log(arrayimage);
         const productData = await Product.findOne({ _id: req.body.id })
         const img = productData.image
         if (req.files.length > 0) {
@@ -186,7 +185,19 @@ const deletebook = async (req, res) => {
     try {
         const productData = await Product.findOne({ _id: req.query.id })
         if (productData) {
-            await Product.deleteOne({ _id: req.query.id })
+            await Product.updateOne({ _id: req.query.id },{$set:{listable:0}})
+        }
+        res.redirect('/admin/productlist')
+    }
+    catch (error) {
+        console.log(error.message);
+    }
+}
+const undodelete = async (req, res) => {
+    try {
+        const productData = await Product.findOne({ _id: req.query.id })
+        if (productData) {
+            await Product.updateOne({ _id: req.query.id },{$set:{listable:1}})
         }
         res.redirect('/admin/productlist')
     }
@@ -218,5 +229,6 @@ module.exports = {
     loaddeleteBook,
     updateBook,
     deletebook,
-    stockManagement
+    stockManagement,
+    undodelete
 }

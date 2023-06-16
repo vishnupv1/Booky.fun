@@ -1,310 +1,531 @@
+</html>
+
 <!DOCTYPE html>
-<html>
+<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default"
+    data-assets-path="/public/sneat/assets/" data-template="vertical-menu-template-free">
 
 <head>
-    <title>Add Book</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="/public/css/addbook.css">
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>Books</title>
+    <meta name="description" content="" />
+    <link rel="icon" type="image/x-icon" href="images/leaf_1.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="/public/sneat/assets/vendor/fonts/boxicons.css" />
+    <link rel="stylesheet" href="/public/sneat/assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="/public/sneat/assets/vendor/css/theme-default.css"
+        class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="/public/sneat/assets/css/demo.css" />
+    <link rel="stylesheet" href="/public/sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="/public/sneat/assets/vendor/libs/apex-charts/apex-charts.css" />
+    <script src="/public/sneat/assets/vendor/js/helpers.js"></script>
+    <script src="/public/sneat/assets/js/config.js"></script>
+    <style>
+        .chart-container {
+            position: relative;
+        }
+
+        .chart-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            border: none;
+        }
+    </style>
 </head>
 
 <body>
-    <%- include('../admin/adminHeader')%>
-        <div class="container">
-            <div class="m-5">
-                <div class="row">
-                    <a href="/admin/productlist" style="color: white ; margin-top: 1rem;">Back</a>
-                    <div class="col-md-6 offset-md-3">
-                        <form class="signup-form" action="/admin/addbook" method="post" enctype="multipart/form-data">
-                            <h2>Add Book</h2>
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+                <div class="app-brand demo">
+                    <a href="/admin/adminhome" class="app-brand-link">
+                        <span class="app-brand-logo demo">
+                            <img src="/public/images/leaf_1.png" alt="" style="height:6vh">
+                        </span>
+                        <span class="app-brand-text demo menu-text fw-bolder ms-2">Booky.com</span>
+                    </a>
+                    <a href="javascript:void(0);"
+                        class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+                        <i class="bx bx-chevron-left bx-sm align-middle"></i>
+                    </a>
+                </div>
+                <div class="menu-inner-shadow"></div>
+                <ul class="menu-inner py-1">
+                    <li class="menu-item ">
+                        <a href="/admin/adminhome" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                            <div data-i18n="Analytics">Dashboard</div>
+                        </a>
+                    </li>
+                    <li class="menu-header small text-uppercase">
+                        <span class="menu-header-text">Pages</span>
+                    </li>
+                    <li class="menu-item ">
+                        <a href="/admin/userlist" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-user-circle"></i>
+                            <div data-i18n="Analytics">Users</div>
+                        </a>
+                    </li>
+                    <li class="menu-item active ">
+                        <a href="/admin/productlist" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-book"></i>
+                            <div data-i18n="Analytics">Books</div>
+                        </a>
+                    </li>
+                    <li class="menu-item  ">
+                        <a href="/admin/orders" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-package"></i>
+                            <div data-i18n="Analytics">Orders</div>
+                        </a>
+                    </li>
+                    <li class="menu-item  ">
+                        <a href="/admin/category" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-category"></i>
+                            <div data-i18n="Analytics">Category</div>
+                        </a>
+                    </li>
+                    <li class="menu-item  ">
+                        <a href="/admin/stockmanagement" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-bar-chart-alt-2"></i>
+                            <div data-i18n="Analytics">Stock Management</div>
+                        </a>
+                    </li>
+                    <li class="menu-item  ">
+                        <a href="/admin/stockmanagement" class="menu-link">
+                            <i class="menu-icon tf-icons bx bxs-coupon"></i>
+                            <div data-i18n="Analytics">Coupons</div>
+                        </a>
+                    </li>
+                    <li class="menu-item  ">
+                        <a href="/admin/stockmanagement" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-carousel"></i>
+                            <div data-i18n="Analytics">Banners</div>
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+            <div class="layout-page">
+                <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+                    id="layout-navbar">
+                    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+                        <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                            <i class="bx bx-menu bx-sm"></i>
+                        </a>
+                    </div>
+                    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                        <div class="navbar-nav align-items-center">
+                            <div class="nav-item d-flex align-items-center">
+                                <i class="bx bx-search fs-4 lh-0"></i>
+                                <input type="text" class="form-control border-0 shadow-none" placeholder="Search..."
+                                    aria-label="Search..." />
+                            </div>
+                        </div>
+                        <ul class="navbar-nav flex-row align-items-center ms-auto">
+                            <li class="nav-item lh-1 me-3">
+                                <a class="github-button"
+                                    href="https://github.com/themeselection/sneat-html-admin-template-free"
+                                    data-icon="octicon-star" data-size="large" data-show-count="true"
+                                    aria-label="Star themeselection/sneat-html-admin-template-free on GitHub">Star</a>
+                            </li>
+                            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
+                                    data-bs-toggle="dropdown">
+                                    <div class="avatar avatar-online">
+                                        <img src="/public/sneat/assets/img/avatars/1.png" alt
+                                            class="w-px-40 h-auto rounded-circle" />
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0 me-3">
+                                                    <div class="avatar avatar-online">
+                                                        <img src="/public/sneat/assets/img/avatars/1.png" alt
+                                                            class="w-px-40 h-auto rounded-circle" />
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <span class="fw-semibold d-block">John Doe</span>
+                                                    <small class="text-muted">Admin</small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="dropdown-divider"></div>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="/admin/adminlogout">
+                                            <i class="bx bx-power-off me-2"></i>
+                                            <span class="align-middle">Log Out</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="content-wrapper">
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <div class="row">
+                            <!-- Basic Layout -->
+                            <div class="col-xxl">
+                                <div class="card mb-4">
+                                    <div class="card-header d-flex align-items-center justify-content-between">
+                                        <h5 class="mb-0">Add Books</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <form action="/admin/addbook" method="post" enctype="multipart/form-data">
+                                            <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label" for="basic-default-name">Name of
+                                                    Book</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="name" name="name" />
+                                                    <a id="name-error" style="color: red; font-size: small;"></a>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label" for="basic-default-name">Name of
+                                                    Author</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="aname" name="author" />
+                                                    <a id="author-error" style="color: red; font-size: small;"></a>
+                                                </div>
+                                            </div>
 
-                            <div class="form-group">
-                                <label for="name">Name of Book</label>
-                                <input type="text" class="form-control" id="name" name="name" >
-                                <a id="name-error" style="color: red; font-size: small;"></a>
-                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label"
+                                                    for="basic-default-name">Pages</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="page" name="pages" />
+                                                    <a id="page-error" style="color: red; font-size: small;"></a>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label"
+                                                    for="basic-default-name">Category</label>
+                                                <div class="col-sm-10">
+                                                    <select class="form-control" id="category" name="category">
+                                                        <option>
+                                                            Select Category
+                                                        </option>
+                                                        <% if (category.length> 0) {
+                                                            for(let i=0; i<category.length; i++) { %>
+                                                                <option>
+                                                                    <%= category[i].name %>
+                                                                </option>
+                                                                <% } } %>
+                                                    </select>
+                                                    <a id="cat-error" style="color: red; font-size: small;"></a>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label"
+                                                    for="basic-default-name">Language</label>
+                                                <div class="col-sm-10">
+                                                    <select class="form-control" id="lang" name="language">
+                                                        <option>
+                                                            Malayalam
+                                                        </option>
+                                                        <option>
+                                                            English
+                                                        </option>
+                                                    </select>
+                                                    <a id="lang-error" style="color: red; font-size: small;"></a>
+                                                </div>
+                                            </div>
 
-                            <div class="form-group">
-                                <label for="aname">Author</label>
-                                <input type="text" class="form-control" id="aname" name="author" >
-                                <a id="author-error" style="color: red; font-size: small;"></a>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="page">Pages</label>
-                                <input type="text" class="form-control" id="page" name="pages" >
-                                <a id="page-error" style="color: red; font-size: small;"></a>
-                            </div>
-                            <div class="form-group">
-                                <label for="category">Category</label>
-                                <select class="form-control" id="category" name="category">
-                                    <% if (category.length> 0) {
-                                        for(let i=0; i<category.length; i++) { %>
-                                            <option>
-                                                <%= category[i].name %>
-                                            </option>
-                                            <% } } %>
-                                </select>
-                                <a id="cat-error" style="color: red; font-size: small;"></a>
-                            </div>
-                            <div class="form-group">
-                                <label for="lang">Language</label>
-                                <select class="form-control" id="lang" name="language">
-                                    <option>
-                                        Malayalam
-                                    </option>
-                                    <option>
-                                        English
-                                    </option>
-
-                                </select>
-                                <a id="lang-error" style="color: red; font-size: small;"></a>
-                            </div>
-                            <div class="form-group">
-                                <label for="desc">Description</label>
-                                <input type="text" class="form-control" id="desc" name="description" >
-                                <a id="desc-error" style="color: red; font-size: small;"></a>
-                            </div>
-                            <div class="form-group">
-                                <label for="pr">Price</label>
-                                <input type="text" class="form-control" id="price" name="price" >
-                                <a id="price-error" style="color: red; font-size: small;"></a>
-                            </div>
-                            <div class="form-group">
-                                <label for="stk">Stock</label>
-                                <input type="text" class="form-control" id="stock" name="stock" >
-                                <a id="stock-error" style="color: red; font-size: small;"></a>
-                            </div>
-                            <div class="form-group">
-                                <label for="cover">Cover page</label>
-                                <input type="file" class="form-control-file custom-file-input" id="cover" name="image"
-                                    onchange="previewImage(event)" multiple>
-                                <a id="cover-error" style="color: red; font-size: small;"></a>
-                                <div>
-                                    <img id="image-preview" class="image-preview"
-                                        style="width:75px;height:75px ;border:none; ">
+                                            <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label"
+                                                    for="basic-default-name">Description</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="desc"
+                                                        name="description" />
+                                                    <a id="desc-error" style="color: red; font-size: small;"></a>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label"
+                                                    for="basic-default-name">Price</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="price" name="price" />
+                                                    <a id="price-error" style="color: red; font-size: small;"></a>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label"
+                                                    for="basic-default-name">Stock</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="stock" name="stock" />
+                                                    <a id="stock-error" style="color: red; font-size: small;"></a>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label"
+                                                    for="basic-default-name">Images</label>
+                                                <div class="col-sm-10">
+                                                    <input type="file" class="form-control-file custom-file-input"
+                                                        id="cover" name="image" onchange="previewImage(event)" multiple>
+                                                    <a id="cover-error" style="color: red; font-size: small;"></a>
+                                                    <div>
+                                                        <img id="image-preview" class="image-preview"
+                                                            style="width:75px;height:75px ;border:none; ">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-end">
+                                                <div class="col-sm-10">
+                                                    <button type="submit" class="btn btn-primary">Add</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
-
-                                <button type="submit" class="btn btn-block" id="addbook">Add
-                                    Book</button>
-                                <% if(typeof message !=='undefined' ) {%>
-                                    <p style="color: rgb(255, 0, 0); font-weight: bold;">
-                                        <%=message%>
-                                    </p>
-                                    <%} %>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script>
-            function previewImage(event) {
-                var reader = new FileReader();
-                reader.onload = function () {
-                    var imagePreview = document.getElementById('image-preview');
-                    imagePreview.src = reader.result;
-                }
-                for(let i=0;i<target.files.length;i++){
-                    
-                }
-                reader.readAsDataURL(event.target.files[0]);
+    </div>
+    </div>
+    </div>
+
+    <!--/ Transactions -->
+    </div>
+    </div>
+    <!-- / Content -->
+
+    <!-- Footer -->
+    <footer class="content-footer footer bg-footer-theme">
+        <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+            <div class="mb-2 mb-md-0">
+                ©
+                <script>
+                    document.write(new Date().getFullYear());
+                </script>
+            </div>
+        </div>
+    </footer>
+    <div class="content-backdrop fade"></div>
+    </div>
+    </div>
+    </div>
+    <div class="layout-overlay layout-menu-toggle"></div>
+    </div>
+    <script src="/public/sneat/assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="/public/sneat/assets/vendor/libs/popper/popper.js"></script>
+    <script src="/public/sneat/assets/vendor/js/bootstrap.js"></script>
+    <script src="/public/sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <script src="/public/sneat/assets/vendor/js/menu.js"></script>
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+    <script src="/public/sneat/assets/vendor/libs/apex-charts/apexcharts.js"></script>
+
+    <!-- Main JS -->
+    <script src="/public/sneat/assets/js/main.js"></script>
+
+    <!-- Page JS -->
+    <script src="/public/sneat/assets/js/dashboards-analytics.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script>
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var imagePreview = document.getElementById('image-preview');
+                imagePreview.src = reader.result;
             }
-        </script>
-        <script>
-            const bname = document.getElementById('name')
-            const aname = document.getElementById('aname')
-            const page = document.getElementById('page')
-            const category = document.getElementById('category')
-            const lang = document.getElementById('lang')
-            const desc = document.getElementById('desc')
-            const price = document.getElementById('price')
-            const stock = document.getElementById('stock')
-            const cover = document.getElementById('cover')
-         
-            const covererror = document.getElementById('cover-error')
-            const nameerror = document.getElementById('name-error')
-            const anameerror = document.getElementById('author-error')
-            const pageerror = document.getElementById('page-error')
-            const caterror = document.getElementById('cat-error')
-            const langerror = document.getElementById('lang-error')
-            const descerror = document.getElementById('desc-error')
-            const priceerror = document.getElementById('price-error')
-            const stockerror = document.getElementById('stock-error')
+            for (let i = 0; i < target.files.length; i++) {
 
-
-            // Function to validate first name
-            function validateName() {
-                let name_message = []
-
-                if (bname.value === '' || bname.value === null) {
-                    name_message.push('Book name is Mandatory!')
-                }
-                if (name_message.length > 0) {
-                    nameerror.innerText = name_message.join(',')
-                } else {
-                    nameerror.innerText = ''
-                }
             }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+    <script>
+        const bname = document.getElementById('name')
+        const aname = document.getElementById('aname')
+        const page = document.getElementById('page')
+        const category = document.getElementById('category')
+        const lang = document.getElementById('lang')
+        const desc = document.getElementById('desc')
+        const price = document.getElementById('price')
+        const stock = document.getElementById('stock')
+        const cover = document.getElementById('cover')
 
-            // Function to validate username
-            function validateAuthorname() {
-                let aname_message = []
-                if (aname.value === '' || aname.value === null || aname.value.length < 3) {
-                    aname_message.push('Minimum length of author name required is 3')
-                }
-                if (aname_message.length > 0) {
-                    anameerror.innerText = aname_message.join(',')
-                } else {
-                    anameerror.innerText = ''
-                }
+        const covererror = document.getElementById('cover-error')
+        const nameerror = document.getElementById('name-error')
+        const anameerror = document.getElementById('author-error')
+        const pageerror = document.getElementById('page-error')
+        const caterror = document.getElementById('cat-error')
+        const langerror = document.getElementById('lang-error')
+        const descerror = document.getElementById('desc-error')
+        const priceerror = document.getElementById('price-error')
+        const stockerror = document.getElementById('stock-error')
+
+
+        // Function to validate first name
+        function validateName() {
+            let name_message = []
+
+            if (bname.value === '' || bname.value === null) {
+                name_message.push('Book name is Mandatory!')
             }
-
-            function validatePage() {
-                let page_message = []
-                let pageVal = page.value
-                if (page.value === '' || page.value === null) {
-                    page_message.push('Page number is mandatory')
-                } else if (isNaN(pageVal)) {
-                    page_message.push('Page number should be a number')
-                }
-                if (page_message.length > 0) {
-                    pageerror.innerText = page_message.join(',')
-                } else {
-                    pageerror.innerText = ''
-                }
+            if (name_message.length > 0) {
+                nameerror.innerText = name_message.join(',')
+            } else {
+                nameerror.innerText = ''
             }
+        }
 
-            function validateDesc() {
-                let desc_message = []
-                if (desc.value === '' || desc.value === null) {
-                    desc_message.push('Description is mandatory')
-                } else if (desc.value.length < 10) {
-                    desc_message.push('Description should be minimum 10 words')
-                }
-                if (desc_message.length > 0) {
-                    descerror.innerText = desc_message.join(',')
-                } else {
-                    descerror.innerText = ''
-                }
+        // Function to validate username
+        function validateAuthorname() {
+            let aname_message = []
+            if (aname.value === '' || aname.value === null || aname.value.length < 3) {
+                aname_message.push('Minimum length of author name required is 3')
             }
-
-            function validatePrice() {
-                let price_message = []
-                if (price.value === '' || price.value === null) {
-                    price_message.push('Price is mandatory')
-                } else if (isNaN(price.value)) {
-                    price_message.push('Price should be a number')
-                }
-                if (price_message.length > 0) {
-                    priceerror.innerText = price_message.join(',')
-                } else {
-                    priceerror.innerText = ''
-                }
+            if (aname_message.length > 0) {
+                anameerror.innerText = aname_message.join(',')
+            } else {
+                anameerror.innerText = ''
             }
+        }
 
-            function validateStock() {
-                let stock_message = []
-                if (stock.value === '' || stock.value === null) {
-                    stock_message.push('Stock is mandatory')
-                } else if (isNaN(stock.value)) {
-                    stock_message.push('Stock should be a number')
-                }
-                if (stock_message.length > 0) {
-                    stockerror.innerText = stock_message.join(',')
-                } else {
-                    stockerror.innerText = ''
-                }
+        function validatePage() {
+            let page_message = []
+            let pageVal = page.value
+            if (page.value === '' || page.value === null) {
+                page_message.push('Page number is mandatory')
+            } else if (isNaN(pageVal)) {
+                page_message.push('Page number should be a number')
             }
-
-            function validateCover() {
-                const allowedExtensions = ['jpg', 'jpeg', 'png'];
-                const file_message = [];
-
-                if (cover.value === '' || cover.value === null) {
-                    file_message.push('Image is required');
-                } else {
-                    const fileName = cover.value;
-                    const fileExtension = fileName.split('.').pop().toLowerCase();
-
-                    if (!allowedExtensions.includes(fileExtension)) {
-                        file_message.push('Invalid file type. Only JPG and JPEG and PNG files are allowed');
-                    }
-                }
-
-                if (file_message.length > 0) {
-                    covererror.innerText = file_message.join(', ');
-                } else {
-                    covererror.innerText = '';
-                }
+            if (page_message.length > 0) {
+                pageerror.innerText = page_message.join(',')
+            } else {
+                pageerror.innerText = ''
             }
-            // Add keyup event listeners to the form fields
-            bname.addEventListener('keyup', validateName);
-            aname.addEventListener('keyup', validateAuthorname);
-            page.addEventListener('keyup', validatePage);
-            desc.addEventListener('keyup', validateDesc);
-            price.addEventListener('keyup', validatePrice);
-            stock.addEventListener('keyup', validateStock);
-            cover.addEventListener('keyup', validateCover);
+        }
 
+        function validateDesc() {
+            let desc_message = []
+            if (desc.value === '' || desc.value === null) {
+                desc_message.push('Description is mandatory')
+            } else if (desc.value.length < 10) {
+                desc_message.push('Description should be minimum 10 words')
+            }
+            if (desc_message.length > 0) {
+                descerror.innerText = desc_message.join(',')
+            } else {
+                descerror.innerText = ''
+            }
+        }
 
-            function handleSubmit(event) {
-                // Prevent the form from submitting
-        
-                // Call the validation functions
-                validateName();
-                validateAuthorname();
-                validatePage();
-                validateDesc();
-                validatePrice();
-                validateStock();
-                validateCover();
+        function validatePrice() {
+            let price_message = []
+            if (price.value === '' || price.value === null) {
+                price_message.push('Price is mandatory')
+            } else if (isNaN(price.value)) {
+                price_message.push('Price should be a number')
+            }
+            if (price_message.length > 0) {
+                priceerror.innerText = price_message.join(',')
+            } else {
+                priceerror.innerText = ''
+            }
+        }
 
+        function validateStock() {
+            let stock_message = []
+            if (stock.value === '' || stock.value === null) {
+                stock_message.push('Stock is mandatory')
+            } else if (isNaN(stock.value)) {
+                stock_message.push('Stock should be a number')
+            }
+            if (stock_message.length > 0) {
+                stockerror.innerText = stock_message.join(',')
+            } else {
+                stockerror.innerText = ''
+            }
+        }
 
-                // Check if any errors exist
-                if (
-                    nameerror.innerText === '' &&
-                    anameerror.innerText === '' &&
-                    pageerror.innerText === '' &&
-                    descerror.innerText === '' &&
-                    priceerror.innerText === '' &&
-                    stockerror.innerText === '' &&
-                    covererror.innerText === ''
-                ) {
-                    // All validations passed, allow form submission
-                    event.target.submit();
-                    function3()
-                } else {
-                    event.preventDefault();
+        function validateCover() {
+            const allowedExtensions = ['jpg', 'jpeg', 'png'];
+            const file_message = [];
+
+            if (cover.value === '' || cover.value === null) {
+                file_message.push('Image is required');
+            } else {
+                const fileName = cover.value;
+                const fileExtension = fileName.split('.').pop().toLowerCase();
+
+                if (!allowedExtensions.includes(fileExtension)) {
+                    file_message.push('Invalid file type. Only JPG and JPEG and PNG files are allowed');
                 }
             }
 
-            // Add submit event listener to the form
-            const form = document.querySelector('form');
-            form.addEventListener('submit', handleSubmit);
-        </script>
-
-        <script language="JavaScript">
-            function function3() {
-                Swal.fire({
-                    title: 'Success!',
-                    text: 'Book added successfully!',
-                    icon: 'success',
-                    showConfirmButton: false, // Hide the "OK" button
-                });
+            if (file_message.length > 0) {
+                covererror.innerText = file_message.join(', ');
+            } else {
+                covererror.innerText = '';
             }
-        </script>
+        }
+        // Add keyup event listeners to the form fields
+        bname.addEventListener('keyup', validateName);
+        aname.addEventListener('keyup', validateAuthorname);
+        page.addEventListener('keyup', validatePage);
+        desc.addEventListener('keyup', validateDesc);
+        price.addEventListener('keyup', validatePrice);
+        stock.addEventListener('keyup', validateStock);
+        cover.addEventListener('keyup', validateCover);
+
+
+        function handleSubmit(event) {
+            // Prevent the form from submitting
+
+            // Call the validation functions
+            validateName();
+            validateAuthorname();
+            validatePage();
+            validateDesc();
+            validatePrice();
+            validateStock();
+            validateCover();
+
+
+            // Check if any errors exist
+            if (
+                nameerror.innerText === '' &&
+                anameerror.innerText === '' &&
+                pageerror.innerText === '' &&
+                descerror.innerText === '' &&
+                priceerror.innerText === '' &&
+                stockerror.innerText === '' &&
+                covererror.innerText === ''
+            ) {
+                // All validations passed, allow form submission
+                event.target.submit();
+                function3()
+            } else {
+                event.preventDefault();
+            }
+        }
+        // Add submit event listener to the form
+        const form = document.querySelector('form');
+        form.addEventListener('submit', handleSubmit);
+    </script>
 </body>
 
 </html>

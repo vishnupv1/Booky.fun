@@ -179,126 +179,45 @@
             const zipcode = document.getElementById('zipcode');
             const state = document.getElementById('state');
 
-            const namePlaceholder = document.getElementById('name-placeholder');
-            const mobPlaceholder = document.getElementById('mob-placeholder');
-            const streetPlaceholder = document.getElementById('street-placeholder');
-            const cityPlaceholder = document.getElementById('city-placeholder');
-            const AdPlaceholder = document.getElementById('ad-placeholder');
-            const zipPlaceholder = document.getElementById('zip-placeholder');
-            const statePlaceholder = document.getElementById('state-placeholder');
-
-            // AdPlaceholder
-
-            function hideStreetPlaceholder() {
-                streetPlaceholder.hidden = true;
-            }
-            function hideCityPlaceholder() {
-                cityPlaceholder.hidden = true;
-            }
-            function hideAdPlaceholder() {
-                AdPlaceholder.hidden = true;
-            }
-            function hideZipPlaceholder() {
-                zipPlaceholder.hidden = true;
-            }
-            function hideStatePlaceholder() {
-                statePlaceholder.hidden = true;
-            }
-            function hideMobPlaceholder() {
-                mobPlaceholder.hidden = true;
-            }
-            function hideNamePlaceholder() {
-                namePlaceholder.hidden = true;
-            }
-
-
-            function showStreetPlaceholder() {
-                streetPlaceholder.hidden = false;
-            }
-            function showCityPlaceholder() {
-                cityPlaceholder.hidden = false;
-            }
-            function showAdPlaceholder() {
-                AdPlaceholder.hidden = false;
-            }
-            function showZipPlaceholder() {
-                zipPlaceholder.hidden = false;
-            }
-            function showStatePlaceholder() {
-                statePlaceholder.hidden = false;
-            }
-            function showNamePlaceholder() {
-                namePlaceholder.hidden = false;
-            }
-            function showMobPlaceholder() {
-                mobPlaceholder.hidden = false;
-            }
-
             addressTypeSelect.addEventListener('change', () => {
                 const selectedAddresstype = addressTypeSelect.value;
                 if (selectedAddresstype === 'home') {
                     street.value = home[0].street;
-                    hideStreetPlaceholder();
                     landmark.value = home[0].landmark;
                     city.value = home[0].city;
-                    hideCityPlaceholder();
                     address.value = home[0].address;
-                    hideAdPlaceholder();
                     zipcode.value = home[0].zipcode;
-                    hideZipPlaceholder();
                     state.value = home[0].state;
-                    hideStatePlaceholder();
                     name.value = home[0].name;
-                    hideNamePlaceholder();
                     mobile.value = home[0].mobile;
-                    hideMobPlaceholder();
                 }
                 else if (selectedAddresstype === 'work') {
                     street.value = work[0].street;
-                    hideStreetPlaceholder();
                     landmark.value = work[0].landmark;
                     city.value = work[0].city;
-                    hideCityPlaceholder();
                     address.value = work[0].address;
-                    hideAdPlaceholder();
                     zipcode.value = work[0].zipcode;
-                    hideZipPlaceholder();
                     state.value = work[0].state;
-                    hideStatePlaceholder();
                     name.value = work[0].name;
-                    hideNamePlaceholder();
                     mobile.value = work[0].mobile;
-                    hideMobPlaceholder();
                 }
                 else if (selectedAddresstype === 'personal') {
                     street.value = personal[0].street;
-                    hideStreetPlaceholder();
                     landmark.value = personal[0].landmark;
                     city.value = personal[0].city;
-                    hideCityPlaceholder();
                     address.value = personal[0].address;
-                    hideAdPlaceholder();
                     zipcode.value = personal[0].zipcode;
-                    hideZipPlaceholder();
                     state.value = personal[0].state;
-                    hideStatePlaceholder();
                     name.value = personal[0].name;
-                    hideNamePlaceholder();
                     mobile.value = personal[0].mobile;
-                    hideMobPlaceholder();
                 }
                 else {
                     street.value = '';
-                    showStreetPlaceholder();
                     landmark.value = '';
                     city.value = '';
-                    showCityPlaceholder();
                     address.value = '';
-                    showAdPlaceholder();
                     zipcode.value = '';
-                    showZipPlaceholder();
                     state.value = '';
-                    showStatePlaceholder();
                 }
             });
 

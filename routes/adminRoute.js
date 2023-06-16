@@ -72,6 +72,7 @@ admin_route.post('/addbook', upload.array('image'), productController.addBook)
 admin_route.get('/editbook', adminauth.isLogin, productController.loadeditBook)
 admin_route.post('/updatebook', upload.array('image'), productController.updateBook)
 admin_route.get('/deletebook', adminauth.isLogin, productController.deletebook)
+admin_route.get('/undodelete', adminauth.isLogin, productController.undodelete)
 admin_route.get('/stockManagement', productController.stockManagement)
 
 admin_route.get('/orders', orderController.showorder)

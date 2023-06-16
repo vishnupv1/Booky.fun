@@ -135,7 +135,8 @@ const myOrders = async (req, res) => {
             })
             let array = encodeURIComponent(JSON.stringify(productDetails))
             let ordersD = encodeURIComponent(JSON.stringify(orderDetails))
-            res.render('orders', { title: "Orders", productDetails, orderId: id, status, daysDiff, formattedDate, array, ordersD });
+            let arrays=[orders.name,orders.address,orders.city,orders.state,orders.zipcode]
+            res.render('orders', { title: "Orders", productDetails, orderId: id, status, daysDiff, formattedDate, array, ordersD ,arrays});
         } else {
             res.render('orders', { title: "Orders", message: "No Orders", noOrders: true, status: '', formattedDate: '', array: '', ordersD: '' });
         }
@@ -206,7 +207,7 @@ const pay = async (req, res) => {
         transactions: [{
             amount: {
                 total: price,
-                currency: 'USD'
+                currency: 'INR'
             },
             description: 'Sample payment description'
         }]

@@ -1,171 +1,380 @@
-<%- include('../admin/adminHeader')%>
+<!DOCTYPE html>
+<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default"
+  data-assets-path="/public/sneat/assets/" data-template="vertical-menu-template-free">
 
-    <!DOCTYPE html>
-    <html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+  <title>Users</title>
+  <meta name="description" content="" />
+  <link rel="icon" type="image/x-icon" href="/public/images/leaf_1.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="/public/sneat/assets/vendor/fonts/boxicons.css" />
+  <link rel="stylesheet" href="/public/sneat/assets/vendor/css/core.css" class="template-customizer-core-css" />
+  <link rel="stylesheet" href="/public/sneat/assets/vendor/css/theme-default.css"
+    class="template-customizer-theme-css" />
+  <link rel="stylesheet" href="/public/sneat/assets/css/demo.css" />
+  <link rel="stylesheet" href="/public/sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+  <link rel="stylesheet" href="/public/sneat/assets/vendor/libs/apex-charts/apex-charts.css" />
+  <script src="/public/sneat/assets/vendor/js/helpers.js"></script>
+  <script src="/public/sneat/assets/js/config.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/dataTables.bootstrap4.min.css">
 
-    <head>
-        <title>Users</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-        <script type="text/javascript" charset="utf8"
-            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/dataTables.bootstrap4.min.css">
-        <style>
-            .user {
+  <style>
+    .chart-container {
+      position: relative;
+    }
 
-                color: rgb(0, 255, 110) !important;
-            }
-
-            div.dataTables_wrapper div.dataTables_filter input {
-                padding: 10px !important;
-                border: 1px solid #ccc !important;
-                border-radius: 5px !important;
-                font-size: 16px !important;
-                box-shadow: 0 2px 5px rgba(1, 0, 0, 0.1) !important;
-                width: 200px !important;
-            }
-
-            .dataTables_paginate {
-                display: flex;
-                justify-content: center;
-                margin-top: 20px;
-            }
-
-            .paginate_button {
-                display: inline-block;
-                margin: 0 5px;
-                padding: 8px 12px;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                background-color: #f5f5f5;
-                color: #333;
-                font-size: 14px;
-                text-decoration: none;
-                cursor: pointer;
-            }
-
-            .paginate_button:hover {
-                background-color: #e0e0e0;
-            }
-
-            .paginate_button.active {
-                background-color: #333;
-                color: #fff;
-            }
-
-            .paginate_button.disabled {
-                cursor: not-allowed;
-                opacity: 0.5;
-
-            }
-
-            @media (max-width: 576px) {
-                .navbar-toggler {
-                    order: 1;
-                    margin-left: auto;
-                }
-            }
-
-            @media (max-width: 1024px) {
-                .navbar-toggler {
-                    order: 1;
-                    margin-left: auto;
-                }
-            }
-        </style>
-        <script type="text/javascript" charset="utf8"
-            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/dataTables.bootstrap4.min.css">
-    </head>
-
-    <body>
-        <div style="margin-top: 75px;">
-            <div class="form-inline my-2 my-lg-0 d-flex justify-content-end container-fluid">
-            </div>
-            <div class="container-fluid">
-                <table class="table table-hover" id="productsTable">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Username</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Verified?</th>
-                            <th scope="col">Image</th>
-                            <th scope="col">Modify User</th>
-                        </tr>
-                    <tbody>
-                        <% if (users.length> 0) {
-                            let k=1
-                            for (let i = users.length - 1; i >= 0; i--) { %>
-                            <tr>
-                                <th scope="row">
-                                    <%= i+1 %>
-                                </th>
-                                <td>
-                                    <%= users[i].username %>
-                                </td>
-                                <td>
-                                    <%= users[i].mail %>
-                                </td>
-                                <td>
-
-                                    <% if(users[i].is_verified==0) { %>
-                                        <p>No</p>
-                                        <% }else { %>
-                                            <p>Yes</p>
-                                            <% } %>
-                                </td>
-                                <td><img src="/userImages/<%= users[i].image %>" width="100px" height="100px"
-                                        alt="<%= users[i].image %>"></td>
-
-                                <% if(users[i].is_blocked==0) { %>
-                                    <td><a href="/admin/blockuser?id=<%= users[i]._id %>"><button
-                                                class="btn btn-danger block">Block</button></a></td>
-                                    <% }else { %>
-                                        <td><a href="/admin/unblockuser?id=<%= users[i]._id %>"><button
-                                                    class="btn btn-success ublock">Unblock</button></a></td>
-                                        <% } %>
+    .chart-container::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      border: none;
+    }
 
 
+    div.dataTables_wrapper div.dataTables_filter input {
+      border: 1px solid #ccc !important;
+      border-radius: 5px !important;
+      font-size: 16px !important;
+      box-shadow: 0 2px 5px rgba(1, 0, 0, 0.1) !important;
+      width: 180px !important;
+    }
 
+    .dataTables_paginate {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
 
+    .paginate_button {
+      display: inline-block;
+      margin: 0 5px;
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f5f5f5;
+      color: #333;
+      font-size: 14px;
+      text-decoration: none;
+      cursor: pointer;
+    }
 
+    .paginate_button:hover {
+      background-color: #e0e0e0;
+    }
 
+    .paginate_button.active {
+      background-color: #333;
+      color: #fff;
+    }
 
+    .paginate_button.disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+  </style>
+</head>
 
-                            </tr>
-                            <% k++ } } else { %>
-                                <tr>
-                                    <td colspan="5">Users Not Found</td>
-                                </tr>
-                                <% } %>
-                    </tbody>
-                    </thead>
-                </table>
-
-                <p>
-                </p>
-
-            </div>
+<body>
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+        <div class="app-brand demo">
+          <a href="/admin/adminhome" class="app-brand-link">
+            <span class="app-brand-logo demo">
+              <img src="/public/images/leaf_1.png" alt="" style="height:6vh">
+            </span>
+            <span class="app-brand-text demo menu-text fw-bolder ms-2">Booky.com</span>
+          </a>
+          <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+            <i class="bx bx-chevron-left bx-sm align-middle"></i>
+          </a>
         </div>
-    </body>
+        <div class="menu-inner-shadow"></div>
+        <ul class="menu-inner py-1">
+          <li class="menu-item ">
+            <a href="/admin/adminhome" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-home-circle"></i>
+              <div data-i18n="Analytics">Dashboard</div>
+            </a>
+          </li>
+          <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">Pages</span>
+          </li>
+          <li class="menu-item active">
+            <a href="/admin/userlist" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-user-circle"></i>
+              <div data-i18n="Analytics">Users</div>
+            </a>
+          </li>
+          <li class="menu-item  ">
+            <a href="/admin/productlist" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-book"></i>
+              <div data-i18n="Analytics">Books</div>
+            </a>
+          </li>
+          <li class="menu-item  ">
+            <a href="/admin/orders" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-package"></i>
+              <div data-i18n="Analytics">Orders</div>
+            </a>
+          </li>
+          <li class="menu-item  ">
+            <a href="/admin/category" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-category"></i>
+              <div data-i18n="Analytics">Category</div>
+            </a>
+          </li>
+          <li class="menu-item  ">
+            <a href="/admin/stockmanagement" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-bar-chart-alt-2"></i>
+              <div data-i18n="Analytics">Stock Management</div>
+            </a>
+          </li>
+          <li class="menu-item  ">
+            <a href="/admin/couponManagement" class="menu-link">
+              <i class="menu-icon tf-icons bx bxs-coupon"></i>
+              <div data-i18n="Analytics">Coupons</div>
+            </a>
+          </li>
+          <li class="menu-item  ">
+            <a href="/admin/bannerManagement" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-carousel"></i>
+              <div data-i18n="Analytics">Banners</div>
+            </a>
+          </li>
+        </ul>
+      </aside>
+      <div class="layout-page">
+        <nav
+          class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+          id="layout-navbar">
+          <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+            <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+              <i class="bx bx-menu bx-sm"></i>
+            </a>
+          </div>
+          <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+            <div class="navbar-nav align-items-center">
+              <div class="nav-item d-flex align-items-center">
+                <i class="bx bx-search fs-4 lh-0"></i>
+                <input type="text" class="form-control border-0 shadow-none" placeholder="Search..."
+                  aria-label="Search..." />
+              </div>
+            </div>
+            <ul class="navbar-nav flex-row align-items-center ms-auto">
+              <li class="nav-item lh-1 me-3">
+                <a class="github-button" href="https://github.com/themeselection/sneat-html-admin-template-free"
+                  data-icon="octicon-star" data-size="large" data-show-count="true"
+                  aria-label="Star themeselection/sneat-html-admin-template-free on GitHub">Star</a>
+              </li>
+              <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                  <div class="avatar avatar-online">
+                    <img src="/public/sneat/assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                  </div>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li>
+                    <a class="dropdown-item" href="#">
+                      <div class="d-flex">
+                        <div class="flex-shrink-0 me-3">
+                          <div class="avatar avatar-online">
+                            <img src="/public/sneat/assets/img/avatars/1.png" alt
+                              class="w-px-40 h-auto rounded-circle" />
+                          </div>
+                        </div>
+                        <div class="flex-grow-1">
+                          <span class="fw-semibold d-block">John Doe</span>
+                          <small class="text-muted">Admin</small>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <div class="dropdown-divider"></div>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/admin/adminlogout">
+                      <i class="bx bx-power-off me-2"></i>
+                      <span class="align-middle">Log Out</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <div class="content-wrapper">
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <div class="row">
+              <div class="col-lg-8 mb-4 order-0">
+                <div class="card " style="width: max-content;">
+                  <div class="d-flex align-items-end row">
+                    <div class="col-sm-7">
+                      <% if (users.length> 0) {%>
+                        <table class="table" id="categoryTable">
+                          <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th>Username</th>
+                              <th>Image</th>
+                              <th>Verified?</th>
+                              <th>Email</th>
+                              <th>Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody class="table-border-bottom-0">
+                            <%let k=1%>
+                              <%for (let i=users.length - 1; i>= 0; i--) { %>
+                                <tr>
+                                  <th scope="row">
+                                    <%= k %>
+                                  </th>
+                                  <td>
+                                    <%= users[i].username %>
+                                  </td>
+                                  <td>
+                                    <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
+                                      <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top"
+                                        class="avatar avatar-s pull-up"
+                                        title="<%= users[i].firstname %> <%= users[i].lastname %>">
+                                        <img src="/userImages/<%= users[i].image %>" alt="Avatar"
+                                          class="rounded-circle" />
+                                      </li>
+                                    </ul>
+                                  </td>
+                                  <td>
+                                    <% if(users[i].is_verified==0) { %>
+                                      <span class="badge bg-label-danger me-1">No</span>
+                                      <% }else { %>
+                                        <span class="badge bg-label-success me-1">Yes</span>
+                                  </td>
+                                  <% } %>
+                                    <td>
+                                      <p>
+                                        <%= users[i].mail %>
+                                      </p>
+                                    </td>
+                                    <% if(users[i].is_blocked==0) { %>
+                                      <td><a href="/admin/blockuser?id=<%= users[i]._id %>"><button style="width:7rem"
+                                            class="btn btn-danger block">Block</button></a></td>
+                                      <% }else { %>
+                                        <td><a href="/admin/unblockuser?id=<%= users[i]._id %>"><button
+                                              style="width:7rem" class="btn btn-success ublock">Unblock</button></a>
+                                        </td>
+                                        <% } %>
+                                </tr>
+                                <% k++ }%>
+                          </tbody>
+                        </table>
+                        <%}else{%>
+                          <p>No user found
+                          </p>
+                          <%}%>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- / Content -->
 
+        <!-- Footer -->
+        <footer class="content-footer footer bg-footer-theme">
+          <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+            <div class="mb-2 mb-md-0">
+              ©
+              <script>
+                document.write(new Date().getFullYear());
+              </script>
+            </div>
+          </div>
+        </footer>
+        <div class="content-backdrop fade"></div>
+      </div>
+    </div>
+  </div>
+  <div class="layout-overlay layout-menu-toggle"></div>
+  </div>
+  <script src="/public/sneat/assets/vendor/libs/jquery/jquery.js"></script>
+  <script src="/public/sneat/assets/vendor/libs/popper/popper.js"></script>
+  <script src="/public/sneat/assets/vendor/js/bootstrap.js"></script>
+  <script src="/public/sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+  <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
 
+  <script src="/public/sneat/assets/vendor/js/menu.js"></script>
+  <!-- endbuild -->
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- Vendors JS -->
+  <script src="/public/sneat/assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
-    <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
+  <!-- Main JS -->
+  <script src="/public/sneat/assets/js/main.js"></script>
 
-    <script>
+  <!-- Page JS -->
+  <script src="/public/sneat/assets/js/dashboards-analytics.js"></script>
 
-        $(function () {
-            $('#productsTable').DataTable();
-        });
-    </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var Pe = parseInt(document.getElementById("pendValue").value);
+      var Pr = parseInt(document.getElementById("procValue").value);
+      var Sh = parseInt(document.getElementById("shipValue").value);
+      var De = parseInt(document.getElementById("delValue").value);
+      var Ca = parseInt(document.getElementById("canValue").value);
+      var Re = parseInt(document.getElementById("retValue").value);
+
+      var ctx = document.getElementById("orderStatusChart").getContext("2d");
+      var chart = new Chart(ctx, {
+        type: "doughnut",
+        data: {
+          labels: ["Pending", "Processing", "Shipped", "Delivered", "Cancelled", "Returned"],
+          datasets: [
+            {
+              label: "Order Status",
+              data: [Pe, Pr, Sh, De, Ca, Re], // Replace with actual data for order statuses
+              backgroundColor: ["#fff200", "blue", "grey", "#0bd900", "#de0000", "#ff8800"],
+              borderWidth: 0,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          elements: {
+            arc: {
+              borderWidth: 0, // Hide the border of the doughnut slices
+            },
+          },
+          layout: {
+            padding: 10, // Adjust the padding around the chart
+          },
+          plugins: {
+            legend: {
+              display: false, // Hide the legend
+            },
+          },
+          aspectRatio: 1.5, // Adjust the aspect ratio to make the chart narrower
+        },
+      });
+    });
+  </script>
+  <!-- <script>
+    $(function () {
+      $('#categoryTable').DataTable();
+    });
+  </script> -->
+</body>
+
+</html>

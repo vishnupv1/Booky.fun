@@ -5,8 +5,13 @@ const admin_router = require('../routes/adminRoute')
 //load category view
 const loadcategory = async (req, res) => {
     try {
+        if (req.session.message) {
+            var message = 'Category duplication found'
+            req.session.message = ''
+        }
+
         const category = await Category.find({})
-        res.render('category', { category: category })
+        res.render('category', { category: category, message })
     }
     catch (error) {
         console.log(error.message);
@@ -24,15 +29,17 @@ const loadaddcategory = async (req, res) => {
 //add new category
 const addcategory = async (req, res) => {
     try {
+
         let cname = req.body.name
-        const catData = await Category.findOne({ name: cname })
+        const pattern = new RegExp(cname, "i"); // "i" flag for case-insensitive matching
+
+        const catData = await Category.findOne({ name: pattern });
         if (catData) {
-            res.render('addcategory', { message: 'Category duplication found' })
+            req.session.message = 'Category duplication found'
+            res.redirect('/admin/category')
         } else {
             Category.insertMany({ name: req.body.name })
-            setTimeout(() => {
-                res.redirect('/admin/category')
-            }, 2000)
+            res.redirect('/admin/category')
 
         }
     }

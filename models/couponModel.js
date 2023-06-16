@@ -5,6 +5,12 @@ const couponSchema = mongoose.Schema({
     },
     offer: {
         type: Number
+    },
+    expiry: {
+        type: Date
+    },
+    description: {
+        type: String
     }
 })
 

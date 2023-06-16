@@ -1,11 +1,25 @@
 const Coupon = require('../models/couponModel')
 const express = require('express')
 const user_router = require('../routes/userRoute')
+const moment = require('moment')
 
 const loadedcouponManagement = async (req, res) => {
     try {
+
         const coupon = await Coupon.find({})
-        res.render('coupon', { coupon })
+        if (coupon.length > 0) {
+            couponDetails = coupon.map(coup => {
+                const couponDate = new Date(coup.expiry); // Convert date to a Date object
+                const year = couponDate.getFullYear();
+                const month = couponDate.getMonth() + 1;
+                const date = couponDate.getDate();
+                return {
+                    date: `${date}/${month}/${year}`,
+                }
+            })
+        }
+
+        res.render('coupon', { coupon,date:couponDetails })
     } catch (error) {
         console.log(error.message)
     }
@@ -14,13 +28,20 @@ const addCoupon = async (req, res) => {
     try {
         let code = req.body.code
         let offer = req.body.offer
+        let description = req.body.description
+        var expiry = req.body.expiry
+
+
         const catData = await Coupon.findOne({ code: code })
         if (catData) {
             res.render('coupon', { message: 'Coupon duplication found' })
         } else {
             Coupon.insertMany({
                 code: code,
-                offer: offer
+                offer: offer,
+                description: description,
+                expiry: expiry,
+
             })
             setTimeout(() => {
                 res.redirect('/admin/couponManagement')

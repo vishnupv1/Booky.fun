@@ -1,236 +1,334 @@
-<%- include('../admin/adminHeader')%>
+<!DOCTYPE html>
+<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default"
+    data-assets-path="/public/sneat/assets/" data-template="vertical-menu-template-free">
 
-    <!DOCTYPE html>
-    <html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>Books</title>
+    <meta name="description" content="" />
+    <link rel="icon" type="image/x-icon" href="images/leaf_1.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="/public/sneat/assets/vendor/fonts/boxicons.css" />
+    <link rel="stylesheet" href="/public/sneat/assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="/public/sneat/assets/vendor/css/theme-default.css"
+        class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="/public/sneat/assets/css/demo.css" />
+    <link rel="stylesheet" href="/public/sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="/public/sneat/assets/vendor/libs/apex-charts/apex-charts.css" />
+    <script src="/public/sneat/assets/vendor/js/helpers.js"></script>
+    <script src="/public/sneat/assets/js/config.js"></script>
+</head>
 
-    <head>
-        <title>Edit</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-        <style>
-            body {
-                background-color: #0080ff;
-            }
-
-            .product {
-
-                color: rgb(0, 255, 110) !important;
-            }
-
-            .signup-form {
-                background-color: #fff;
-                border-radius: 10px;
-                padding: 20px;
-                margin-top: 50px;
-                margin-bottom: 50px;
-            }
-
-            .signup-form h2 {
-                color: #333;
-                margin-bottom: 30px;
-                text-align: center;
-            }
-
-            .form-group {
-                margin-bottom: 10px;
-            }
-
-            .form-group label {
-                font-weight: 600;
-                margin-bottom: 10px;
-                display: block;
-            }
-
-            .form-control {
-                border-radius: 4px;
-                padding: 6px;
-                border: 1px solid #ccc;
-            }
-
-            .btn {
-                border-radius: 4px;
-                padding: 10px 20px;
-                background-color: #333;
-                color: #fff;
-                border: none;
-                font-weight: 600;
-                margin-top: 20px;
-                cursor: pointer;
-            }
-
-            .btn:hover {
-                background-color: #555;
-            }
-
-            /* @media (max-width: 768px) {
-			.signup-form {
-				margin-top: 20px;
-				padding: 20px;
-			}
-		} */
-        </style>
-    </head>
-
-    <body>
-        <div class="container">
-            <div class="m-5">
-                <div class="row">
-                    <a href="/admin/productlist" style="color: white ; margin-top: 1rem;">Back</a>
-                    <div class="col-md-6 offset-md-3">
-                        <form class="signup-form" action="/admin/updatebook" method="post" enctype="multipart/form-data"
-                            id="form">
-                            <h2>Edit Book</h2>
-                            <p style="color: crimson;">make changes inside the field and update it</p>
-
-                            <div class="form-group">
-                                <label for="firstname">Name of Book</label>
-                                <input type="text" class="form-control" id="name" name="name" 
-                                    value="<%= products.name %>">
-                                <a id="name-error" style="color: red; font-size: small;"></a>
-
+<body>
+    <div class="layout-wrapper layout-content-navbar">
+        <div class="layout-container">
+            <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+                <div class="app-brand demo">
+                    <a href="/admin/adminhome" class="app-brand-link">
+                        <span class="app-brand-logo demo">
+                            <img src="/public/images/leaf_1.png" alt="" style="height:6vh">
+                        </span>
+                        <span class="app-brand-text demo menu-text fw-bolder ms-2">Booky.com</span>
+                    </a>
+                    <a href="javascript:void(0);"
+                        class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+                        <i class="bx bx-chevron-left bx-sm align-middle"></i>
+                    </a>
+                </div>
+                <div class="menu-inner-shadow"></div>
+                <ul class="menu-inner py-1">
+                    <li class="menu-item ">
+                        <a href="/admin/adminhome" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                            <div data-i18n="Analytics">Dashboard</div>
+                        </a>
+                    </li>
+                    <li class="menu-header small text-uppercase">
+                        <span class="menu-header-text">Pages</span>
+                    </li>
+                    <li class="menu-item ">
+                        <a href="/admin/userlist" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-user-circle"></i>
+                            <div data-i18n="Analytics">Users</div>
+                        </a>
+                    </li>
+                    <li class="menu-item active ">
+                        <a href="/admin/productlist" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-book"></i>
+                            <div data-i18n="Analytics">Books</div>
+                        </a>
+                    </li>
+                    <li class="menu-item  ">
+                        <a href="/admin/orders" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-package"></i>
+                            <div data-i18n="Analytics">Orders</div>
+                        </a>
+                    </li>
+                    <li class="menu-item  ">
+                        <a href="/admin/category" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-category"></i>
+                            <div data-i18n="Analytics">Category</div>
+                        </a>
+                    </li>
+                    <li class="menu-item  ">
+                        <a href="/admin/stockmanagement" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-bar-chart-alt-2"></i>
+                            <div data-i18n="Analytics">Stock Management</div>
+                        </a>
+                    </li>
+                    <li class="menu-item  ">
+                        <a href="/admin/stockmanagement" class="menu-link">
+                            <i class="menu-icon tf-icons bx bxs-coupon"></i>
+                            <div data-i18n="Analytics">Coupons</div>
+                        </a>
+                    </li>
+                    <li class="menu-item  ">
+                        <a href="/admin/stockmanagement" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-carousel"></i>
+                            <div data-i18n="Analytics">Banners</div>
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+            <div class="layout-page">
+                <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+                    id="layout-navbar">
+                    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+                        <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                            <i class="bx bx-menu bx-sm"></i>
+                        </a>
+                    </div>
+                    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                        <div class="navbar-nav align-items-center">
+                            <div class="nav-item d-flex align-items-center">
+                                <i class="bx bx-search fs-4 lh-0"></i>
+                                <input type="text" class="form-control border-0 shadow-none" placeholder="Search..."
+                                    aria-label="Search..." />
                             </div>
-                            <div class="form-group">
-                                <label for="lastnamename">Author</label>
-                                <input type="text" class="form-control" id="aname" name="author" 
-                                    value="<%= products.author %>">
-                                <a id="aname-error" style="color: red; font-size: small;"></a>
+                        </div>
+                        <ul class="navbar-nav flex-row align-items-center ms-auto">
+                            <li class="nav-item lh-1 me-3">
+                                <a class="github-button"
+                                    href="https://github.com/themeselection/sneat-html-admin-template-free"
+                                    data-icon="octicon-star" data-size="large" data-show-count="true"
+                                    aria-label="Star themeselection/sneat-html-admin-template-free on GitHub">Star</a>
+                            </li>
+                            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
+                                    data-bs-toggle="dropdown">
+                                    <div class="avatar avatar-online">
+                                        <img src="/public/sneat/assets/img/avatars/1.png" alt
+                                            class="w-px-40 h-auto rounded-circle" />
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0 me-3">
+                                                    <div class="avatar avatar-online">
+                                                        <img src="/public/sneat/assets/img/avatars/1.png" alt
+                                                            class="w-px-40 h-auto rounded-circle" />
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <span class="fw-semibold d-block">John Doe</span>
+                                                    <small class="text-muted">Admin</small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="dropdown-divider"></div>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="/admin/adminlogout">
+                                            <i class="bx bx-power-off me-2"></i>
+                                            <span class="align-middle">Log Out</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="content-wrapper">
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <div class="row">
+                            <!-- Basic Layout -->
+                            <div class="col-xxl">
+                                <div class="card mb-4">
+                                    <div class="card-header d-flex align-items-center justify-content-between">
+                                        <h5 class="mb-0">Edit Book</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <form action="/admin/updatebook" method="post" enctype="multipart/form-data"
+                                            id="form">
+                                            <div class="form-group">
+                                                <label for="firstname">Name of Book</label>
+                                                <input type="text" class="form-control" id="name" name="name"
+                                                    value="<%= products.name %>">
+                                                <a id="name-error" style="color: red; font-size: small;"></a>
 
-                            </div>
-                            <div class="form-group">
-                                <label for="page">Pages</label>
-                                <input type="text" class="form-control" id="page" name="pages" 
-                                    value="<%= products.pages %>">
-                                <a id="page-error" style="color: red; font-size: small;"></a>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="lastnamename">Author</label>
+                                                <input type="text" class="form-control" id="aname" name="author"
+                                                    value="<%= products.author %>">
+                                                <a id="aname-error" style="color: red; font-size: small;"></a>
 
-                            </div>
-                            <div class="form-group">
-                                <label for="category">Category</label>
-                                <select class="form-control" id="category" name="category">
-                                    <option>
-                                        <%= products.category %>
-                                    </option>
-                                    <% if (category.length> 0) {
-                                        for(let i=0; i<category.length; i++) { %>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="page">Pages</label>
+                                                <input type="text" class="form-control" id="page" name="pages"
+                                                    value="<%= products.pages %>">
+                                                <a id="page-error" style="color: red; font-size: small;"></a>
 
-                                            <option>
-                                                <%= category[i].name %>
-                                            </option>
-                                            <% } } %>
-                                </select>
-                                <a id="cat-error" style="color: red; font-size: small;"></a>
-                            </div>
-                            <div class="form-group">
-                                <label for="Language">Language</label>
-                                <select class="form-control" id="category" name="language">
-                                    <option>
-                                        Malayalam
-                                    </option>
-                                    <option>
-                                        English
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="desc">Description</label>
-                                <input type="text" class="form-control" id="desc" name="description" 
-                                    value="<%= products.description %>">
-                                <a id="desc-error" style="color: red; font-size: small;"></a>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="category">Category</label>
+                                                <select class="form-control" id="category" name="category">
+                                                    <option>
+                                                        <%= products.category %>
+                                                    </option>
+                                                    <% if (category.length> 0) {
+                                                        for(let i=0; i<category.length; i++) { %>
 
-                            </div>
-                            <div class="form-group">
-                                <label for="pr">Price</label>
-                                <input type="text" class="form-control" id="price" name="price" 
-                                    value="<%= products.price %>">
-                                <a id="price-error" style="color: red; font-size: small;"></a>
+                                                            <option>
+                                                                <%= category[i].name %>
+                                                            </option>
+                                                            <% } } %>
+                                                </select>
+                                                <a id="cat-error" style="color: red; font-size: small;"></a>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="Language">Language</label>
+                                                <select class="form-control" id="category" name="language">
+                                                    <option>
+                                                        Malayalam
+                                                    </option>
+                                                    <option>
+                                                        English
+                                                    </option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="desc">Description</label>
+                                                <input type="text" class="form-control" id="desc" name="description"
+                                                    value="<%= products.description %>">
+                                                <a id="desc-error" style="color: red; font-size: small;"></a>
 
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="pr" name="id"  hidden
-                                    value="<%= products._id %>">
-                            </div>
-                            <div class="form-group">
-                                <label for="stk">Stock</label>
-                                <input type="text" class="form-control" id="stock" name="stock" 
-                                    value="<%= products.stock %>">
-                                <a id="stock-error" style="color: red; font-size: small;"></a>
-                            </div>
-                            <div>
-                                <%for(let i=0; i<products.image.length; i++) { %>
-                                    <img class="imagepreview" src="/public/productImages/<%=products.image[i] %>"
-                                        alt="image">
-                                    <% } %>
-                                        <a id="cover-error" style="color: red; font-size: small;"></a>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="pr">Price</label>
+                                                <input type="text" class="form-control" id="price" name="price"
+                                                    value="<%= products.price %>">
+                                                <a id="price-error" style="color: red; font-size: small;"></a>
 
+                                            </div>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="pr" name="id" hidden
+                                                    value="<%= products._id %>">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="stk">Stock</label>
+                                                <input type="text" class="form-control" id="stock" name="stock"
+                                                    value="<%= products.stock %>">
+                                                <a id="stock-error" style="color: red; font-size: small;"></a>
+                                            </div>
+                                            <div>
+                                                <%for(let i=0; i<products.image.length; i++) { %>
+                                                    <img class="imagepreview"
+                                                        src="/public/productImages/<%=products.image[i] %>" alt="image" style="height: 10vh;">
+                                                    <% } %>
+                                                        <a id="cover-error" style="color: red; font-size: small;"></a>
+
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="cover">Cover page</label>
+                                                <input type="file" class="form-control-file" id="cover" name="image"
+                                                    multiple onchange="editimageView(event)">
+                                            </div>
+
+
+                                            <button type="submit" class="btn btn-block" id="edit">Update</button>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
-
-                            <div class="form-group">
-                                <label for="cover">Cover page</label>
-                                <input type="file" class="form-control-file" id="cover" name="image" multiple
-                                    onchange="editimageView(event)">
-                            </div>
-
-
-                            <button type="submit" class="btn btn-block" id="edit">Update</button>
-                            <div>
-                                <% if(typeof message !=='undefined' ) {%>
-                                    <p style="color: rgb(255, 123, 0); font-weight: bold;">
-                                        <%=message%>
-                                    </p>
-                                    <%} %>
-                            </div>
-                        </form>
-
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    </div>
+    </div>
+    </div>
 
-    </body>
+    <!--/ Transactions -->
+    </div>
+    </div>
+    <!-- / Content -->
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Footer -->
+    <footer class="content-footer footer bg-footer-theme">
+        <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+            <div class="mb-2 mb-md-0">
+                ©
+                <script>
+                    document.write(new Date().getFullYear());
+                </script>
+            </div>
+        </div>
+    </footer>
+    <div class="content-backdrop fade"></div>
+    </div>
+    </div>
+    </div>
+    <div class="layout-overlay layout-menu-toggle"></div>
+    </div>
+    <script src="/public/sneat/assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="/public/sneat/assets/vendor/libs/popper/popper.js"></script>
+    <script src="/public/sneat/assets/vendor/js/bootstrap.js"></script>
+    <script src="/public/sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
-    <script>
-        function editimageView(event) {
-            const preview = document.getElementsByClassName('imagepreview')
-            for (let i = 0; i < event.target.files.length; i++) {
-                const file = event.target.files[i]
-                const reader = new FileReader()
+    <script src="/public/sneat/assets/vendor/js/menu.js"></script>
+    <!-- endbuild -->
 
-                reader.onload = function (e) {
-                    preview[i].src = e.target.result
+    <!-- Vendors JS -->
+    <script src="/public/sneat/assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
-                }
-                reader.readAsDataURL(file)
-            }
+    <!-- Main JS -->
+    <script src="/public/sneat/assets/js/main.js"></script>
 
-        }
-    </script>
+    <!-- Page JS -->
+    <script src="/public/sneat/assets/js/dashboards-analytics.js"></script>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
 
     <script>
         const bname = document.getElementById('name')
         const aname = document.getElementById('aname')
         const page = document.getElementById('page')
         const category = document.getElementById('category')
+        const lang = document.getElementById('lang')
         const desc = document.getElementById('desc')
         const price = document.getElementById('price')
         const stock = document.getElementById('stock')
-        const cover = document.getElementById('cover')
 
-        const covererror = document.getElementById('cover-error')
         const nameerror = document.getElementById('name-error')
-        const anameerror = document.getElementById('aname-error')
+        const anameerror = document.getElementById('author-error')
         const pageerror = document.getElementById('page-error')
         const caterror = document.getElementById('cat-error')
+        const langerror = document.getElementById('lang-error')
         const descerror = document.getElementById('desc-error')
         const priceerror = document.getElementById('price-error')
         const stockerror = document.getElementById('stock-error')
@@ -320,6 +418,7 @@
             }
         }
 
+
         // Add keyup event listeners to the form fields
         bname.addEventListener('keyup', validateName);
         aname.addEventListener('keyup', validateAuthorname);
@@ -348,7 +447,7 @@
                 pageerror.innerText === '' &&
                 descerror.innerText === '' &&
                 priceerror.innerText === '' &&
-                stockerror.innerText === '' 
+                stockerror.innerText === ''
             ) {
                 // All validations passed, allow form submission
                 event.target.submit();
@@ -360,19 +459,23 @@
         // Add submit event listener to the form
         const form = document.querySelector('form');
         form.addEventListener('submit', handleSubmit);
-
-
     </script>
+    <script>
+        function editimageView(event) {
+            const preview = document.getElementsByClassName('imagepreview')
+            for (let i = 0; i < event.target.files.length; i++) {
+                const file = event.target.files[i]
+                const reader = new FileReader()
 
-    <script language="JavaScript">
-        function function3() {
-            Swal.fire({
-                title: 'Success!',
-                text: 'Book updated successfully!',
-                icon: 'success',
-                showConfirmButton: false, // Hide the "OK" button
-            });
+                reader.onload = function (e) {
+                    preview[i].src = e.target.result
+
+                }
+                reader.readAsDataURL(file)
+            }
+
         }
     </script>
+</body>
 
-    </html>
+</html>

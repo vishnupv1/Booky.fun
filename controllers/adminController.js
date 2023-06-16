@@ -32,6 +32,7 @@ const verifyLogin = async (req, res) => {
         const adminData = await Admin.findOne({ username: req.body.username })
         if (adminData) {
             const keyMatch = await Admin.findOne({ key: req.body.key })
+            console.log(req.body.key);
             if (keyMatch) {
                 req.session.admin_id = adminData._id
                 res.redirect('/admin/adminhome')
@@ -62,6 +63,21 @@ const loadHome = async (req, res) => {
             }
         ]);
 
+
+        const result = await Order.aggregate([
+            { $match: { status: 'Delivered' } },
+            { $group: { _id: null, totalAmount: { $sum: '$total' } } }
+        ]);
+
+        const totalSum = result.length > 0 ? result[0].totalAmount : 0;
+
+        const paypal = await Order.aggregate([
+            { $match: { payment_method: 'internet' } },
+            { $group: { _id: null, totalCount: { $sum: 1 } } }
+        ]);
+
+        const count = paypal.length > 0 ? paypal[0].totalCount : 0;
+
         const books = await Product.find({});
 
         const stockSumResult = await Product.aggregate([
@@ -83,7 +99,9 @@ const loadHome = async (req, res) => {
             order: orders,
             book: books,
             stock: stockSumResult[0].totalStock,
-            orderStatusCounts: orderStatusCountsObj
+            orderStatusCounts: orderStatusCountsObj,
+            sales: totalSum,
+            paypal: count
         });
     } catch (error) {
         console.log(error.message);
@@ -113,7 +131,7 @@ const sendResetPasswordMail = async (username, email, token) => {
             from: config.emailUser,
             to: email,
             subject: 'For Reset password',
-            html: '<p>Hi ' + username + ', Plese click here to <a href = "http://localhost:3000/admin/adminforgotpassword?token=' + token + '">Reset</a>your password</p>'
+            html: '<p>Hi ' + username + ', Plese click here to <a href = "http://localhost:4000/admin/adminforgotpassword?token=' + token + '">Reset</a>your password</p>'
         }
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
