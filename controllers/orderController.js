@@ -57,8 +57,8 @@ const placeorder = async (req, res) => {
         let userDetails = await User.findOne({ _id: userId })
         if (req.body.payment == 'wallet') {
             let amount = userDetails.wallet
-            let walletUpdate = amount-parseFloat(req.body.total)
-            await User.updateOne({ _id: userId },{$set:{wallet:walletUpdate}})
+            let walletUpdate = amount - parseFloat(req.body.total)
+            await User.updateOne({ _id: userId }, { $set: { wallet: walletUpdate } })
         }
         let CartDetails = await Cart.findOne({ user_id: userId }).populate('products.product_id')
         let orderData = new Order({
@@ -135,8 +135,8 @@ const myOrders = async (req, res) => {
             })
             let array = encodeURIComponent(JSON.stringify(productDetails))
             let ordersD = encodeURIComponent(JSON.stringify(orderDetails))
-            let arrays=[orders.name,orders.address,orders.city,orders.state,orders.zipcode]
-            res.render('orders', { title: "Orders", productDetails, orderId: id, status, daysDiff, formattedDate, array, ordersD ,arrays});
+            let arrays = [orders.name, orders.address, orders.city, orders.state, orders.zipcode]
+            res.render('orders', { title: "Orders", productDetails, orderId: id, status, daysDiff, formattedDate, array, ordersD, arrays });
         } else {
             res.render('orders', { title: "Orders", message: "No Orders", noOrders: true, status: '', formattedDate: '', array: '', ordersD: '' });
         }
@@ -147,8 +147,21 @@ const myOrders = async (req, res) => {
 const Orderlist = async (req, res) => {
 
     try {
+
         let orders = await Order.find({ user_id: req.session.user_id }).populate('products.product_id');
         if (orders.length > 0) {
+            const order = await Order.find({})
+            if (order.length > 0) {
+                orderDetailss = order.map(ord => {
+                    const orderDate = new Date(ord.date); // Convert date to a Date object
+                    const year = orderDate.getFullYear();
+                    const month = orderDate.getMonth() + 1;
+                    const date = orderDate.getDate();
+                    return {
+                        date: `${date}/${month}/${year}`,
+                    }
+                })
+            }
             let orderDetails = orders.map(order => {
                 return {
                     id: order._id,
@@ -164,7 +177,7 @@ const Orderlist = async (req, res) => {
                     })
                 };
             });
-            res.render('orderlist', { title: "Orders", orders: orderDetails });
+            res.render('orderlist', { title: "Orders", orders: orderDetails, date: orderDetailss });
         } else {
             res.render('orderlist', { title: "Orders", orders: [] });
         }

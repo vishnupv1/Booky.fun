@@ -78,6 +78,12 @@ const userSchema = mongoose.Schema({
     ,
     workaddress: [
         {
+            name: {
+                type: String,
+            },
+            mobile: {
+                type: Number,
+            },
             state: {
                 type: String,
             },
@@ -104,6 +110,12 @@ const userSchema = mongoose.Schema({
     ,
     personaladdress: [
         {
+            name: {
+                type: String,
+            },
+            mobile: {
+                type: Number,
+            },
             state: {
                 type: String,
             },
@@ -127,9 +139,9 @@ const userSchema = mongoose.Schema({
             }
         }
     ],
-    wallet:{
-        type :Number,
-        default:0
+    wallet: {
+        type: Number,
+        default: 0
     }
 
 

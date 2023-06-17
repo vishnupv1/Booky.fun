@@ -91,7 +91,7 @@ const loadHome = async (req, res) => {
         if (minPrice && maxPrice) {
             filter.price = { $gte: minPrice, $lte: maxPrice };
         }
-        
+
 
         // Query products with applied filters
         const products = await Product.find(filter)
@@ -107,7 +107,7 @@ const loadHome = async (req, res) => {
             selectedCategory: selectedCategory,
             minPrice: minPrice,
             maxPrice: maxPrice,
-            banner : banner
+            banner: banner
         });
     } catch (error) {
         console.log(error.message);
@@ -401,9 +401,15 @@ const updateprofile = async (req, res) => {
 }
 const loadadress = async (req, res) => {
     try {
+        let username = req.session.username
+        let session = req.session.loggedIn
+        let userData = await User.findOne({ _id: req.session.user_id })
+        let home = userData.homeaddress
+        let work = userData.workaddress
+        let personal = userData.personaladdress
         let userid = req.session.user_id
-        const userData = await User.findOne({ _id: userid }).lean().exec()
-        res.render('adress', { user: userData })
+        const userDatas = await User.findOne({ _id: userid }).lean().exec()
+        res.render('adress', { user: userDatas, home: encodeURIComponent(JSON.stringify(home)), work: encodeURIComponent(JSON.stringify(work)), personal: encodeURIComponent(JSON.stringify(personal)) })
     }
     catch (error) {
         console.log(error.message);
@@ -411,7 +417,7 @@ const loadadress = async (req, res) => {
 }
 const addaddress = async (req, res) => {
     try {
-        let userid = req.body.id
+        let userid = req.session.user_id
         let user = req.body
         let userD = await User.findOne({ _id: userid })
         let home = userD.homeaddress
@@ -420,46 +426,52 @@ const addaddress = async (req, res) => {
 
         if (req.body.type == 'Home') {
             await User.updateOne({ _id: userid }, {
-                $push: {
-                    homeaddress: {
-                        name: user.name,
-                        mobile: user.mobile,
-                        street: user.street,
-                        landmark: user.landmark,
-                        address: user.address,
-                        city: user.city,
-                        state: user.state,
-                        zipcode: user.zipcode
-                    }
+
+                homeaddress: {
+                    name: user.name,
+                    mobile: user.mobile,
+                    street: user.street,
+                    landmark: user.landmark,
+                    address: user.address,
+                    city: user.city,
+                    district: user.district,
+                    state: user.state,
+                    zipcode: user.zipcode
                 }
+
             })
         }
 
         else if (user.type === 'Work') {
             await User.updateOne({ _id: userid }, {
-                $push: {
-                    workaddress: {
-                        street: user.street,
-                        landmark: user.landmark,
-                        address: user.address,
-                        city: user.city,
-                        state: user.state,
-                        zipcode: user.zipcode
-                    }
+
+                workaddress: {
+                    name: user.name,
+                    mobile: user.mobile,
+                    street: user.street,
+                    landmark: user.landmark,
+                    address: user.address,
+                    city: user.city,
+                    district: user.district,
+                    state: user.state,
+                    zipcode: user.zipcode
+
                 }
             })
         }
         else {
             await User.updateOne({ _id: userid }, {
-                $push: {
-                    personaladdress: {
-                        street: user.street,
-                        landmark: user.landmark,
-                        address: user.address,
-                        city: user.city,
-                        state: user.state,
-                        zipcode: user.zipcode
-                    }
+                personaladdress: {
+                    name: user.name,
+                    mobile: user.mobile,
+                    street: user.street,
+                    landmark: user.landmark,
+                    address: user.address,
+                    city: user.city,
+                    district: user.district,
+                    state: user.state,
+                    zipcode: user.zipcode
+
                 }
             })
         }
@@ -613,6 +625,57 @@ const wallet = async (req, res) => {
         console.log(error.message);
     }
 }
+const shopcategory = async (req, res) => {
+    try {
+        const category = await Category.find({});
+        const totalProducts = await Product.countDocuments({});
+        const perPage = 8; // Number of products per page
+        const currentPage = req.query.page || 1; // Current page number
+
+        // Retrieve filter values from request query parameters
+        const selectedCategory = req.query.category;
+        const minPrice = req.query.minPrice;
+        const maxPrice = req.query.maxPrice;
+
+        // Create filter object based on selected category and price range
+        const filter = {};
+        if (selectedCategory) {
+            filter.category = selectedCategory;
+        }
+        if (minPrice && maxPrice) {
+            filter.price = { $gte: minPrice, $lte: maxPrice };
+        }
+
+
+        // Query products with applied filters
+        const products = await Product.find(filter)
+            .skip((currentPage - 1) * perPage)
+        const userD = await User.findById({ _id: req.session.user_id });
+        res.render('shopcategory', {
+            user: userD,
+            products: products,
+            category: category,
+            currentPage: currentPage,
+            totalPages: Math.ceil(totalProducts / perPage),
+            selectedCategory: selectedCategory,
+            minPrice: minPrice,
+            maxPrice: maxPrice,
+        });
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+const deleteAccount = async (req, res) => {
+    let id = req.session.user_id
+
+
+    await User.deleteOne({ _id: id })
+    res.redirect('/logout')
+
+
+
+}
+
 
 
 
@@ -645,5 +708,7 @@ module.exports = {
     unblockUser,
     loadImageUpdate,
     imageUpdate,
-    wallet
+    wallet,
+    shopcategory,
+    deleteAccount
 }
