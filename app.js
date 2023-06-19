@@ -3,7 +3,7 @@ const express = require('express')
 const user_route = require('./routes/userRoute')
 const path = require('path')
 const admin_route = require('./routes/adminRoute')
-mongoose.connect('mongodb://127.0.0.1:27017/booky')
+mongoose.connect('mongodb+srv://vishnu:<password>@cluster0.xwjes3g.mongodb.net/?retryWrites=true&w=majority')
 const app = express()
 const myEnv = require('dotenv').config()
 
