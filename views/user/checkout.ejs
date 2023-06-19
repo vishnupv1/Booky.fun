@@ -23,6 +23,7 @@
                     <form onsubmit="addOffer(event)">
                         <!-- form fields -->
                         <input type="text" placeholder="Enter coupon code if you have" id="code">
+                        <input type="text" id="coderror" readonly style="border: none; color: red;">
                         <button class="btn btn-info ml-5" type="submit">Apply Coupon</button>
                     </form>
                 </div>
@@ -102,14 +103,14 @@
                                 <li><a href="#">Subtotal <span> ₹ <%= totalamount %>.00</span></a></li>
                                 <li><a href="#">Delivery <span>Flat rate: ₹ 50.00</span></a></li>
                                 <% let Gtotal=totalamount + 50; %>
-                                    <li><a href="#">Total (In Rupees)</a></li>
-
-                                    <div class="d-flex justify-content-end ml-5">
-                                        <input class="justify-content-end" name="total" value="<%= Gtotal %>" id="total"
-                                            style="border:none;text-align: end;" readonly>
-                                    </div>
+                                    <li><a href="#">Total (In Rupees)
+                                            <span> <input class="justify-content-end" name="total" value="<%= Gtotal %>"
+                                                    id="total" style="border:none;text-align: end; background: none;"
+                                                    readonly>
+                                            </span></a>
+                                    </li>
                             </ul>
-
+                            <input type="text" name="paypaltotal" id="paypaltotal">
                             <div class="payment_item active mb-2" style="font-size: larger;font-weight: bolder;">
                                 <label for="" style="color: rgb(255, 0, 0);">Payment Options</label>
                                 <div class="form-check mb-2 ">
@@ -223,6 +224,7 @@
 
         </script>
         <script>
+            var newTotal
             function addOffer(event) {
                 event.preventDefault(); // Prevent the default form submission or button click behavior
 
@@ -236,20 +238,18 @@
                     if (xhr.readyState === 4 && xhr.status === 200) {
                         // Parse the response as JSON
                         var response = JSON.parse(xhr.responseText);
-
-                        // Access the newTotal value from the response
-                        var newTotal = response.newTotal;
-
-
-                        const input = document.getElementById('total');
-                        console.log(input.value)
-                        input.value = newTotal;
-                        console.log(input.value)
-
-                        input.dispatchEvent(new Event('input'));
-
-
-
+                        if (response != 'Not applicable' && response != 'expired') {
+                            newTotal = response.newTotal;
+                            const input = document.getElementById('total');
+                            const paypalvalue = document.getElementById('paypaltotal');
+                            input.value = newTotal
+                            paypalvalue.value = newTotal;
+                            input.dispatchEvent(new Event('input'));
+                        } else if (response == 'Not applicable') {
+                            document.getElementById('coderror').value = 'Not applicable'
+                        } else {
+                            document.getElementById('coderror').value = 'Coupon Expired!!!!'
+                        }
                     }
 
                 };
@@ -261,11 +261,7 @@
         <script>
 
             var wallet = JSON.parse(decodeURIComponent('<%- decodeURIComponent(balance) %>'))
-            var total = parseFloat(document.getElementById('total').value);
-
-
-
-
+            var total = newTotal
             document.getElementById('form2').addEventListener('submit', function (event) {
                 event.preventDefault();
                 var paymentType = document.querySelector('input[name="payment"]:checked').value;
@@ -274,10 +270,10 @@
                 } else if (paymentType === 'internet') {
                     var formData = new FormData(this);
                     sessionStorage.setItem('formData', JSON.stringify(Object.fromEntries(formData)));
-                    window.location.href = `/paypal?price=${total}`;
+                    window.location.href = `/paypal?price=${newTotal}`;
                 } else if (paymentType === 'wallet') {
                     console.log(wallet);
-                    if (wallet >= total) {
+                    if (wallet >= newTotal) {
                         this.submit()
                     } else {
                         walletAlert()

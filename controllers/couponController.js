@@ -18,8 +18,7 @@ const loadedcouponManagement = async (req, res) => {
                 }
             })
         }
-
-        res.render('coupon', { coupon,date:couponDetails })
+        res.render('coupon', { coupon, date: couponDetails })
     } catch (error) {
         console.log(error.message)
     }
@@ -30,10 +29,12 @@ const addCoupon = async (req, res) => {
         let offer = req.body.offer
         let description = req.body.description
         var expiry = req.body.expiry
+        var minamount = req.body.minamount
 
-
-        const catData = await Coupon.findOne({ code: code })
+        const pattern = new RegExp(code, "i")
+        const catData = await Coupon.findOne({ code: pattern })
         if (catData) {
+
             res.render('coupon', { message: 'Coupon duplication found' })
         } else {
             Coupon.insertMany({
@@ -41,6 +42,7 @@ const addCoupon = async (req, res) => {
                 offer: offer,
                 description: description,
                 expiry: expiry,
+                minamount: minamount
 
             })
             setTimeout(() => {
@@ -92,13 +94,21 @@ const applycoupon = async (req, res) => {
         if (!coupon) {
             return res.status(404).json({ error: 'Coupon not found' });
         }
+        let currentDate = Date.now()
+        if(coupon.expiry<currentDate){
+            return res.json('expired')  
+        }
+        if(totalamount>coupon.minamount){
+
         const discountPercentage = parseInt(coupon.offer)
         const discountAmount = totalamount * (discountPercentage / 100);
 
         // Calculate the new total
         const newTotal = totalamount - discountAmount;
-        console.log(newTotal);
         return res.json({ newTotal });
+        }else{
+            return res.json('Not applicable')  
+        }
     }
     catch (error) {
         console.log(error.message);

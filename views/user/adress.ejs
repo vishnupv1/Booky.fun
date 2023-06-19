@@ -51,7 +51,7 @@
 										<div class="mb-3 col-md-6">
 											<label for="type">Address type</label>
 											<select class="form-control" id="adress_type" name="type"
-												onchange="this.dispatchEvent(new CustomEvent('change'))">
+												onchange="this.dispatchEvent(new CustomEvent('change'))" value="" required>
 												<option>
 													Select type
 												</option>
@@ -70,48 +70,48 @@
 										<div class="mb-3 col-md-6">
 											<label for="street">Name</label>
 											<input type="text" id="name" name="name" class="form-control"
-												placeholder="Enter your name">
+												placeholder="Enter your name" required>
 										</div>
 										<div class="mb-3 col-md-6">
 											<label for="street">Mobile</label>
 											<input type="text" id="mobile" name="mobile" class="form-control"
-												placeholder="Enter your mobile number">
+												placeholder="Enter your mobile number" required>
 										</div>
 										<div class="mb-3 col-md-6">
 											<label for="street">Street</label>
 											<input type="text" id="street" name="street" class="form-control"
-												placeholder="Enter your street name">
+												placeholder="Enter your street name" required>
 										</div>
 										<div class="mb-3 col-md-6">
 											<label for="landmark">Landmark</label>
 											<input type="text" id="landmark" name="landmark" class="form-control"
-												placeholder="Enter your landmark">
+												placeholder="Enter your landmark" required>
 										</div>
 										<div class="mb-3 col-md-6">
 											<label for="address">Housename</label>
 											<input type="text" id="address" name="address" class="form-control"
-												placeholder="Enter your house/appartment name">
+												placeholder="Enter your house/appartment name" required>
 										</div>
 										<div class="mb-3 col-md-6">
 											<label for="state" class="form-label">City</label>
 											<input type="text" id="city" name="city" class="form-control"
-												placeholder="Enter your city">
+												placeholder="Enter your city" required>
 										</div>
 										<div class="mb-3 col-md-6">
 											<label for="state" class="form-label">District</label>
 											<input type="text" id="district" name="district" class="form-control"
-												placeholder="Enter your district">
+												placeholder="Enter your district" required>
 										</div>
 										<div class="mb-3 col-md-6">
 											<label for="state" class="form-label">State</label>
 											<input type="text" id="state" name="state" class="form-control"
-												value="Kerala" readonly>
+												value="Kerala" readonly required>
 										</div>
 
 										<div class="mb-3 col-md-6">
 											<label for="zipCode" class="form-label">Zip Code</label>
 											<input type="text" id="zipcode" name="zipcode" class="form-control"
-												placeholder="Enter your zipcode">
+												placeholder="Enter your zipcode" required>
 										</div>
 
 
@@ -207,13 +207,15 @@
 
 						}
 						else {
-							street.value = '';
-							landmark.value = '';
-							city.value = '';
-							address.value = '';
-							zipcode.value = '';
-							state.value = '';
-							district.value = '';
+							street.value = ''
+							landmark.value = ''
+							city.value = ''
+							district.value = ''
+							address.value = ''
+							zipcode.value = ''
+							state.value = ''
+							name.value = ''
+							mobile.value = ''
 						}
 					});
 

@@ -1,6 +1,7 @@
 const express = require('express')
 const User = require('../models/userModel')
 const Product = require('../models/productModel')
+const Coupon = require('../models/couponModel')
 const Category = require('../models/categoryModel')
 const Banner = require('../models/bannerModel')
 const bcrypt = require('bcrypt')
@@ -459,7 +460,7 @@ const addaddress = async (req, res) => {
                 }
             })
         }
-        else {
+        else if (user.type === 'Personal') {
             await User.updateOne({ _id: userid }, {
                 personaladdress: {
                     name: user.name,
@@ -474,6 +475,9 @@ const addaddress = async (req, res) => {
 
                 }
             })
+        }
+        else {
+            redirect('/profile')
         }
 
         res.redirect('/adress' + '?id=' + userid)
@@ -675,7 +679,25 @@ const deleteAccount = async (req, res) => {
 
 
 }
-
+const mycoupon = async (req, res) => {
+    try {
+        const userD = await User.findById({ _id: req.session.user_id })
+        const coupon = await Coupon.find({})
+        couponDetails = coupon.map(cpn => {
+            const expiryDate = new Date(cpn.expiry); // Convert date to a Date object
+            const year = expiryDate.getFullYear();
+            const month = expiryDate.getMonth() + 1;
+            const date = expiryDate.getDate();
+            return {
+                date: `${date}/${month}/${year}`,
+            }
+        })
+        res.render('coupon', { coupon: coupon, date: couponDetails })
+    }
+    catch (error) {
+        console.log(error.message);
+    }
+}
 
 
 
@@ -710,5 +732,6 @@ module.exports = {
     imageUpdate,
     wallet,
     shopcategory,
-    deleteAccount
+    deleteAccount,
+    mycoupon
 }

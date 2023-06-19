@@ -72,6 +72,7 @@ user_route.get('/contact', userController.contact)
 user_route.get('/start', userController.loadStart)
 user_route.post('/mailme', userController.mailme)
 user_route.get('/loadImageUpdate', userController.loadImageUpdate)
+user_route.get('/mycoupon', userController.mycoupon)
 user_route.post('/deleteAccount', userController.deleteAccount)
 
 

@@ -11,6 +11,9 @@ const couponSchema = mongoose.Schema({
     },
     description: {
         type: String
+    },
+    minamount: {
+        type: Number
     }
 })
 
