@@ -79,7 +79,7 @@ const loadHome = async (req, res) => {
         const count = paypal.length > 0 ? paypal[0].totalCount : 0;
 
         const books = await Product.find({});
-
+        var totalStock = 0
         const stockSumResult = await Product.aggregate([
             {
                 $group: {
@@ -93,7 +93,7 @@ const loadHome = async (req, res) => {
         orderStatusCounts.forEach((statusCount) => {
             orderStatusCountsObj[statusCount._id] = statusCount.count;
         });
-
+        
         res.render('adminhome', {
             user: users,
             order: orders,
