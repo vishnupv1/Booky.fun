@@ -261,7 +261,8 @@
         <script>
 
             var wallet = JSON.parse(decodeURIComponent('<%- decodeURIComponent(balance) %>'))
-            var total = newTotal
+            var amount = parseFloat(document.getElementById('total').value)
+
             document.getElementById('form2').addEventListener('submit', function (event) {
                 event.preventDefault();
                 var paymentType = document.querySelector('input[name="payment"]:checked').value;
@@ -270,7 +271,12 @@
                 } else if (paymentType === 'internet') {
                     var formData = new FormData(this);
                     sessionStorage.setItem('formData', JSON.stringify(Object.fromEntries(formData)));
-                    window.location.href = `/paypal?price=${newTotal}`;
+                    if (newTotal) {
+                        window.location.href = `/paypal?price=${newTotal}`;
+                    } else {
+                        window.location.href = `/paypal?price=${amount}`;
+
+                    }
                 } else if (paymentType === 'wallet') {
                     console.log(wallet);
                     if (wallet >= newTotal) {
