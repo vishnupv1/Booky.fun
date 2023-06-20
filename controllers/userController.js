@@ -37,7 +37,7 @@ const sendVerifyMail = async (username, email, id) => {
             from: config.emailUser,
             to: email,
             subject: 'For verification mail',
-            html: '<p>Hi' + username + ', Plese click here to verify your Booky.com account <a href = "http://localhost:4000/verify?id=' + id + '">Verify</a>your mail</p>'
+            html: '<p>Hi' + username + ', Plese click here to verify your Booky.com account <a href = "http://booky.fun:4000/verify?id=' + id + '">Verify</a>your mail</p>'
         }
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
@@ -319,7 +319,7 @@ const sendResetPasswordMail = async (username, email, token) => {
             from: config.emailUser,
             to: email,
             subject: 'For Reset password',
-            html: '<p>Hi ' + username + ', Plese click here to <a href = "http://localhost:4000/forgotpassword?token=' + token + '">Reset</a>your password</p>'
+            html: '<p>Hi ' + username + ', Plese click here to <a href = "http://booky.fun:4000/forgotpassword?token=' + token + '">Reset</a>your password</p>'
         }
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
