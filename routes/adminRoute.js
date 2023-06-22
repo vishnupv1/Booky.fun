@@ -75,13 +75,18 @@ admin_route.get('/deletebook', adminauth.isLogin, productController.deletebook)
 admin_route.get('/undodelete', adminauth.isLogin, productController.undodelete)
 admin_route.get('/stockManagement', productController.stockManagement)
 
-admin_route.get('/orders', orderController.showorder)
-admin_route.get('/viewOrder', orderController.viewOrder)
-admin_route.get('/cancelOrder', orderController.cancelOrder)
-admin_route.post('/updateOrderStatus', orderController.updateOrderStatus)
+admin_route.get('/orders', adminauth.isLogin, orderController.showorder)
+admin_route.get('/viewOrder', adminauth.isLogin, orderController.viewOrder)
+admin_route.get('/cancelOrder', adminauth.isLogin, orderController.cancelOrder)
+admin_route.post('/updateOrderStatus', adminauth.isLogin, orderController.updateOrderStatus)
 admin_route.post('/reportExport', adminController.reportExport)
-
-
+admin_route.get('/salesreport', adminauth.isLogin, adminController.getSalesPage)
+admin_route.get('/getTodaySales', adminauth.isLogin, adminController.getTodaySales)
+admin_route.get('/getWeekSales', adminauth.isLogin, adminController.getWeekSales)
+admin_route.get('/getMonthSales', adminauth.isLogin, adminController.getMonthSales)
+admin_route.get('/GetYearSales', adminauth.isLogin, adminController.GetYearSales)
+admin_route.post('/salesWithDate', adminController.salesWithDate)
+admin_route.get('/printReport', adminauth.isLogin, adminController.downloadSalesReport)
 
 admin_route.get('/category', adminauth.isLogin, categoryController.loadcategory)
 admin_route.get('/addcategory', adminauth.isLogin, categoryController.loadaddcategory)
@@ -98,9 +103,6 @@ admin_route.get('/deleteCoupon', adminauth.isLogin, couponController.deleteCoupo
 admin_route.get('/bannerManagement', adminauth.isLogin, bannerController.loadBannerManagement)
 admin_route.post('/addBanner', adminauth.isLogin, upload.array('image'), bannerController.addBanner)
 admin_route.get('/deleteBanner', adminauth.isLogin, bannerController.deleteBanner)
-
-
-
 
 module.exports = admin_route
 

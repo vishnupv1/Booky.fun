@@ -89,6 +89,8 @@
                                                     <%= cartData[i].total %>
                                                 </h5>
                                             </div>
+                                            <input class="ml-2" type="text" value="Only <%= cartData[i].stock%> Books left"
+                                                style="border: none; color: rgb(154, 82, 82);" readonly>
                                             <div class="col-md-1 col-lg-1 col-xl-1 text-end">
                                                 <a href="/cart/delete/<%= cartData[i]._id %>" class="text-danger"><i
                                                         class="fas fa-trash fa-lg"></i></a>
@@ -172,7 +174,7 @@
                     async function updateCart() {
                         const products = cardDataArray.map(cardData => {
                             const prod_id = cardData.querySelector('.prod_id_class').value;
-                            iddd=prod_id
+                            iddd = prod_id
                             const quantity = Number(cardData.querySelector('.quantity_class').value);
                             return ({
                                 prod_id,
@@ -187,13 +189,13 @@
                                 headers: {
                                     'Content-Type': 'application/json',
                                 },
-                                body: JSON.stringify(updatedCartData),iddd
+                                body: JSON.stringify(updatedCartData), iddd
                             });
 
                             const resBody = await response.json();
                             console.log(resBody);
-                            if(resBody == 'exceeded'){
-                                document.getElementById('errorMessage').style.display = "block" 
+                            if (resBody == 'exceeded') {
+                                document.getElementById('errorMessage').style.display = "block"
                             }
 
                         } catch (err) {

@@ -28,7 +28,9 @@
     "nodemon": "^2.0.22",
     "paypal-rest-sdk": "^1.8.1",
     "pdf-creator-node": "^2.3.5",
+    "pdf-printer": "^0.0.3",
     "pdfkit": "^0.13.0",
+    "pdfmake": "^0.2.7",
     "randomstring": "^1.2.3",
     "xlsx": "^0.18.5"
   }
