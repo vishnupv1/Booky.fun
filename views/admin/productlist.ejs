@@ -228,8 +228,7 @@
                                                 <a><button class="btn btn-danger ublock"
                                                         onclick="deleteBook('<%= products[i]._id %>')">Delete</button></a>
                                                 <%}else{%>
-                                                    <a><button class="btn btn-warning ublock"
-                                                            onclick="deleteBook('<%= products[i]._id %>')">Undo</button></a>
+                                                    <a href="/admin//undodelete?id=<%= products[i]._id %>"><button class="btn btn-warning ublock">Undo</button></a>
                                                     <%}%>
                                         </td>
 

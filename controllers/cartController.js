@@ -7,6 +7,7 @@ const user_router = require('../routes/userRoute')
 //add to cart
 const addtocart = async (req, res) => {
     try {
+        
         let prodId = req.query.id
         let userId = req.session.user_id
         let userCart = await Cart.findOne({ user_id: userId })
@@ -79,6 +80,7 @@ const showCart = async (req, res) => {
                 return ({
                     _id: prod.product_id._id.toString(),
                     name: prod.product_id.name,
+                    stock :prod.product_id.stock, 
                     price: prod.product_id.price,
                     image: prod.product_id.image,
                     quantity: prod.quantity,
@@ -120,11 +122,21 @@ const updateCart = async (req, res) => {
     try {
         let userId = req.session.user_id
         let updateValues = req.body.products
-        for (let data of updateValues) {
-            const { prod_id, quantity, finalAmount } = data;
-            const changeCart = await Cart.updateOne({ $and: [{ user_id: userId }, { 'products.product_id': prod_id }] }, { $set: { 'products.$.quantity': quantity, total: finalAmount } })
-        }
-        res.send({ isOk: true })
+        let idx=req.body.iddd
+        console.log(idx);
+
+        id = updateValues[0].prod_id
+        let product = await Product.findOne({ _id: id })
+        let Stock = product.stock
+        let quant = updateValues[0].quantity
+
+        if (quant <= Stock) {
+            for (let data of updateValues) {
+                const { prod_id, quantity, finalAmount } = data;
+                const changeCart = await Cart.updateOne({ $and: [{ user_id: userId }, { 'products.product_id': prod_id }] }, { $set: { 'products.$.quantity': quantity, total: finalAmount } })
+            }
+            res.send({ isOk: true })
+        } 
     } catch (error) {
         console.log(error.message);
     }

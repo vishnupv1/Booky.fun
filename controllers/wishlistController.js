@@ -52,10 +52,12 @@ const showWishlist = async (req, res) => {
                     name: prod.product_id.name,
                     price: prod.product_id.price,
                     image: prod.product_id.image,
+                    stock: prod.product_id.stock,
                     quantity: prod.quantity,
                     total: totalS,
                 })
             })
+            ;
             res.render('wishlist', { title: "User Wislist", wishlistData: products, username, session, message: '', total: "Total wishlist amount" })
         } else {
             res.render('wishlist', { title: 'User Wishlist', message: "Wishlist is empty", wishlistData: '', total: '' })

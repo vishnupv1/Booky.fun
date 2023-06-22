@@ -75,9 +75,8 @@
 
                                                 <input id="form1"
                                                     class="quantity_class quantityInput form-control form-control-sm"
-                                                    min="1" name="quantity" value="<%= cartData[i].quantity %>"
-                                                    type="number" />
-
+                                                    min="1" name="quantity" max="<%= cartData[i].stock%>"
+                                                    value="<%= cartData[i].quantity %>" type="number" />
                                                 <button class="btn btn-link px-2"
                                                     onclick="this.parentNode.querySelector('input[type=number]').stepUp();this.parentNode.querySelector('.quantityInput').dispatchEvent(new CustomEvent('change'));">
                                                     <i class="fas fa-plus"></i>
@@ -96,6 +95,9 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <p id="errorMessage" style="color: red;margin-left:1rem; display: none;">Maximum
+                                        value
+                                        reached.</p>
                                 </div>
                                 <% } } %>
                                     <div class="card mb-4">
@@ -166,9 +168,11 @@
 
                         totalPriceEl.dispatchEvent(new CustomEvent('change'));
                     });
+                    var iddd
                     async function updateCart() {
                         const products = cardDataArray.map(cardData => {
                             const prod_id = cardData.querySelector('.prod_id_class').value;
+                            iddd=prod_id
                             const quantity = Number(cardData.querySelector('.quantity_class').value);
                             return ({
                                 prod_id,
@@ -183,11 +187,15 @@
                                 headers: {
                                     'Content-Type': 'application/json',
                                 },
-                                body: JSON.stringify(updatedCartData),
+                                body: JSON.stringify(updatedCartData),iddd
                             });
 
                             const resBody = await response.json();
-                            console.info(resBody);
+                            console.log(resBody);
+                            if(resBody == 'exceeded'){
+                                document.getElementById('errorMessage').style.display = "block" 
+                            }
+
                         } catch (err) {
                             console.err(err);
                         }

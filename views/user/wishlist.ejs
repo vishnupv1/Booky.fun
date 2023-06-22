@@ -49,36 +49,25 @@
                                                     <%= wishlistData[i].name %>
                                                 </p>
                                             </div>
-                                            <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                                <button class="btn btn-link px-2"
-                                                    onclick="this.parentNode.querySelector('input[type=number]').stepDown();this.parentNode.querySelector('.quantityInput').dispatchEvent(new CustomEvent('change'));">
-                                                    <i class="fas fa-minus"></i>
-                                                </button>
 
-                                                <input id="form1"
-                                                    class="quantity_class quantityInput form-control form-control-sm"
-                                                    min="0" name="quantity" value="<%= wishlistData[i].quantity %>"
-                                                    type="number" />
-
-                                                <button class="btn btn-link px-2"
-                                                    onclick="this.parentNode.querySelector('input[type=number]').stepUp();this.parentNode.querySelector('.quantityInput').dispatchEvent(new CustomEvent('change'));">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
-                                            </div>
                                             <input type="hidden" name="originalPrice" class="originalPriceClass"
                                                 id="originalPrice" value="<%= wishlistData[i].price %>">
-                                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                                <h5 class="totalPriceClass mb-0" id="totalPrice">
-                                                    <%= wishlistData[i].total %>
-                                                </h5>
-                                            </div>
+
                                             <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                                <a href="/addtocartFromWishlist?id=<%= wishlistData[i]._id %>&quantity=<%= wishlistData[i].quantity %>"
-                                                    class="social-info" onclick="function3()"
-                                                    style="text-decoration:none">
-                                                    <span class="fa fa-2x fa-shopping-cart"
-                                                        style="color:rgb(0, 111, 43)"></span>
-                                                </a>
+                                                <%if((wishlistData[i].stock)>0){%>
+                                                    <a href="/addtocartFromWishlist?id=<%= wishlistData[i]._id %>&quantity=<%= wishlistData[i].quantity %>"
+                                                        class="social-info" onclick="function3()"
+                                                        style="text-decoration:none">
+                                                        <button class="btn btn-primary"
+                                                            style="color:rgb(255, 255, 255)">Add to cart</button>
+                                                    </a>
+                                                    <%}else{%>
+                                                        <a href="" id="myLink" class="social-info"
+                                                            style="text-decoration:none">
+                                                            <button class="btn btn-danger"
+                                                                style="color:rgb(255, 255, 255)">Out of stock</button>
+                                                        </a>
+                                                        <%}%>
                                             </div>
                                             <div class="col-md-1 col-lg-1 col-xl-1 text-end">
                                                 <input type="text" hidden id="id" value="<%= wishlistData[i]._id %>">
@@ -198,4 +187,11 @@
                         }
                     });
                 }
+            </script>
+            <script>
+                var link = document.getElementById("myLink");
+
+                link.addEventListener("click", function (event) {
+                    event.preventDefault();
+                });
             </script>

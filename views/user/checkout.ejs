@@ -1,5 +1,60 @@
 <%- include('../user/newhead')%>
+    <style>
+        /* .container form {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: column;
+        } */
 
+        .container label {
+            display: flex;
+            cursor: pointer;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 0.375em;
+        }
+
+        .container label input {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .container label input:checked+span {
+            background-color: #00c50d;
+            color: white;
+        }
+
+        .container label input:checked+span:before {
+            box-shadow: inset 0 0 0 0.4375em #a4ff12;
+        }
+
+        .container label span {
+            display: flex;
+            align-items: center;
+            padding: 0.375em 0.75em 0.375em 0.375em;
+            border-radius: 99em;
+            transition: 0.25s ease;
+            color: #414181;
+        }
+
+        .container label span:hover {
+            background-color: #d6d6e5;
+        }
+
+        .container label span:before {
+            display: flex;
+            flex-shrink: 0;
+            content: "";
+            background-color: #fff;
+            width: 1.5em;
+            height: 1.5em;
+            border-radius: 50%;
+            margin-right: 0.375em;
+            transition: 0.25s ease;
+            box-shadow: inset 0 0 0 0.125em #00005c;
+        }
+    </style>
     <section class="banner-area organic-breadcrumb">
         <div class="container">
             <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
@@ -113,37 +168,32 @@
                             <input type="text" name="paypaltotal" id="paypaltotal" hidden>
                             <div class="payment_item active mb-2" style="font-size: larger;font-weight: bolder;">
                                 <label for="" style="color: rgb(255, 0, 0);">Payment Options</label>
-                                <div class="form-check mb-2 ">
-                                    <input class="form-check-input" type="radio" name="payment" id="paymentType1"
-                                        value="cash">
-                                    <label class="form-check-label" for="paymentType1">
-                                        Cash on delivery
+
+                                <div class="container">
+                                    <label>
+                                        <input type="radio" name="payment" checked="" id="paymentType1" value="cash">
+                                        <span>COD</span>
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="payment" id="paymentType2" value="internet">
+                                        <span>Paypal</span>
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="payment" id="paymentType3" value="wallet">
+                                        <span>Wallet</span>
                                     </label>
                                 </div>
-                                <div class="form-check mb-2">
-                                    <input class="form-check-input" type="radio" name="payment" id="paymentType2"
-                                        value="internet">
-                                    <label class="form-check-label" for="paymentType2">
-                                        Internet Banking
-                                    </label>
-                                </div>
-                                <div class="form-check ">
-                                    <input class="form-check-input" type="radio" name="payment" id="paymentType3"
-                                        value="wallet">
-                                    <label class="form-check-label" for="paymentType3">
-                                        Wallet
-                                    </label>
+
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit" class="primary-btn" style="border: none;">Proceed to
+                                        Pay</button>
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-center">
-                                <button type="submit" class="primary-btn" style="border: none;">Proceed to Pay</button>
-                            </div>
+                            </form>
                         </div>
-                        </form>
                     </div>
                 </div>
             </div>
-        </div>
     </section>
     <!--================End Checkout Area =================-->
     <%- include('../user/footer')%>
@@ -278,11 +328,18 @@
 
                     }
                 } else if (paymentType === 'wallet') {
-                    console.log(wallet);
-                    if (wallet >= newTotal) {
-                        this.submit()
+                    if (newTotal) {
+                        if (wallet >= newTotal) {
+                            this.submit()
+                        } else {
+                            walletAlert()
+                        }
                     } else {
-                        walletAlert()
+                        if (wallet >= amount) {
+                            this.submit()
+                        } else {
+                            walletAlert()
+                        }
                     }
                 }
             });
