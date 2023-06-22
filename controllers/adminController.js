@@ -10,7 +10,7 @@ const nodemailer = require('nodemailer')
 const PDFDocument = require('pdfkit');
 const XLSX = require('xlsx');
 const fs = require('fs');
-const PdfPrinter = require('pdfmake')
+// const PdfPrinter = require('pdfmake')
 
 const securePassword = async (passwrod) => {
     try {
