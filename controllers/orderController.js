@@ -49,6 +49,7 @@ const checkout = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message)
+        res.render('errorPage')
     }
 }
 const placeorder = async (req, res) => {
@@ -85,6 +86,7 @@ const placeorder = async (req, res) => {
         res.redirect('/')
     } catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 }
 const myOrders = async (req, res) => {
@@ -142,6 +144,7 @@ const myOrders = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 };
 const Orderlist = async (req, res) => {
@@ -183,6 +186,7 @@ const Orderlist = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 };
 const cancelOrder = async (req, res) => {
@@ -203,55 +207,67 @@ const cancelOrder = async (req, res) => {
 
     } catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 };
 const pay = async (req, res) => {
     // Create a payment JSON payload
-    let price = req.query.price
-    const paymentData = {
-        intent: 'sale',
-        payer: {
-            payment_method: 'paypal'
-        },
-        redirect_urls: {
-            return_url: 'http://localhost:4000/success',
-            cancel_url: 'http://localhost:4000/cancel'
-        },
-        transactions: [{
-            amount: {
-                total: price,
-                currency: 'INR'
-            },
-            description: 'Sample payment description'
-        }]
-    };
+    try {
 
-    // Create a PayPal payment
-    paypal.payment.create(paymentData, (error, payment) => {
-        if (error) {
-            console.error(error);
-            res.sendStatus(500);
-        } else {
-            // If payment created successfully, redirect to PayPal approval URL
-            const approvalUrl = payment.links.find(link => link.rel === 'approval_url').href;
-            res.redirect(approvalUrl);
-        }
-    });
+        let price = req.query.price
+        const paymentData = {
+            intent: 'sale',
+            payer: {
+                payment_method: 'paypal'
+            },
+            redirect_urls: {
+                return_url: 'http://localhost:4000/success',
+                cancel_url: 'http://localhost:4000/cancel'
+            },
+            transactions: [{
+                amount: {
+                    total: price,
+                    currency: 'INR'
+                },
+                description: 'Sample payment description'
+            }]
+        };
+
+        // Create a PayPal payment
+        paypal.payment.create(paymentData, (error, payment) => {
+            if (error) {
+                console.error(error);
+                res.sendStatus(500);
+            } else {
+                // If payment created successfully, redirect to PayPal approval URL
+                const approvalUrl = payment.links.find(link => link.rel === 'approval_url').href;
+                res.redirect(approvalUrl);
+            }
+        });
+    } catch (error) {
+        console.log(error.message)
+        res.render('errorPage')
+    }
 }
 const success = async (req, res) => {
-    const paymentId = req.query.paymentId;
-    const payerId = req.query.PayerID;
+    try {
+        const paymentId = req.query.paymentId;
+        const payerId = req.query.PayerID;
 
-    // Execute the PayPal payment
-    paypal.payment.execute(paymentId, { payer_id: payerId }, (error, payment) => {
-        if (error) {
-            console.error(error);
-            res.sendStatus(500);
-        } else {
-            // Payment successful, display a success page or perform any additional actions
-            res.send('Payment successful!');
-        }
-    });
+        // Execute the PayPal payment
+        paypal.payment.execute(paymentId, { payer_id: payerId }, (error, payment) => {
+            if (error) {
+                console.error(error);
+                res.sendStatus(500);
+            } else {
+                // Payment successful, display a success page or perform any additional actions
+                res.send('Payment successful!');
+            }
+        });
+    } catch (error) {
+        console.log(error.message)
+        res.render('errorPage')
+    }
 }
 const cancel = async (req, res) => {
     // Payment cancelled, display a cancellation page or redirect back to the cart
@@ -263,6 +279,7 @@ const loadpaypal = async (req, res) => {
         res.render('pay', { price })
     } catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 }
 const paypalpost = async (req, res) => {
@@ -296,6 +313,7 @@ const paypalpost = async (req, res) => {
         res.redirect('/')
     } catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 }
 const updateOrderStatus = async (req, res) => {
@@ -321,6 +339,7 @@ const updateOrderStatus = async (req, res) => {
     }
     catch (error) {
         console.error(error.message);
+        res.render('errorPage')
     };
 };
 const showorder = async (req, res) => {
@@ -332,6 +351,7 @@ const showorder = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 }
 const viewOrder = async (req, res) => {
@@ -372,6 +392,7 @@ const viewOrder = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 }
 const returnOrder = async (req, res) => {
@@ -382,6 +403,7 @@ const returnOrder = async (req, res) => {
 
     } catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 };
 module.exports = {
@@ -399,6 +421,4 @@ module.exports = {
     showorder,
     viewOrder,
     returnOrder,
-
-
 }

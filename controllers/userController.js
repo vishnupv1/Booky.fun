@@ -18,6 +18,7 @@ const securePassword = async (passwrod) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 }
 //for sending signup verification mail
@@ -50,6 +51,8 @@ const sendVerifyMail = async (username, email, id) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('errorPage')
+
     }
 }
 //loading signup page
@@ -59,6 +62,8 @@ const loadRegister = async (req, res) => {
     }
     catch {
         console.log(error.message);
+        res.render('errorPage')
+
     }
 }
 //loading login page
@@ -68,6 +73,8 @@ const loadLogin = async (req, res) => {
     }
     catch {
         console.log(error.message);
+        res.render('errorPage')
+
     }
 }
 //loading home page
@@ -112,6 +119,7 @@ const loadHome = async (req, res) => {
         });
     } catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 };
 //loading User Profile
@@ -122,6 +130,7 @@ const loadProfile = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 }
 //loading otp login
@@ -131,6 +140,7 @@ const loadOtpLogin = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 }
 //mailing function
@@ -163,6 +173,7 @@ const otpVerifyMail = async (username, email, otp) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 }
 //sending otp for login
@@ -185,6 +196,7 @@ const otpSend = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 }
 //verifying otp
@@ -280,6 +292,7 @@ const verifyLogin = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 }
 //loading logout
@@ -290,6 +303,7 @@ const loadLogout = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 }
 //load forgot password page
@@ -300,6 +314,7 @@ const loadForgot = async (req, res) => {
     }
     catch {
         console.log(error.message);
+        res.render('errorPage')
     }
 }
 //for send password reset mail
@@ -332,6 +347,7 @@ const sendResetPasswordMail = async (username, email, token) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 }
 //verify mail
@@ -354,6 +370,7 @@ const forgotVerify = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 }
 //load password reset page
@@ -370,6 +387,7 @@ const loadForgotPassword = async (req, res) => {
     }
     catch {
         console.log(error.message);
+        res.render('errorPage')
     }
 }
 //reset password
@@ -383,6 +401,7 @@ const resetPassword = async (req, res) => {
     }
     catch {
         console.log(error.message);
+        res.render('errorPage')
     }
 }
 const updateprofile = async (req, res) => {
@@ -398,6 +417,7 @@ const updateprofile = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 }
 const loadadress = async (req, res) => {
@@ -414,6 +434,7 @@ const loadadress = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 }
 const addaddress = async (req, res) => {
@@ -484,6 +505,7 @@ const addaddress = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 }
 const loadchangepwd = async (req, res) => {
@@ -494,6 +516,7 @@ const loadchangepwd = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 }
 const changepwd = async (req, res) => {
@@ -521,6 +544,7 @@ const changepwd = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 }
 const contact = async (req, res) => {
@@ -528,6 +552,7 @@ const contact = async (req, res) => {
         res.render('contacts')
     } catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 };
 const loadStart = async (req, res) => {
@@ -535,6 +560,7 @@ const loadStart = async (req, res) => {
         res.render('start')
     } catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 };
 const mailme = async (req, res) => {
@@ -568,6 +594,7 @@ const mailme = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 };
 const listUser = async (req, res) => {
@@ -577,6 +604,8 @@ const listUser = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
+
     }
 }
 const blockUser = async (req, res) => {
@@ -587,6 +616,7 @@ const blockUser = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
     }
 }
 const unblockUser = async (req, res) => {
@@ -597,7 +627,10 @@ const unblockUser = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
+
     }
+
 }
 const loadImageUpdate = async (req, res) => {
     try {
@@ -606,6 +639,8 @@ const loadImageUpdate = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('errorPage')
+
     }
 }
 const imageUpdate = async (req, res) => {
@@ -627,6 +662,8 @@ const wallet = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
+
     }
 }
 const shopcategory = async (req, res) => {
@@ -667,17 +704,17 @@ const shopcategory = async (req, res) => {
         });
     } catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 };
 const deleteAccount = async (req, res) => {
-    let id = req.session.user_id
-
-
-    await User.deleteOne({ _id: id })
-    res.redirect('/logout')
-
-
-
+    try {
+        let id = req.session.user_id
+        await User.deleteOne({ _id: id })
+        res.redirect('/logout')
+    } catch {
+        res.render('errorPage')
+    }
 }
 const mycoupon = async (req, res) => {
     try {
@@ -696,6 +733,7 @@ const mycoupon = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 }
 

@@ -15,6 +15,8 @@ const loadcategory = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
+
     }
 }
 //load add category view
@@ -24,6 +26,8 @@ const loadaddcategory = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
+
     }
 }
 //add new category
@@ -45,6 +49,8 @@ const addcategory = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
+
     }
 }
 //delete an existing category
@@ -59,6 +65,8 @@ const deletecategory = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
+
     }
 }
 //load edit category view
@@ -69,6 +77,7 @@ const loadeditCategory = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
     }
 }
 //Update category view
@@ -86,6 +95,8 @@ const updateCategory = async (req, res) => {
 
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
+
     }
 }
 

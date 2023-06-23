@@ -11,6 +11,7 @@ const viewproduct = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 }
 //product search in user side
@@ -28,6 +29,7 @@ const search = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 };
 //product category filter in user side
@@ -44,6 +46,7 @@ const filter = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 };
 //product price filter in user side
@@ -57,6 +60,7 @@ const pricefilter = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
     res.json(filteredProducts);
 };
@@ -68,6 +72,7 @@ const listProdcut = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
     }
 }
 //load add book view in admin side
@@ -78,6 +83,7 @@ const loadaddBook = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
     }
 }
 //add book in admin side
@@ -103,12 +109,13 @@ const addBook = async (req, res) => {
                 image: arrayimage,
             })
             await prodcut.save()
-                res.redirect('/admin/productlist');
+            res.redirect('/admin/productlist');
 
         }
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
     }
 }
 //load delete book view in admin side
@@ -118,6 +125,7 @@ const loaddeleteBook = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
     }
 }
 //load edit book view in admin side
@@ -129,6 +137,7 @@ const loadeditBook = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('errorPage')
     }
 }
 //edit book details in admin side
@@ -178,6 +187,7 @@ const updateBook = async (req, res) => {
 
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
     }
 }
 //delete book in admin side
@@ -185,24 +195,26 @@ const deletebook = async (req, res) => {
     try {
         const productData = await Product.findOne({ _id: req.query.id })
         if (productData) {
-            await Product.updateOne({ _id: req.query.id },{$set:{listable:0}})
+            await Product.updateOne({ _id: req.query.id }, { $set: { listable: 0 } })
         }
         res.redirect('/admin/productlist')
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
     }
 }
 const undodelete = async (req, res) => {
     try {
         const productData = await Product.findOne({ _id: req.query.id })
         if (productData) {
-            await Product.updateOne({ _id: req.query.id },{$set:{listable:1}})
+            await Product.updateOne({ _id: req.query.id }, { $set: { listable: 1 } })
         }
         res.redirect('/admin/productlist')
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
     }
 }
 //managemnt of stock and its chart
@@ -212,11 +224,9 @@ const stockManagement = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
     }
 }
-
-
-
 module.exports = {
     viewproduct,
     search,

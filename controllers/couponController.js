@@ -21,6 +21,7 @@ const loadedcouponManagement = async (req, res) => {
         res.render('coupon', { coupon, date: couponDetails })
     } catch (error) {
         console.log(error.message)
+        res.render('user/errorPage')
     }
 }
 const addCoupon = async (req, res) => {
@@ -53,6 +54,7 @@ const addCoupon = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
     }
 }
 const deleteCoupon = async (req, res) => {
@@ -66,6 +68,7 @@ const deleteCoupon = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
     }
 }
 const editCoupon = async (req, res) => {
@@ -83,6 +86,7 @@ const editCoupon = async (req, res) => {
 
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
     }
 }
 const applycoupon = async (req, res) => {
@@ -95,23 +99,24 @@ const applycoupon = async (req, res) => {
             return res.status(404).json({ error: 'Coupon not found' });
         }
         let currentDate = Date.now()
-        if(coupon.expiry<currentDate){
-            return res.json('expired')  
+        if (coupon.expiry < currentDate) {
+            return res.json('expired')
         }
-        if(totalamount>coupon.minamount){
+        if (totalamount > coupon.minamount) {
 
-        const discountPercentage = parseInt(coupon.offer)
-        const discountAmount = totalamount * (discountPercentage / 100);
+            const discountPercentage = parseInt(coupon.offer)
+            const discountAmount = totalamount * (discountPercentage / 100);
 
-        // Calculate the new total
-        const newTotal = totalamount - discountAmount;
-        return res.json({ newTotal });
-        }else{
-            return res.json('Not applicable')  
+            // Calculate the new total
+            const newTotal = totalamount - discountAmount;
+            return res.json({ newTotal });
+        } else {
+            return res.json('Not applicable')
         }
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
     }
 }
 

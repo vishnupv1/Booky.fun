@@ -19,6 +19,7 @@ const securePassword = async (passwrod) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
     }
 }
 const loadLogin = async (req, res) => {
@@ -26,6 +27,8 @@ const loadLogin = async (req, res) => {
         res.render('adminlogin')
     } catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
+
     }
 }
 const verifyLogin = async (req, res) => {
@@ -48,6 +51,8 @@ const verifyLogin = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
+
     }
 }
 const loadHome = async (req, res) => {
@@ -106,6 +111,8 @@ const loadHome = async (req, res) => {
         });
     } catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
+
     }
 };
 const loadForgot = async (req, res) => {
@@ -114,6 +121,8 @@ const loadForgot = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
+
     }
 }
 const sendResetPasswordMail = async (username, email, token) => {
@@ -145,6 +154,8 @@ const sendResetPasswordMail = async (username, email, token) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
+
     }
 }
 const forgotVerify = async (req, res) => {
@@ -164,6 +175,8 @@ const forgotVerify = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
+
     }
 }
 const resetPassword = async (req, res) => {
@@ -175,6 +188,7 @@ const resetPassword = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
     }
 }
 const loadForgotPassword = async (req, res) => {
@@ -190,6 +204,7 @@ const loadForgotPassword = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
     }
 }
 const loadLogout = async (req, res) => {
@@ -199,6 +214,8 @@ const loadLogout = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
+
     }
 }
 const dashBoard = async (req, res) => {
@@ -207,41 +224,47 @@ const dashBoard = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
+
     }
 }
 const reportExport = async (req, res) => {
+    try {
+        const sales = [
+            { product: 'Product A', quantity: 10, price: 100 },
+            { product: 'Product B', quantity: 5, price: 50 },
+            // ... more sales data
+        ];
 
+        // Generate PDF Report
+        const generatePDFReport = () => {
+            const doc = new PDFDocument();
+            doc.pipe(fs.createWriteStream('sales_report.pdf'));
 
-    const sales = [
-        { product: 'Product A', quantity: 10, price: 100 },
-        { product: 'Product B', quantity: 5, price: 50 },
-        // ... more sales data
-    ];
+            doc.fontSize(16).text('Sales Report', { align: 'center' });
+            doc.moveDown();
 
-    // Generate PDF Report
-    const generatePDFReport = () => {
-        const doc = new PDFDocument();
-        doc.pipe(fs.createWriteStream('sales_report.pdf'));
+            doc.font('Helvetica-Bold').fontSize(12);
+            doc.text('Product', { continued: true });
+            doc.text('Quantity', { continued: true });
+            doc.text('Price', { continued: true });
+            doc.text('Total', { align: 'right' });
 
-        doc.fontSize(16).text('Sales Report', { align: 'center' });
-        doc.moveDown();
+            doc.font('Helvetica').fontSize(12);
+            sales.forEach((sale) => {
+                doc.text(sale.product, { continued: true });
+                doc.text(sale.quantity.toString(), { continued: true });
+                doc.text(sale.price.toString(), { continued: true });
+                doc.text((sale.quantity * sale.price).toString(), { align: 'right' });
+            });
 
-        doc.font('Helvetica-Bold').fontSize(12);
-        doc.text('Product', { continued: true });
-        doc.text('Quantity', { continued: true });
-        doc.text('Price', { continued: true });
-        doc.text('Total', { align: 'right' });
-
-        doc.font('Helvetica').fontSize(12);
-        sales.forEach((sale) => {
-            doc.text(sale.product, { continued: true });
-            doc.text(sale.quantity.toString(), { continued: true });
-            doc.text(sale.price.toString(), { continued: true });
-            doc.text((sale.quantity * sale.price).toString(), { align: 'right' });
-        });
-
-        doc.end();
-    };
+            doc.end();
+        };
+    }
+    catch (error) {
+        console.log(error.message)
+        res.render('user/errorPage')
+    }
 
     // Generate Excel Report
     const generateExcelReport = () => {
@@ -293,7 +316,7 @@ const getSalesPage = async (req, res) => {
         res.render("report", { order, total });
     } catch (error) {
         console.log(error.message);
-        res.render("error");
+        res.render('user/errorPage')
     }
 };//edited
 const getTodaySales = async (req, res) => {
@@ -326,7 +349,7 @@ const getTodaySales = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message);
-        res.render("error");
+        res.render('user/errorPage')
     }
 };//edited
 const getWeekSales = async (req, res) => {
@@ -384,7 +407,7 @@ const getWeekSales = async (req, res) => {
         // Perform the aggregation query
     } catch (error) {
         console.log(error.message);
-        res.render("error");
+        res.render('user/errorPage')
     }
 };//edited
 const getMonthSales = async (req, res) => {
@@ -446,7 +469,7 @@ const getMonthSales = async (req, res) => {
         res.render("report", { order, total });
     } catch (error) {
         console.log(error.message);
-        res.render("error");
+        res.render('user/errorPage')
     }
 };//edited
 const GetYearSales = async (req, res) => {
@@ -485,7 +508,7 @@ const GetYearSales = async (req, res) => {
         res.render("report", { order, total });
     } catch (error) {
         console.log(error.message);
-        res.render("error");
+        res.render('user/errorPage')
     }
 };//edited
 const salesWithDate = async (req, res) => {
@@ -515,7 +538,7 @@ const salesWithDate = async (req, res) => {
         res.render("report", { order, total });
     } catch (error) {
         console.log(error.message);
-        res.send("error");
+        res.render('user/errorPage')
     }
 };//edited
 const downloadSalesReport = async (req, res) => {
@@ -597,7 +620,10 @@ const downloadSalesReport = async (req, res) => {
         pdfDoc.pipe(writeStream);
         pdfDoc.end();
         writeStream.on("finish", () => { res.download("order.pdf", "order.pdf"); });
-    } catch (error) { console.log(error.message); res.send(error.message); }
+    } catch (error) {
+        console.log(error.message);
+        res.render('user/errorPage')
+    }
 };
 module.exports = {
     loadLogin,

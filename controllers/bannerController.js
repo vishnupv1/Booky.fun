@@ -9,6 +9,8 @@ const loadBannerManagement = async (req, res) => {
         res.render('banner', { banner })
     } catch (error) {
         console.log(error.message)
+        res.render('user/errorPage')
+
     }
 }
 const addBanner = async (req, res) => {
@@ -28,6 +30,8 @@ const addBanner = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
+
     }
 }
 const deleteBanner = async (req, res) => {
@@ -41,6 +45,8 @@ const deleteBanner = async (req, res) => {
     }
     catch (error) {
         console.log(error.message);
+        res.render('user/errorPage')
+
     }
 }
 
